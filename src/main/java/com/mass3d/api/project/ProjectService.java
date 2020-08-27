@@ -66,10 +66,10 @@ public interface ProjectService {
   List<Project> getAllProjects();
 
   /**
-   * Returns a list of data sets with the given uids.
+   * Returns a list of projects with the given uids.
    *
    * @param uids the collection of uids.
-   * @return a list of data sets.
+   * @return a list of projects.
    */
   List<Project> getProjectsByUid(Collection<String> uids);
 
