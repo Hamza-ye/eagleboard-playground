@@ -2,13 +2,11 @@ package com.mass3d.api.common;
 
 import java.util.Date;
 import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.NoRepositoryBean;
 
-public interface IdentifiableObjectStore<T> {
-
-  /**
-   * Class of the object for this store.
-   */
-  Class<T> getClazz();
+@NoRepositoryBean
+public interface IdentifiableObjectStore<T> extends JpaRepository<T, Long>, GenericStore<T>{
 
   /**
    * Retrieves the object with the given uid.
