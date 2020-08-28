@@ -304,6 +304,21 @@ public class BaseIdentifiableObject
   }
 
   @Override
+  public String getPropertyValue(IdScheme idScheme) {
+    if (idScheme.isNull() || idScheme.is(IdentifiableProperty.UID)) {
+      return uid;
+    } else if (idScheme.is(IdentifiableProperty.CODE)) {
+      return code;
+    } else if (idScheme.is(IdentifiableProperty.NAME)) {
+      return name;
+    } else if (idScheme.is(IdentifiableProperty.ID)) {
+      return id > 0 ? String.valueOf(id) : null;
+    }
+
+    return null;
+  }
+
+  @Override
   public String toString() {
     return "{" +
         "\"class\":\"" + getClass() + "\", " +

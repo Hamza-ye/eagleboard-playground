@@ -21,6 +21,8 @@ public interface IdentifiableObject
 
   Date getLastUpdated();
 
+  String getPropertyValue(IdScheme idScheme);
+
   String getPublicAccess();
 
   boolean getExternalAccess();
