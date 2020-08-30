@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -31,7 +32,7 @@ public class UserGroupAccess
   private String access;
 
   @ManyToOne
-  @Column(name = "usergroupid")
+  @JoinColumn(name = "usergroupid")
   private UserGroup userGroup;
 
   private transient String uid;

@@ -21,7 +21,7 @@ import org.springframework.util.StringUtils;
 
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@AttributeOverride(name = "id", column = @Column(name = "userinfoid"))
+@AttributeOverride(name = "id", column = @Column(name = "userid"))
 public class User
     extends BaseIdentifiableObject implements MetadataObject {
 
