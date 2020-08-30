@@ -1,10 +1,19 @@
 package com.mass3d.api.common;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mass3d.api.security.acl.Access;
+import com.mass3d.api.user.User;
+import com.mass3d.api.user.UserAccess;
+import com.mass3d.api.user.UserGroupAccess;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
@@ -59,14 +68,38 @@ public class BaseIdentifiableObject
   protected String publicAccess;
 
   /**
+   * Access for userGroups
+   */
+  @ManyToMany
+  protected Set<UserGroupAccess> userGroupAccesses = new HashSet<>();
+
+  /**
+   * Access for users
+   */
+  @ManyToMany
+  protected Set<UserAccess> userAccesses = new HashSet<>();
+
+  /**
+   * Access information for this object. Applies to current user.
+   */
+  protected transient Access access;
+
+  /**
+   * Owner of this object.
+   */
+  @ManyToOne
+  protected User user;
+
+  /**
    * The i18n variant of the name. Not persisted.
    */
   protected transient String displayName;
 
-//  /**
-//   * Last user updated this object
-//   */
-//  private User lastUpdatedBy;
+  /**
+   * Last user updated this object
+   */
+  @ManyToOne
+  private User lastUpdatedBy;
 
   // -------------------------------------------------------------------------
   // Constructors
@@ -172,13 +205,13 @@ public class BaseIdentifiableObject
     this.created = created;
   }
 
-//  public User getLastUpdatedBy() {
-//    return lastUpdatedBy;
-//  }
+  public User getLastUpdatedBy() {
+    return lastUpdatedBy;
+  }
 
-//  public void setLastUpdatedBy(User lastUpdatedBy) {
-//    this.lastUpdatedBy = lastUpdatedBy;
-//  }
+  public void setLastUpdatedBy(User lastUpdatedBy) {
+    this.lastUpdatedBy = lastUpdatedBy;
+  }
 
   @Override
   public Date getLastUpdated() {
@@ -189,14 +222,43 @@ public class BaseIdentifiableObject
     this.lastUpdated = lastUpdated;
   }
 
-//  @Override
-//  public User getUser() {
-//    return user;
-//  }
+  @Override
+  public User getUser() {
+    return user;
+  }
 
-//  public void setUser(User user) {
-//    this.user = user;
-//  }
+  public void setUser(User user) {
+    this.user = user;
+  }
+  @Override
+  @JsonProperty
+  public Set<UserGroupAccess> getUserGroupAccesses() {
+    return userGroupAccesses;
+  }
+
+  public void setUserGroupAccesses(Set<UserGroupAccess> userGroupAccesses) {
+    this.userGroupAccesses = userGroupAccesses;
+  }
+
+  @Override
+  @JsonProperty
+  public Set<UserAccess> getUserAccesses() {
+    return userAccesses;
+  }
+
+  public void setUserAccesses(Set<UserAccess> userAccesses) {
+    this.userAccesses = userAccesses;
+  }
+
+  @Override
+  @JsonProperty
+  public Access getAccess() {
+    return access;
+  }
+
+  public void setAccess(Access access) {
+    this.access = access;
+  }
 
   @Override
   public String getPublicAccess() {
