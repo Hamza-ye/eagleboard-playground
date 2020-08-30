@@ -12,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
@@ -88,6 +89,7 @@ public class BaseIdentifiableObject
    * Owner of this object.
    */
   @ManyToOne
+  @JoinColumn(name = "user")
   protected User user;
 
   /**
@@ -99,6 +101,7 @@ public class BaseIdentifiableObject
    * Last user updated this object
    */
   @ManyToOne
+  @JoinColumn(name = "lastupdatedby")
   private User lastUpdatedBy;
 
   // -------------------------------------------------------------------------
