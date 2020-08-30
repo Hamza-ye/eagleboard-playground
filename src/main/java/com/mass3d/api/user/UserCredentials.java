@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.AssociationOverride;
 import javax.persistence.AttributeOverride;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -32,9 +33,25 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@Table(name = "users")
+@Table(name = "usercredentials")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@AttributeOverride(name = "id", column = @Column(name = "userid"))
+@AttributeOverride(name = "id", column = @Column(name = "usercredentialsid"))
+@AssociationOverride(
+    name="userGroupAccesses",
+    joinTable=@JoinTable(
+        name="usercredentialsusergroupaccesses",
+        joinColumns=@JoinColumn(name="usercredentialsid"),
+        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
+    )
+)
+@AssociationOverride(
+    name="userAccesses",
+    joinTable=@JoinTable(
+        name="usercredentialsuseraccesses",
+        joinColumns=@JoinColumn(name="usercredentialsid"),
+        inverseJoinColumns=@JoinColumn(name="useraccessid")
+    )
+)
 public class UserCredentials
     extends BaseIdentifiableObject
     implements UserDetails {

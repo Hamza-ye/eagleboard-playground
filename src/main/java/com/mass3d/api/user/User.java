@@ -7,6 +7,7 @@ import com.mass3d.api.common.MetadataObject;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.AssociationOverride;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,6 +25,22 @@ import org.springframework.util.StringUtils;
 @Table(name = "user")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @AttributeOverride(name = "id", column = @Column(name = "userid"))
+@AssociationOverride(
+    name="userGroupAccesses",
+    joinTable=@JoinTable(
+        name="userusergroupaccesses",
+        joinColumns=@JoinColumn(name="userid"),
+        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
+    )
+)
+@AssociationOverride(
+    name="userAccesses",
+    joinTable=@JoinTable(
+        name="useruseraccesses",
+        joinColumns=@JoinColumn(name="userid"),
+        inverseJoinColumns=@JoinColumn(name="useraccessid")
+    )
+)
 public class User
     extends BaseIdentifiableObject implements MetadataObject {
 

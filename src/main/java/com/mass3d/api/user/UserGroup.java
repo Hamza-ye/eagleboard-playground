@@ -7,6 +7,7 @@ import com.mass3d.api.common.BaseIdentifiableObject;
 import com.mass3d.api.common.MetadataObject;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.AssociationOverride;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +22,22 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "usergroup")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @AttributeOverride(name = "id", column = @Column(name = "usergroupid"))
+@AssociationOverride(
+    name="userGroupAccesses",
+    joinTable=@JoinTable(
+        name="usergroupusergroupaccesses",
+        joinColumns=@JoinColumn(name="usergroupid"),
+        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
+    )
+)
+@AssociationOverride(
+    name="userAccesses",
+    joinTable=@JoinTable(
+        name="usergroupuseraccesses",
+        joinColumns=@JoinColumn(name="usergroupid"),
+        inverseJoinColumns=@JoinColumn(name="useraccessid")
+    )
+)
 public class UserGroup
     extends BaseIdentifiableObject implements MetadataObject {
 

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.AssociationOverride;
 import javax.persistence.AttributeOverride;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -26,6 +27,22 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "userrole")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @AttributeOverride(name = "id", column = @Column(name = "userroleid"))
+@AssociationOverride(
+    name="userGroupAccesses",
+    joinTable=@JoinTable(
+        name="userroleusergroupaccesses",
+        joinColumns=@JoinColumn(name="userroleid"),
+        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
+    )
+)
+@AssociationOverride(
+    name="userAccesses",
+    joinTable=@JoinTable(
+        name="userroleuseraccesses",
+        joinColumns=@JoinColumn(name="userroleid"),
+        inverseJoinColumns=@JoinColumn(name="useraccessid")
+    )
+)
 public class UserAuthorityGroup
     extends BaseIdentifiableObject implements MetadataObject {
 
