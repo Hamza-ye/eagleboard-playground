@@ -6,6 +6,7 @@ import com.mass3d.api.project.Project;
 import com.mass3d.api.todotask.TodoTask;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.AssociationOverride;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +20,22 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @AttributeOverride(name="id", column=@Column(name="activityid"))
+@AssociationOverride(
+    name="userGroupAccesses",
+    joinTable=@JoinTable(
+        name="activityusergroupaccesses",
+        joinColumns=@JoinColumn(name="activityid"),
+        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
+    )
+)
+@AssociationOverride(
+    name="userAccesses",
+    joinTable=@JoinTable(
+        name="activityuseraccesses",
+        joinColumns=@JoinColumn(name="activityid"),
+        inverseJoinColumns=@JoinColumn(name="useraccessid")
+    )
+)
 public class Activity
     extends BaseNameableObject
     implements MetadataObject {

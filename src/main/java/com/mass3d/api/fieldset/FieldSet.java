@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.persistence.AssociationOverride;
 import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,6 +24,22 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @AttributeOverride(name = "id", column = @Column(name = "fieldsetid"))
+@AssociationOverride(
+    name="userGroupAccesses",
+    joinTable=@JoinTable(
+        name="fieldsetusergroupaccesses",
+        joinColumns=@JoinColumn(name="fieldsetid"),
+        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
+    )
+)
+@AssociationOverride(
+    name="userAccesses",
+    joinTable=@JoinTable(
+        name="fieldsetuseraccesses",
+        joinColumns=@JoinColumn(name="fieldsetid"),
+        inverseJoinColumns=@JoinColumn(name="useraccessid")
+    )
+)
 public class FieldSet
     extends BaseNameableObject
     implements MetadataObject {

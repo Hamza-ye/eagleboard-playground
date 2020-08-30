@@ -7,6 +7,7 @@ import com.mass3d.api.common.MetadataObject;
 import com.mass3d.api.fieldset.FieldSet;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.AssociationOverride;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,6 +21,22 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @AttributeOverride(name = "id", column = @Column(name = "todotaskid"))
+@AssociationOverride(
+    name="userGroupAccesses",
+    joinTable=@JoinTable(
+        name="todotaskusergroupaccesses",
+        joinColumns=@JoinColumn(name="todotaskid"),
+        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
+    )
+)
+@AssociationOverride(
+    name="userAccesses",
+    joinTable=@JoinTable(
+        name="todotaskuseraccesses",
+        joinColumns=@JoinColumn(name="todotaskid"),
+        inverseJoinColumns=@JoinColumn(name="useraccessid")
+    )
+)
 public class TodoTask
     extends BaseNameableObject
     implements MetadataObject {

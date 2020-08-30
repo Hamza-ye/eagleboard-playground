@@ -5,6 +5,7 @@ import com.mass3d.api.common.BaseNameableObject;
 import com.mass3d.api.common.MetadataObject;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.AssociationOverride;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +19,22 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @AttributeOverride(name = "id", column = @Column(name = "projectid"))
+@AssociationOverride(
+    name="userGroupAccesses",
+    joinTable=@JoinTable(
+        name="projectusergroupaccesses",
+        joinColumns=@JoinColumn(name="projectid"),
+        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
+    )
+)
+@AssociationOverride(
+    name="userAccesses",
+    joinTable=@JoinTable(
+        name="projectuseraccesses",
+        joinColumns=@JoinColumn(name="projectid"),
+        inverseJoinColumns=@JoinColumn(name="useraccessid")
+    )
+)
 public class Project
     extends BaseNameableObject
     implements MetadataObject {
