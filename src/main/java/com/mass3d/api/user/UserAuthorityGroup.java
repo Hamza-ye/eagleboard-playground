@@ -17,11 +17,13 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
+@Table(name = "userrole")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @AttributeOverride(name = "id", column = @Column(name = "userroleid"))
 public class UserAuthorityGroup

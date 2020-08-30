@@ -15,11 +15,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.util.StringUtils;
 
 @Entity
+@Table(name = "user")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @AttributeOverride(name = "id", column = @Column(name = "userid"))
 public class User

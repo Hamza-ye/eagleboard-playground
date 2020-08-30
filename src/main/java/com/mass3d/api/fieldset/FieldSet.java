@@ -18,10 +18,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
+@Table(name = "fieldset")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @AttributeOverride(name = "id", column = @Column(name = "fieldsetid"))
 @AssociationOverride(

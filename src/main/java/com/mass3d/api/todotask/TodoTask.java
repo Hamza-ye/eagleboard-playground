@@ -15,10 +15,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
+@Table(name = "todotask")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @AttributeOverride(name = "id", column = @Column(name = "todotaskid"))
 @AssociationOverride(

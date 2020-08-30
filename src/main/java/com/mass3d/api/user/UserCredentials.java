@@ -22,6 +22,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -31,6 +32,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
+@Table(name = "users")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @AttributeOverride(name = "id", column = @Column(name = "userid"))
 public class UserCredentials
