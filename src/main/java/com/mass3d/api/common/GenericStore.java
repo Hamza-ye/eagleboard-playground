@@ -10,6 +10,27 @@ public interface GenericStore<T> {
   Class<T> getClazz();
 
   /**
+   * Saves the given object instance, with clear sharing set to true.
+   *
+   * @param object the object instance.
+   */
+  void save(T object);
+
+  /**
+   * Updates the given object instance.
+   *
+   * @param object the object instance.
+   */
+  void update(T object);
+
+  /**
+   * Removes the given object instance.
+   *
+   * @param object the object instance to delete.
+   */
+  void delete(T object);
+
+  /**
    * Retrieves the object with the given identifier. This method will first look in the current
    * Session, then hit the database if not existing.
    *
