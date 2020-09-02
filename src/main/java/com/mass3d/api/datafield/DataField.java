@@ -166,7 +166,7 @@ public class DataField
   }
 
   /**
-   * Returns the maximum number of expiry days from the field sets of this data element. Returns
+   * Returns the maximum number of expiry days from the field sets of this date field. Returns
    * {@link FieldSet#NO_EXPIRY} if any field set has no expiry.
    */
   public int getExpiryDays() {

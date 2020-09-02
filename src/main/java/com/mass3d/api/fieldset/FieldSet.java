@@ -9,9 +9,11 @@ import com.google.common.collect.ImmutableSet;
 import com.mass3d.api.common.BaseIdentifiableObject;
 import com.mass3d.api.common.BaseNameableObject;
 import com.mass3d.api.common.DxfNamespaces;
+import com.mass3d.api.common.InterpretableObject;
 import com.mass3d.api.common.MetadataObject;
 import com.mass3d.api.common.VersionedObject;
 import com.mass3d.api.datafield.DataField;
+import com.mass3d.api.interpretation.Interpretation;
 import com.mass3d.api.schema.annotation.PropertyRange;
 import com.mass3d.api.todotask.TodoTask;
 import java.util.HashSet;
@@ -54,7 +56,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @JacksonXmlRootElement(localName = "fieldSet", namespace = DxfNamespaces.DXF_2_0)
 public class FieldSet
     extends BaseNameableObject
-    implements VersionedObject, MetadataObject {
+    implements VersionedObject, MetadataObject, InterpretableObject {
 
   public static final int NO_EXPIRY = 0;
 
@@ -85,6 +87,12 @@ public class FieldSet
    * Indicating version number.
    */
   private int version;
+
+  /**
+   * Interpretations of this field set.
+   */
+  @OneToMany(mappedBy = "fieldSet")
+  private Set<Interpretation> interpretations = new HashSet<>();
 
   /**
    * How many days after period is over will this dataSet auto-lock
@@ -217,6 +225,19 @@ public class FieldSet
 
   public void setSources(Set<TodoTask> sources) {
     this.sources = sources;
+  }
+
+  @Override
+  @JsonProperty
+  @JsonSerialize(contentAs = BaseIdentifiableObject.class)
+  @JacksonXmlElementWrapper(localName = "interpretations", namespace = DxfNamespaces.DXF_2_0)
+  @JacksonXmlProperty(localName = "interpretation", namespace = DxfNamespaces.DXF_2_0)
+  public Set<Interpretation> getInterpretations() {
+    return interpretations;
+  }
+
+  public void setInterpretations(Set<Interpretation> interpretations) {
+    this.interpretations = interpretations;
   }
 
   @JsonProperty

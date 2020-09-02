@@ -8,7 +8,9 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.mass3d.api.common.BaseIdentifiableObject;
 import com.mass3d.api.common.BaseNameableObject;
 import com.mass3d.api.common.DxfNamespaces;
+import com.mass3d.api.common.InterpretableObject;
 import com.mass3d.api.common.MetadataObject;
+import com.mass3d.api.interpretation.Interpretation;
 import com.mass3d.api.project.Project;
 import com.mass3d.api.todotask.TodoTask;
 import java.util.HashSet;
@@ -48,7 +50,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @JacksonXmlRootElement(localName = "activity", namespace = DxfNamespaces.DXF_2_0)
 public class Activity
     extends BaseNameableObject
-    implements MetadataObject {
+    implements MetadataObject, InterpretableObject {
 
   @ManyToOne
   @JoinTable(name = "projectactivities",
@@ -67,6 +69,11 @@ public class Activity
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
   private Set<TodoTask> todoTasks = new HashSet<>();
 
+  /**
+   * Interpretations of this activity.
+   */
+  @OneToMany(mappedBy = "activity")
+  private Set<Interpretation> interpretations = new HashSet<>();
 
   // -------------------------------------------------------------------------
   // Constructors
@@ -120,4 +127,16 @@ public class Activity
     this.project = project;
   }
 
+  @Override
+  @JsonProperty
+  @JsonSerialize(contentAs = BaseIdentifiableObject.class)
+  @JacksonXmlElementWrapper(localName = "interpretations", namespace = DxfNamespaces.DXF_2_0)
+  @JacksonXmlProperty(localName = "interpretation", namespace = DxfNamespaces.DXF_2_0)
+  public Set<Interpretation> getInterpretations() {
+    return interpretations;
+  }
+
+  public void setInterpretations(Set<Interpretation> interpretations) {
+    this.interpretations = interpretations;
+  }
 }
