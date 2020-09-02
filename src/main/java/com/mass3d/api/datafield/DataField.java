@@ -1,12 +1,18 @@
 package com.mass3d.api.datafield;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.google.common.collect.ImmutableSet;
 import com.mass3d.api.common.BaseNameableObject;
+import com.mass3d.api.common.DxfNamespaces;
 import com.mass3d.api.common.MetadataObject;
 import com.mass3d.api.common.ValueType;
 import com.mass3d.api.fieldset.FieldSet;
 import com.mass3d.api.fieldset.FieldSetField;
+import com.mass3d.api.schema.PropertyType;
+import com.mass3d.api.schema.annotation.Property;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -45,6 +51,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
         inverseJoinColumns=@JoinColumn(name="useraccessid")
     )
 )
+@JacksonXmlRootElement(localName = "dataField", namespace = DxfNamespaces.DXF_2_0)
 public class DataField
     extends BaseNameableObject
     implements MetadataObject {
@@ -148,6 +155,8 @@ public class DataField
     return formName != null && !formName.isEmpty() ? getFormName() : getDisplayName();
   }
 
+  @JsonProperty
+  @JacksonXmlProperty( namespace = DxfNamespaces.DXF_2_0 )
   public String getDisplayFormName() {
     return displayFormName != null ? displayFormName : getFormNameFallback();
   }
@@ -204,6 +213,8 @@ public class DataField
   }
 
   //  @Override
+  @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public ValueType getValueType() {
     return valueType;
   }
@@ -220,6 +231,9 @@ public class DataField
     this.formName = formName;
   }
 
+  @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
+  @Property(PropertyType.URL)
   public String getUrl() {
     return url;
   }
@@ -228,6 +242,8 @@ public class DataField
     this.url = url;
   }
 
+  @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public boolean isZeroIsSignificant() {
     return zeroIsSignificant;
   }
@@ -236,6 +252,8 @@ public class DataField
     this.zeroIsSignificant = zeroIsSignificant;
   }
 
+  @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getFieldMask() {
     return fieldMask;
   }

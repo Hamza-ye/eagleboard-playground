@@ -1,7 +1,14 @@
 package com.mass3d.api.project;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.mass3d.api.activity.Activity;
+import com.mass3d.api.common.BaseIdentifiableObject;
 import com.mass3d.api.common.BaseNameableObject;
+import com.mass3d.api.common.DxfNamespaces;
 import com.mass3d.api.common.MetadataObject;
 import java.util.HashSet;
 import java.util.Set;
@@ -37,6 +44,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
         inverseJoinColumns=@JoinColumn(name="useraccessid")
     )
 )
+@JacksonXmlRootElement(localName = "project", namespace = DxfNamespaces.DXF_2_0)
 public class Project
     extends BaseNameableObject
     implements MetadataObject {
@@ -74,9 +82,14 @@ public class Project
   // Getters and Setters
   // ----------------------------------------------------------------------------
 
+  @JsonProperty
+  @JsonSerialize(contentAs = BaseIdentifiableObject.class)
+  @JacksonXmlElementWrapper(localName = "activities", namespace = DxfNamespaces.DXF_2_0)
+  @JacksonXmlProperty(localName = "activity", namespace = DxfNamespaces.DXF_2_0)
   public Set<Activity> getActivities() {
     return activities;
   }
+
 
   public void setActivities(Set<Activity> activities) {
     this.activities = activities;

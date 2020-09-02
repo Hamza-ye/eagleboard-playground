@@ -2,10 +2,16 @@ package com.mass3d.api.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.mass3d.api.common.BaseIdentifiableObject;
+import com.mass3d.api.common.DxfNamespaces;
 import com.mass3d.api.common.MetadataObject;
+import com.mass3d.api.schema.annotation.PropertyRange;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.AssociationOverride;
 import javax.persistence.AttributeOverride;
@@ -17,6 +23,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.util.StringUtils;
@@ -41,6 +48,7 @@ import org.springframework.util.StringUtils;
         inverseJoinColumns=@JoinColumn(name="useraccessid")
     )
 )
+@JacksonXmlRootElement(localName = "user", namespace = DxfNamespaces.DXF_2_0)
 public class User
     extends BaseIdentifiableObject implements MetadataObject {
 
@@ -203,55 +211,65 @@ public class User
     return userCredentials != null && userCredentials.isAuthorized(auth);
   }
 
-//  /**
-//   * Indicates whether this user can manage the given user.
-//   *
-//   * @param user the user to test.
-//   * @return true if the given user can be managed by this user, false if not.
-//   */
-//  public boolean canManage(User user) {
-//    if (user == null || user.getGroups() == null) {
-//      return false;
-//    }
+  /**
+   * Indicates whether this user can manage the given user group.
+   *
+   * @param userGroup the user group to test.
+   * @return true if the given user group can be managed by this user, false if not.
+   */
+  public boolean canManage(UserGroup userGroup) {
+    return userGroup != null && CollectionUtils.containsAny(groups, userGroup.getManagedByGroups());
+  }
 
-//    for (UserGroup group : user.getGroups()) {
-//      if (canManage(group)) {
-//        return true;
-//      }
-//    }
+  /**
+   * Indicates whether this user can manage the given user.
+   *
+   * @param user the user to test.
+   * @return true if the given user can be managed by this user, false if not.
+   */
+  public boolean canManage(User user) {
+    if (user == null || user.getGroups() == null) {
+      return false;
+    }
 
-//    return false;
-//  }
+    for (UserGroup group : user.getGroups()) {
+      if (canManage(group)) {
+        return true;
+      }
+    }
 
-//  /**
-//   * Indicates whether this user is managed by the given user group.
-//   *
-//   * @param userGroup the user group to test.
-//   * @return true if the given user group is managed by this user, false if not.
-//   */
-//  public boolean isManagedBy(UserGroup userGroup) {
-//    return userGroup != null && CollectionUtils.containsAny(groups, userGroup.getManagedGroups());
-//  }
-//
-//  /**
-//   * Indicates whether this user is managed by the given user.
-//   *
-//   * @param user the user  to test.
-//   * @return true if the given user is managed by this user, false if not.
-//   */
-//  public boolean isManagedBy(User user) {
-//    if (user == null || user.getGroups() == null) {
-//      return false;
-//    }
-//
-//    for (UserGroup group : user.getGroups()) {
-//      if (isManagedBy(group)) {
-//        return true;
-//      }
-//    }
-//
-//    return false;
-//  }
+    return false;
+  }
+
+  /**
+   * Indicates whether this user is managed by the given user group.
+   *
+   * @param userGroup the user group to test.
+   * @return true if the given user group is managed by this user, false if not.
+   */
+  public boolean isManagedBy(UserGroup userGroup) {
+    return userGroup != null && CollectionUtils.containsAny(groups, userGroup.getManagedGroups());
+  }
+
+  /**
+   * Indicates whether this user is managed by the given user.
+   *
+   * @param user the user  to test.
+   * @return true if the given user is managed by this user, false if not.
+   */
+  public boolean isManagedBy(User user) {
+    if (user == null || user.getGroups() == null) {
+      return false;
+    }
+
+    for (UserGroup group : user.getGroups()) {
+      if (isManagedBy(group)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 
   public boolean hasEmail() {
     return email != null && !email.isEmpty();
@@ -262,6 +280,8 @@ public class User
   // -------------------------------------------------------------------------
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
+  @PropertyRange(min = 2)
   public String getFirstName() {
     return firstName;
   }
@@ -271,6 +291,8 @@ public class User
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
+  @PropertyRange(min = 2)
   public String getSurname() {
     return surname;
   }
@@ -280,6 +302,7 @@ public class User
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getEmail() {
     return email;
   }
@@ -289,6 +312,7 @@ public class User
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getJobTitle() {
     return jobTitle;
   }
@@ -298,6 +322,7 @@ public class User
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getPhoneNumber() {
     return phoneNumber;
   }
@@ -307,6 +332,7 @@ public class User
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getIntroduction() {
     return introduction;
   }
@@ -316,6 +342,7 @@ public class User
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getGender() {
     return gender;
   }
@@ -325,6 +352,7 @@ public class User
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public Date getBirthday() {
     return birthday;
   }
@@ -334,6 +362,7 @@ public class User
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getNationality() {
     return nationality;
   }
@@ -343,6 +372,7 @@ public class User
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getEmployer() {
     return employer;
   }
@@ -352,6 +382,7 @@ public class User
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getEducation() {
     return education;
   }
@@ -361,6 +392,7 @@ public class User
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getInterests() {
     return interests;
   }
@@ -370,6 +402,7 @@ public class User
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getLanguages() {
     return languages;
   }
@@ -379,6 +412,7 @@ public class User
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getWelcomeMessage() {
     return welcomeMessage;
   }
@@ -388,6 +422,7 @@ public class User
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public Date getLastCheckedInterpretations() {
     return lastCheckedInterpretations;
   }
@@ -397,6 +432,7 @@ public class User
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public UserCredentials getUserCredentials() {
     return userCredentials;
   }
@@ -407,6 +443,8 @@ public class User
 
   @JsonProperty("userGroups")
   @JsonSerialize(contentAs = BaseIdentifiableObject.class)
+  @JacksonXmlElementWrapper(localName = "userGroups", namespace = DxfNamespaces.DXF_2_0)
+  @JacksonXmlProperty(localName = "userGroup", namespace = DxfNamespaces.DXF_2_0)
   public Set<UserGroup> getGroups() {
     return groups;
   }
@@ -467,6 +505,8 @@ public class User
 //  }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
+
   public String getWhatsApp() {
     return whatsApp;
   }
@@ -476,6 +516,7 @@ public class User
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getFacebookMessenger() {
     return facebookMessenger;
   }
@@ -486,6 +527,7 @@ public class User
 
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getSkype() {
     return skype;
   }
@@ -496,6 +538,7 @@ public class User
 
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getTelegram() {
     return telegram;
   }
@@ -506,6 +549,7 @@ public class User
 
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getTwitter() {
     return twitter;
   }

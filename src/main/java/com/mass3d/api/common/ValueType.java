@@ -1,11 +1,13 @@
 package com.mass3d.api.common;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.google.common.collect.ImmutableSet;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
+@JacksonXmlRootElement(localName = "valueType", namespace = DxfNamespaces.DXF_2_0)
 public enum ValueType {
   TEXT(String.class, true),
   LONG_TEXT(String.class, true),

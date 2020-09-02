@@ -1,5 +1,12 @@
 package com.mass3d.api.common;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.mass3d.api.schema.PropertyType;
+import com.mass3d.api.schema.annotation.Property;
+
+@JacksonXmlRootElement(localName = "linkableObject", namespace = DxfNamespaces.DXF_2_0)
 public class BaseLinkableObject
     implements LinkableObject {
 
@@ -10,6 +17,9 @@ public class BaseLinkableObject
   private transient String href;
 
   @Override
+  @JsonProperty
+  @JacksonXmlProperty(isAttribute = true)
+  @Property(PropertyType.URL)
   public String getHref() {
     return href;
   }

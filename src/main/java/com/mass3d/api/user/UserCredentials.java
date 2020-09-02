@@ -3,8 +3,16 @@ package com.mass3d.api.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.mass3d.api.common.BaseIdentifiableObject;
+import com.mass3d.api.common.DxfNamespaces;
 import com.mass3d.api.common.IdentifiableObjectUtils;
+import com.mass3d.api.schema.PropertyType;
+import com.mass3d.api.schema.annotation.Property;
+import com.mass3d.api.schema.annotation.Property.Access;
+import com.mass3d.api.schema.annotation.PropertyRange;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -52,6 +60,7 @@ import org.springframework.security.core.userdetails.UserDetails;
         inverseJoinColumns=@JoinColumn(name="useraccessid")
     )
 )
+@JacksonXmlRootElement(localName = "userCredentials", namespace = DxfNamespaces.DXF_2_0)
 public class UserCredentials
     extends BaseIdentifiableObject
     implements UserDetails {
@@ -446,6 +455,7 @@ public class UserCredentials
 
   @JsonProperty
   @JsonSerialize(as = BaseIdentifiableObject.class)
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public User getUserInfo() {
     return userInfo;
   }
@@ -455,6 +465,9 @@ public class UserCredentials
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
+  @Property(value = PropertyType.PASSWORD, access = Access.WRITE_ONLY)
+  @PropertyRange(min = 8, max = 60)
   public String getPassword() {
     return password;
   }
@@ -464,6 +477,7 @@ public class UserCredentials
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public boolean isTwoFA() {
     return twoFA;
   }
@@ -497,6 +511,7 @@ public class UserCredentials
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public boolean isExternalAuth() {
     return externalAuth;
   }
@@ -506,6 +521,7 @@ public class UserCredentials
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public Date getPasswordLastUpdated() {
     return passwordLastUpdated;
   }
@@ -516,6 +532,8 @@ public class UserCredentials
 
   @JsonProperty("userRoles")
   @JsonSerialize(contentAs = BaseIdentifiableObject.class)
+  @JacksonXmlElementWrapper(localName = "userRoles", namespace = DxfNamespaces.DXF_2_0)
+  @JacksonXmlProperty(localName = "userRole", namespace = DxfNamespaces.DXF_2_0)
   public Set<UserAuthorityGroup> getUserAuthorityGroups() {
     return userAuthorityGroups;
   }
@@ -526,6 +544,34 @@ public class UserCredentials
     this.cachedAllAuthorities = null;
   }
 
+//    @JsonProperty
+//    @JsonSerialize( contentAs = BaseIdentifiableObject.class )
+//    @JacksonXmlElementWrapper( localName = "catDimensionConstraints", namespace = DxfNamespaces.DXF_2_0 )
+//    @JacksonXmlProperty( localName = "catDimensionConstraint", namespace = DxfNamespaces.DXF_2_0 )
+//    public Set<Category> getCatDimensionConstraints()
+//    {
+//        return catDimensionConstraints;
+//    }
+//
+//    public void setCatDimensionConstraints( Set<Category> catDimensionConstraints )
+//    {
+//        this.catDimensionConstraints = catDimensionConstraints;
+//    }
+//
+//    @JsonProperty
+//    @JsonSerialize( contentAs = BaseIdentifiableObject.class )
+//    @JacksonXmlElementWrapper( localName = "cogsDimensionConstraints", namespace = DxfNamespaces.DXF_2_0 )
+//    @JacksonXmlProperty( localName = "cogsDimensionConstraint", namespace = DxfNamespaces.DXF_2_0 )
+//    public Set<CategoryOptionGroupSet> getCogsDimensionConstraints()
+//    {
+//        return cogsDimensionConstraints;
+//    }
+//
+//    public void setCogsDimensionConstraints( Set<CategoryOptionGroupSet> cogsDimensionConstraints )
+//    {
+//        this.cogsDimensionConstraints = cogsDimensionConstraints;
+//    }
+
   public List<String> getPreviousPasswords() {
     return previousPasswords;
   }
@@ -535,6 +581,7 @@ public class UserCredentials
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getUsername() {
     return username;
   }
@@ -544,6 +591,7 @@ public class UserCredentials
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getOpenId() {
     return openId;
   }
@@ -553,6 +601,7 @@ public class UserCredentials
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getLdapId() {
     return ldapId;
   }
@@ -562,6 +611,7 @@ public class UserCredentials
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public Date getLastLogin() {
     return lastLogin;
   }
@@ -587,6 +637,7 @@ public class UserCredentials
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public boolean isSelfRegistered() {
     return selfRegistered;
   }
@@ -596,6 +647,7 @@ public class UserCredentials
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public boolean isInvitation() {
     return invitation;
   }
@@ -605,6 +657,7 @@ public class UserCredentials
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public boolean isDisabled() {
     return disabled;
   }

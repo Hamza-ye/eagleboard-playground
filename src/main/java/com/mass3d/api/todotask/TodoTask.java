@@ -1,8 +1,15 @@
 package com.mass3d.api.todotask;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.google.common.collect.Sets;
 import com.mass3d.api.activity.Activity;
+import com.mass3d.api.common.BaseIdentifiableObject;
 import com.mass3d.api.common.BaseNameableObject;
+import com.mass3d.api.common.DxfNamespaces;
 import com.mass3d.api.common.MetadataObject;
 import com.mass3d.api.fieldset.FieldSet;
 import java.util.HashSet;
@@ -39,6 +46,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
         inverseJoinColumns=@JoinColumn(name="useraccessid")
     )
 )
+@JacksonXmlRootElement(localName = "todoTask", namespace = DxfNamespaces.DXF_2_0)
 public class TodoTask
     extends BaseNameableObject
     implements MetadataObject {
@@ -98,6 +106,10 @@ public class TodoTask
   // Getters and Setters
   // ----------------------------------------------------------------------------
 
+  @JsonProperty
+  @JsonSerialize(contentAs = BaseIdentifiableObject.class)
+  @JacksonXmlElementWrapper(localName = "fieldSets", namespace = DxfNamespaces.DXF_2_0)
+  @JacksonXmlProperty(localName = "fieldSet", namespace = DxfNamespaces.DXF_2_0)
   public Set<FieldSet> getFieldSets() {
     return fieldSets;
   }
@@ -106,6 +118,9 @@ public class TodoTask
     this.fieldSets = fieldSets;
   }
 
+  @JsonProperty
+  @JsonSerialize(as = BaseIdentifiableObject.class)
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public Activity getActivity() {
     return activity;
   }
@@ -114,6 +129,8 @@ public class TodoTask
     this.activity = activity;
   }
 
+  @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public boolean isMobile() {
     return mobile;
   }
@@ -121,4 +138,5 @@ public class TodoTask
   public void setMobile(boolean mobile) {
     this.mobile = mobile;
   }
+
 }

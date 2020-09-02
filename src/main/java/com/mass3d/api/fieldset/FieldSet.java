@@ -1,9 +1,18 @@
 package com.mass3d.api.fieldset;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.google.common.collect.ImmutableSet;
+import com.mass3d.api.common.BaseIdentifiableObject;
 import com.mass3d.api.common.BaseNameableObject;
+import com.mass3d.api.common.DxfNamespaces;
 import com.mass3d.api.common.MetadataObject;
+import com.mass3d.api.common.VersionedObject;
 import com.mass3d.api.datafield.DataField;
+import com.mass3d.api.schema.annotation.PropertyRange;
 import com.mass3d.api.todotask.TodoTask;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -42,9 +51,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
         inverseJoinColumns=@JoinColumn(name="useraccessid")
     )
 )
+@JacksonXmlRootElement(localName = "fieldSet", namespace = DxfNamespaces.DXF_2_0)
 public class FieldSet
     extends BaseNameableObject
-    implements MetadataObject {
+    implements VersionedObject, MetadataObject {
 
   public static final int NO_EXPIRY = 0;
 
@@ -165,6 +175,8 @@ public class FieldSet
     return todoTask.getFieldSets().remove(this);
   }
 
+  @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getFormName() {
     return formName;
   }
@@ -173,6 +185,8 @@ public class FieldSet
     this.formName = formName;
   }
 
+  @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public boolean isMobile() {
     return mobile;
   }
@@ -181,7 +195,10 @@ public class FieldSet
     this.mobile = mobile;
   }
 
-
+  @JsonProperty
+  @JsonSerialize(contentAs = BaseIdentifiableObject.class)
+  @JacksonXmlElementWrapper(localName = "fieldSetFields", namespace = DxfNamespaces.DXF_2_0)
+  @JacksonXmlProperty(localName = "fieldSetField", namespace = DxfNamespaces.DXF_2_0)
   public Set<FieldSetField> getFieldSetFields() {
     return fieldSetFields;
   }
@@ -190,6 +207,10 @@ public class FieldSet
     this.fieldSetFields = fieldSetFields;
   }
 
+  @JsonProperty(value = "organisationUnits")
+  @JsonSerialize(contentAs = BaseIdentifiableObject.class)
+  @JacksonXmlElementWrapper(localName = "todoTasks", namespace = DxfNamespaces.DXF_2_0)
+  @JacksonXmlProperty(localName = "todoTask", namespace = DxfNamespaces.DXF_2_0)
   public Set<TodoTask> getSources() {
     return sources;
   }
@@ -198,6 +219,9 @@ public class FieldSet
     this.sources = sources;
   }
 
+  @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
+  @PropertyRange(min = Integer.MIN_VALUE)
   public int getExpiryDays() {
     return expiryDays;
   }
@@ -206,11 +230,30 @@ public class FieldSet
     this.expiryDays = expiryDays;
   }
 
+  @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public int getTimelyDays() {
     return timelyDays;
   }
 
   public void setTimelyDays(int timelyDays) {
     this.timelyDays = timelyDays;
+  }
+
+  @Override
+  @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
+  public int getVersion() {
+    return version;
+  }
+
+  @Override
+  public void setVersion(int version) {
+    this.version = version;
+  }
+
+  @Override
+  public int increaseVersion() {
+    return ++version;
   }
 }

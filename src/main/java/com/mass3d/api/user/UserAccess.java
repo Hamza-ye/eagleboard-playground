@@ -2,7 +2,10 @@ package com.mass3d.api.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.google.common.base.MoreObjects;
+import com.mass3d.api.common.DxfNamespaces;
 import com.mass3d.api.common.EmbeddedObject;
 import java.io.Serializable;
 import java.util.Objects;
@@ -21,6 +24,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "useraccess")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@JacksonXmlRootElement(localName = "userAccess", namespace = DxfNamespaces.DXF_2_0)
 public class UserAccess
     implements Serializable, EmbeddedObject {
 
@@ -57,6 +61,7 @@ public class UserAccess
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getAccess() {
     return access;
   }
@@ -66,11 +71,13 @@ public class UserAccess
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String getUserUid() {
     return user != null ? user.getUid() : null;
   }
 
   @JsonProperty("id")
+  @JacksonXmlProperty(localName = "id", namespace = DxfNamespaces.DXF_2_0)
   public String getUid() {
     return uid != null ? uid : (user != null ? user.getUid() : null);
   }
@@ -80,6 +87,7 @@ public class UserAccess
   }
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public String displayName() {
     return user != null ? user.getDisplayName() : null;
   }

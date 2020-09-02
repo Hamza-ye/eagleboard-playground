@@ -1,7 +1,11 @@
 package com.mass3d.api.security.acl;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.mass3d.api.common.DxfNamespaces;
 
+@JacksonXmlRootElement(localName = "data", namespace = DxfNamespaces.DXF_2_0)
 public class AccessData {
 
   private boolean write;
@@ -17,6 +21,7 @@ public class AccessData {
   }
 
   @JsonProperty
+  @JacksonXmlProperty(localName = "write", namespace = DxfNamespaces.DXF_2_0)
   public boolean isWrite() {
     return write;
   }
@@ -26,6 +31,7 @@ public class AccessData {
   }
 
   @JsonProperty
+  @JacksonXmlProperty(localName = "read", namespace = DxfNamespaces.DXF_2_0)
   public boolean isRead() {
     return read;
   }

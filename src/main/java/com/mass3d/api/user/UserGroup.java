@@ -3,7 +3,11 @@ package com.mass3d.api.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.mass3d.api.common.BaseIdentifiableObject;
+import com.mass3d.api.common.DxfNamespaces;
 import com.mass3d.api.common.MetadataObject;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,6 +42,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
         inverseJoinColumns=@JoinColumn(name="useraccessid")
     )
 )
+@JacksonXmlRootElement(localName = "userGroup", namespace = DxfNamespaces.DXF_2_0)
 public class UserGroup
     extends BaseIdentifiableObject implements MetadataObject {
 
@@ -152,6 +157,8 @@ public class UserGroup
 
   @JsonProperty("users")
   @JsonSerialize(contentAs = BaseIdentifiableObject.class)
+  @JacksonXmlElementWrapper(localName = "users", namespace = DxfNamespaces.DXF_2_0)
+  @JacksonXmlProperty(localName = "user", namespace = DxfNamespaces.DXF_2_0)
   public Set<User> getMembers() {
     return members;
   }
@@ -162,6 +169,8 @@ public class UserGroup
 
   @JsonProperty("managedGroups")
   @JsonSerialize(contentAs = BaseIdentifiableObject.class)
+  @JacksonXmlElementWrapper(localName = "managedGroups", namespace = DxfNamespaces.DXF_2_0)
+  @JacksonXmlProperty(localName = "managedGroup", namespace = DxfNamespaces.DXF_2_0)
   public Set<UserGroup> getManagedGroups() {
     return managedGroups;
   }
@@ -172,6 +181,8 @@ public class UserGroup
 
   @JsonProperty("managedByGroups")
   @JsonSerialize(contentAs = BaseIdentifiableObject.class)
+  @JacksonXmlElementWrapper(localName = "managedByGroups", namespace = DxfNamespaces.DXF_2_0)
+  @JacksonXmlProperty(localName = "managedByGroup", namespace = DxfNamespaces.DXF_2_0)
   public Set<UserGroup> getManagedByGroups() {
     return managedByGroups;
   }

@@ -1,6 +1,13 @@
 package com.mass3d.api.activity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.mass3d.api.common.BaseIdentifiableObject;
 import com.mass3d.api.common.BaseNameableObject;
+import com.mass3d.api.common.DxfNamespaces;
 import com.mass3d.api.common.MetadataObject;
 import com.mass3d.api.project.Project;
 import com.mass3d.api.todotask.TodoTask;
@@ -38,6 +45,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
         inverseJoinColumns=@JoinColumn(name="useraccessid")
     )
 )
+@JacksonXmlRootElement(localName = "activity", namespace = DxfNamespaces.DXF_2_0)
 public class Activity
     extends BaseNameableObject
     implements MetadataObject {
@@ -89,6 +97,10 @@ public class Activity
   // Getters and Setters
   // ----------------------------------------------------------------------------
 
+  @JsonProperty
+  @JsonSerialize(contentAs = BaseIdentifiableObject.class)
+  @JacksonXmlElementWrapper(localName = "todoTasks", namespace = DxfNamespaces.DXF_2_0)
+  @JacksonXmlProperty(localName = "todoTask", namespace = DxfNamespaces.DXF_2_0)
   public Set<TodoTask> getTodoTasks() {
     return todoTasks;
   }
@@ -97,6 +109,9 @@ public class Activity
     this.todoTasks = todoTasks;
   }
 
+  @JsonProperty
+  @JsonSerialize(as = BaseIdentifiableObject.class)
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public Project getProject() {
     return project;
   }
@@ -104,4 +119,5 @@ public class Activity
   public void setProject(Project project) {
     this.project = project;
   }
+
 }

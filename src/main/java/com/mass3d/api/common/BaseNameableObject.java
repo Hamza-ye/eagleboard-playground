@@ -1,8 +1,13 @@
 package com.mass3d.api.common;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.mass3d.api.schema.annotation.PropertyRange;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
+@JacksonXmlRootElement(localName = "nameableObject", namespace = DxfNamespaces.DXF_2_0)
 public class BaseNameableObject
 extends BaseIdentifiableObject implements NameableObject{
 
@@ -138,46 +143,50 @@ extends BaseIdentifiableObject implements NameableObject{
   // -------------------------------------------------------------------------
 
   @Override
-  public String getShortName()
-  {
+  @JsonProperty
+  @JacksonXmlProperty(isAttribute = true)
+  @PropertyRange(min = 1)
+  public String getShortName() {
     return shortName;
   }
 
-  public void setShortName( String shortName )
-  {
+  public void setShortName(String shortName) {
     this.shortName = shortName;
   }
 
   @Override
-  public String getDisplayShortName()
-  {
+  @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
+  public String getDisplayShortName() {
+//    displayShortName = getTranslation(TranslationProperty.SHORT_NAME, displayShortName);
     return displayShortName != null ? displayShortName : getShortName();
   }
 
-  public void setDisplayShortName( String displayShortName )
-  {
+  public void setDisplayShortName(String displayShortName) {
     this.displayShortName = displayShortName;
   }
 
   @Override
-  public String getDescription()
-  {
+  @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
+  @PropertyRange(min = 1)
+  public String getDescription() {
     return description;
   }
 
-  public void setDescription( String description )
-  {
+  public void setDescription(String description) {
     this.description = description;
   }
 
   @Override
-  public String getDisplayDescription()
-  {
+  @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
+  public String getDisplayDescription() {
+//    displayDescription = getTranslation(TranslationProperty.DESCRIPTION, displayDescription);
     return displayDescription != null ? displayDescription : getDescription();
   }
 
-  public void setDisplayDescription( String displayDescription )
-  {
+  public void setDisplayDescription(String displayDescription) {
     this.displayDescription = displayDescription;
   }
 }

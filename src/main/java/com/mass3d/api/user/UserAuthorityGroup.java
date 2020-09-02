@@ -2,9 +2,14 @@ package com.mass3d.api.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.google.common.collect.Sets;
 import com.mass3d.api.common.BaseIdentifiableObject;
+import com.mass3d.api.common.DxfNamespaces;
 import com.mass3d.api.common.MetadataObject;
+import com.mass3d.api.schema.annotation.PropertyRange;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -43,6 +48,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
         inverseJoinColumns=@JoinColumn(name="useraccessid")
     )
 )
+@JacksonXmlRootElement(localName = "userRole", namespace = DxfNamespaces.DXF_2_0)
 public class UserAuthorityGroup
     extends BaseIdentifiableObject implements MetadataObject {
 
@@ -105,6 +111,8 @@ public class UserAuthorityGroup
   // -------------------------------------------------------------------------
 
   @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
+  @PropertyRange(min = 2)
   public String getDescription() {
     return description;
   }
@@ -114,6 +122,8 @@ public class UserAuthorityGroup
   }
 
   @JsonProperty
+  @JacksonXmlElementWrapper(localName = "authorities", namespace = DxfNamespaces.DXF_2_0)
+  @JacksonXmlProperty(localName = "authority", namespace = DxfNamespaces.DXF_2_0)
   public Set<String> getAuthorities() {
     return authorities;
   }
@@ -132,6 +142,8 @@ public class UserAuthorityGroup
 
   @JsonProperty
   @JsonSerialize(contentAs = BaseIdentifiableObject.class)
+  @JacksonXmlElementWrapper(localName = "users", namespace = DxfNamespaces.DXF_2_0)
+  @JacksonXmlProperty(localName = "userObject", namespace = DxfNamespaces.DXF_2_0)
   public List<User> getUsers() {
     List<User> users = new ArrayList<>();
 
