@@ -266,14 +266,14 @@ public interface IdentifiableObjectStore<T> extends GenericStore<T>{
    */
   int getCountGeCreated(Date created);
 
-//  List<T> getDataReadAll();
+  List<T> getDataReadAll();
 
-//  List<T> getDataReadAll(User user);
+  List<T> getDataReadAll(User user);
 
-//  List<T> getDataWriteAll();
+  List<T> getDataWriteAll();
 
-//  List<T> getDataWriteAll(User user);
+  List<T> getDataWriteAll(User user);
 
-//  List<T> getDataReadAll(int first, int max);
+  List<T> getDataReadAll(int first, int max);
 
 }
