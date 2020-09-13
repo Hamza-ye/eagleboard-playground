@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Note that most methods are transactional, except for retrieving current UserInfo.
  *
  */
+@Service
 public class DefaultCurrentUserService
     extends AbstractSpringSecurityCurrentUserService {
 
