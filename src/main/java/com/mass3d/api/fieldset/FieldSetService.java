@@ -1,6 +1,7 @@
 package com.mass3d.api.fieldset;
 
 import com.mass3d.api.todotask.TodoTask;
+import com.mass3d.api.user.User;
 import java.util.Collection;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public interface FieldSetService {
    * @param id The unique identifier for the FieldSet to get.
    * @return The FieldSet with the given id or null if it does not exist.
    */
-  FieldSet getFieldSet(int id);
+  FieldSet getFieldSet(Long id);
 
   /**
    * Returns the FieldSet with the given UID.
@@ -73,11 +74,11 @@ public interface FieldSetService {
    */
   List<FieldSet> getFieldSetsByUid(Collection<String> uids);
 
-  /**
-   * Returns all FieldSets that can be collected through mobile (one organisation unit).
-   */
-  List<FieldSet> getFieldSetsForMobile(TodoTask source);
-
+//  /**
+//   * Returns all FieldSets that can be collected through mobile (one organisation unit).
+//   */
+//  List<FieldSet> getFieldSetsForMobile(TodoTask source);
+//
   /**
    * Returns all FieldSets which are not assigned to any FieldSets.
    *
@@ -91,6 +92,14 @@ public interface FieldSetService {
    * @return all FieldSets which are assigned to at least one FieldSet.
    */
   List<FieldSet> getFieldSetsWithTodoTasks();
+  /**
+   * Returns the field sets which given user have READ access. If the current user has the ALL
+   * authority then all field sets are returned.
+   *
+   * @param user the user to query for field set list.
+   * @return a list of field sets which the given user has data read access to.
+   */
+  List<FieldSet> getUserDataRead(User user);
 
   /**
    * Returns the data sets which current user have READ access. If the current user has the ALL
@@ -103,4 +112,13 @@ public interface FieldSetService {
    * authority then all field sets are returned.
    */
   List<FieldSet> getAllDataWrite();
+
+  /**
+   * Returns the field sets which current user have WRITE access. If the current user has the ALL
+   * authority then all field sets are returned.
+   *
+   * @param user the user to query for field set list.
+   * @return a list of field sets which given user has data write access to.
+   */
+  List<FieldSet> getUserDataWrite(User user);
 }

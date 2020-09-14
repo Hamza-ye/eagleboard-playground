@@ -40,7 +40,7 @@ public interface DataFieldService {
    * @param id the id of the DataField to return.
    * @return the DataField with the given id, or null if no match.
    */
-  DataField getDataField(int id);
+  DataField getDataField(Long id);
 
   /**
    * Returns the DataField with the given UID.

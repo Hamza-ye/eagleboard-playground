@@ -12,7 +12,7 @@ import java.util.Set;
 public interface IdentifiableObject
     extends Comparable<IdentifiableObject>, Serializable {
 
-  long getId();
+  Long getId();
 
   String getUid();
 

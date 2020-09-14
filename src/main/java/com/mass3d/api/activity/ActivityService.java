@@ -1,5 +1,6 @@
 package com.mass3d.api.activity;
 
+import com.mass3d.api.user.User;
 import java.util.Collection;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public interface ActivityService {
    * @param id The unique identifier for the activity to get.
    * @return The activity with the given id or null if it does not exist.
    */
-  Activity getActivity(int id);
+  Activity getActivity(Long id);
 
   /**
    * Returns the activity with the given UID.
@@ -127,14 +128,14 @@ public interface ActivityService {
    */
   List<Activity> getAllDataRead();
 
-//  /**
-//   * Returns the Activities which given user have READ access. If the current user has the ALL
-//   * authority then all Activities are returned.
-//   *
-//   * @param user the user to query for field set list.
-//   * @return a list of Activities which the given user has data read access to.
-//   */
-//  List<Activity> getUserDataRead(User user);
+  /**
+   * Returns the Activities which given user have READ access. If the current user has the ALL
+   * authority then all Activities are returned.
+   *
+   * @param user the user to query for field set list.
+   * @return a list of Activities which the given user has data read access to.
+   */
+  List<Activity> getUserDataRead(User user);
 
   /**
    * Returns the Activities which current user have WRITE access. If the current user has the ALL
@@ -142,13 +143,13 @@ public interface ActivityService {
    */
   List<Activity> getAllDataWrite();
 
-//  /**
-//   * Returns the Activities which current user have WRITE access. If the current user has the ALL
-//   * authority then all Activities are returned.
-//   *
-//   * @param user the user to query for field set list.
-//   * @return a list of Activities which given user has data write access to.
-//   */
-//  List<Activity> getUserDataWrite(User user);
+  /**
+   * Returns the Activities which current user have WRITE access. If the current user has the ALL
+   * authority then all Activities are returned.
+   *
+   * @param user the user to query for field set list.
+   * @return a list of Activities which given user has data write access to.
+   */
+  List<Activity> getUserDataWrite(User user);
 
 }

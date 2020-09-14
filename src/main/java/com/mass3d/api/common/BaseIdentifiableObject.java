@@ -43,7 +43,7 @@ public class BaseIdentifiableObject
   @GeneratedValue(
       strategy = GenerationType.AUTO
   )
-  protected long id;
+  protected Long id;
 
   /**
    * The Unique Identifier for this Object.
@@ -125,7 +125,7 @@ public class BaseIdentifiableObject
   public BaseIdentifiableObject() {
   }
 
-  public BaseIdentifiableObject(long id, String uid, String name) {
+  public BaseIdentifiableObject(Long id, String uid, String name) {
     this.id = id;
     this.uid = uid;
     this.name = name;
@@ -169,11 +169,11 @@ public class BaseIdentifiableObject
 
   @Override
   @JsonIgnore
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
