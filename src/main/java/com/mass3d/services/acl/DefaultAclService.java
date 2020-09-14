@@ -18,11 +18,14 @@ import com.mass3d.services.schema.SchemaService;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 /**
  * Default ACL implementation that uses SchemaDescriptors to get authorities / sharing flags.
  *
  */
+
+@Service
 public class DefaultAclService implements AclService {
 
   private final SchemaService schemaService;
