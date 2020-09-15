@@ -7,7 +7,7 @@ import com.mass3d.api.user.User;
 import com.mass3d.api.user.UserCredentials;
 import com.mass3d.api.user.UserInfo;
 import com.mass3d.services.core.security.spring.AbstractSpringSecurityCurrentUserService;
-import com.mass3d.support.common.SystemUtils;
+import com.mass3d.support.commons.util.SystemUtils;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;

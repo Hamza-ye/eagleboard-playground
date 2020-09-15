@@ -1,4 +1,4 @@
-package com.mass3d.support.common;
+package com.mass3d.support.commons.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,7 +69,7 @@ public class TextUtils {
   }
 
   /**
-   * Replaces common newline characters like \n, \r, \r\n to the HTML line break tag br.
+   * Replaces commons newline characters like \n, \r, \r\n to the HTML line break tag br.
    *
    * @param text the text to substitute.
    * @return the substituted text.

@@ -20,7 +20,7 @@ import com.mass3d.services.schema.descriptors.UserGroupAccessSchemaDescriptor;
 import com.mass3d.services.schema.descriptors.UserGroupSchemaDescriptor;
 import com.mass3d.services.schema.descriptors.UserRoleSchemaDescriptor;
 import com.mass3d.services.schema.descriptors.UserSchemaDescriptor;
-import com.mass3d.support.common.TextUtils;
+import com.mass3d.support.commons.util.TextUtils;
 import com.mass3d.support.system.util.AnnotationUtils;
 import com.mass3d.support.system.util.ReflectionUtils;
 import java.util.Collection;
