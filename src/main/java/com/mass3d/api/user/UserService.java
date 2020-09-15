@@ -22,7 +22,7 @@ public interface UserService {
    * @param user the User to add.
    * @return the generated identifier.
    */
-  int addUser(User user);
+  Long addUser(User user);
 
   /**
    * Updates a User.
@@ -37,7 +37,7 @@ public interface UserService {
    * @param id the identifier of the User to retrieve.
    * @return the User.
    */
-  User getUser(int id);
+  User getUser(Long id);
 
   /**
    * Retrieves the User with the given unique identifier.
