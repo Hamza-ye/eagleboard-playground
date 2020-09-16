@@ -69,16 +69,10 @@ public class DefaultDataFieldService
     return dataFieldStore.getDataFieldsByZeroIsSignificant(zeroIsSignificant);
   }
 
-//  @Override
-//  public List<DataField> getAllDataFieldsByValueType( ValueType valueType ){
-//    return dataFieldStore.getDataFieldsByValueType(valueType);
-//  }
-
-//  @Override
-//  public List<DataField> getDataFieldsByPeriodType(PeriodType periodType) {
-//    return getAllDataFields().stream().filter( p -> p.getPeriodType() != null && p.getPeriodType().equals( periodType ) ).collect( Collectors
-//        .toList() );
-//  }
+  @Override
+  public List<DataField> getAllDataFieldsByValueType( ValueType valueType ){
+    return dataFieldStore.getDataFieldsByValueType(valueType);
+  }
 
   @Override
   public List<DataField> getDataFieldsWithoutFieldSets() {
@@ -90,9 +84,9 @@ public class DefaultDataFieldService
     return dataFieldStore.getDataFieldsWithFieldSets();
   }
 
-//  @Override
-//  public List<DataField> getDataFieldsByAggregationLevel(int aggregationLevel) {
-//    return dataFieldStore.getDataFieldsByAggregationLevel( aggregationLevel );
-//  }
+  @Override
+  public List<DataField> getDataFieldsByAggregationLevel(int aggregationLevel) {
+    return dataFieldStore.getDataFieldsByAggregationLevel( aggregationLevel );
+  }
 
 }

@@ -1,7 +1,13 @@
 package com.mass3d.api.datafield;
 
+import com.mass3d.api.common.ValueType;
 import java.util.List;
 
+/**
+ * Defines service functionality for DataFields.
+ *
+ * @version $Id: DataFieldService.java 6289 2008-11-14 17:53:24Z larshelg $
+ */
 public interface DataFieldService {
 
   String ID = DataFieldService.class.getName();
@@ -26,8 +32,9 @@ public interface DataFieldService {
   void updateDataField(DataField dataField);
 
   /**
-   * Deletes a DataField. The DataField is also removed from any DataFieldGroups it is a member of.
-   * It is not possible to delete a DataField with children.
+   * Deletes a DataField. The DataField is also removed from any
+   * DataFieldGroups it is a member of. It is not possible to delete a
+   * DataField with children.
    *
    * @param dataField the DataField to delete.
    * @throws HierarchyViolationException if the DataField has children.
@@ -59,31 +66,73 @@ public interface DataFieldService {
   DataField getDataFieldByCode(String code);
 
   /**
-   * Returns all DataField.
+   * Returns all DataFields.
    *
-   * @return a list of all DataField, or an empty list if there are no DataFields.
+   * @return a list of all DataFields, or an empty list if there
+   * are no DataFields.
    */
   List<DataField> getAllDataFields();
 
   /**
-   * Returns all DataFields which are not assigned to any DataSet.
+   * Returns all DataFields of a given type.
    *
-   * @return all DataFields which are not assigned to any DataSet.
+   * @param valueType the value type restriction
+   * @return a list of all DataFields with the given value type,
+   * or an empty list if there are no DataFields.
+   */
+  List<DataField> getAllDataFieldsByValueType(ValueType valueType);
+
+//  /**
+//   * Returns all DataFields with the given domain type.
+//   *
+//   * @param domainType the DataFieldDomainType.
+//   * @return all DataFields with the given domainType.
+//   */
+//  List<DataField> getDataFieldsByDomainType( DataFieldDomain domainType );
+
+
+//  /**
+//   * Returns all DataFields with the given category combo.
+//   *
+//   * @param categoryCombo the CategoryCombo.
+//   * @return all DataFields with the given category combo.
+//   */
+//  List<DataField> getDataFieldByCategoryCombo( CategoryCombo categoryCombo );
+//
+//  /**
+//   * Returns all DataFields which are not member of any DataFieldGroups.
+//   *
+//   * @return all DataFields which are not member of any DataFieldGroups.
+//   */
+//  List<DataField> getDataFieldsWithoutGroups();
+
+  /**
+   * Returns all DataFields which are not assigned to any FieldSets.
+   *
+   * @return all DataFields which are not assigned to any FieldSets.
    */
   List<DataField> getDataFieldsWithoutFieldSets();
 
   /**
-   * Returns all DataFields which are assigned to at least one DataSet.
+   * Returns all DataFields which are assigned to at least one FieldSet.
    *
-   * @return all DataFields which are assigned to at least one DataSet.
+   * @return all DataFields which are assigned to at least one FieldSet.
    */
   List<DataField> getDataFieldsWithFieldSets();
 
   /**
-   * Returns all DataField which zeroIsSignificant property is true or false
+   * Returns all DataFields which have the given aggregation level assigned.
    *
-   * @param zeroIsSignificant is zeroIsSignificant property
-   * @return a collection of all DataField
+   * @param aggregationLevel the aggregation level.
+   * @return all DataFields which have the given aggregation level assigned.
+   */
+  List<DataField> getDataFieldsByAggregationLevel(int aggregationLevel);
+
+  /**
+   * Returns all DataFields which zeroIsSignificant property is true or false.
+   *
+   * @param zeroIsSignificant whether zero is significant is true for this query.
+   * @return a collection of DataFields.
    */
   List<DataField> getDataFieldsByZeroIsSignificant(boolean zeroIsSignificant);
 }
