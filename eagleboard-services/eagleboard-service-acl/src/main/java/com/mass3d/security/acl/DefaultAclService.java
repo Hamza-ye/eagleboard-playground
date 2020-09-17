@@ -16,6 +16,7 @@ import com.mass3d.security.acl.AccessStringHelper.Permission;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -28,7 +29,7 @@ public class DefaultAclService implements AclService {
 
   private final SchemaService schemaService;
 
-  public DefaultAclService(SchemaService schemaService) {
+  public DefaultAclService(@Autowired SchemaService schemaService) {
     this.schemaService = schemaService;
   }
 
