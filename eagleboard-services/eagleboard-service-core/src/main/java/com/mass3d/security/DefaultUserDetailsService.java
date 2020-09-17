@@ -64,7 +64,7 @@ public class DefaultUserDetailsService
     }
 
     boolean enabled = !credentials.isDisabled();
-    boolean credentialsNonExpired = userService.credentialsNonExpired( credentials );
+    boolean credentialsNonExpired = true;
     boolean accountNonLocked = !securityService.isLocked( credentials.getUsername() );
 
     if ( ObjectUtils.anyIsFalse( enabled, credentialsNonExpired, accountNonLocked ) )

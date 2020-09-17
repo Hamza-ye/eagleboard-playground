@@ -29,7 +29,8 @@ public class DefaultAclService implements AclService {
 
   private final SchemaService schemaService;
 
-  public DefaultAclService(@Autowired SchemaService schemaService) {
+  @Autowired
+  public DefaultAclService(SchemaService schemaService) {
     this.schemaService = schemaService;
   }
 

@@ -718,6 +718,7 @@ public class DefaultIdentifiableObjectManager
     identifiableObjectStoreMap = new HashMap<>();
 
     for (IdentifiableObjectStore<? extends IdentifiableObject> store : identifiableObjectStores) {
+      System.out.println("store.getClazz(): " + store.getClazz() + "\tstore.getClass(): " + store.getClass());
       identifiableObjectStoreMap.put(store.getClazz(), store);
     }
   }
