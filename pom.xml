@@ -102,6 +102,11 @@
         <artifactId>eagleboard-support-test</artifactId>
         <version>${project.version}</version>
       </dependency>
+      <dependency>
+        <groupId>com.mass3d</groupId>
+        <artifactId>eagleboard-web-api</artifactId>
+        <version>${project.version}</version>
+      </dependency>
 
       <dependency>
         <groupId>com.google.guava</groupId>
