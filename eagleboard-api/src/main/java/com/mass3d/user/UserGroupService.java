@@ -13,7 +13,7 @@ public interface UserGroupService {
 
   void deleteUserGroup(UserGroup userGroup);
 
-  UserGroup getUserGroup(int userGroupId);
+  UserGroup getUserGroup(Long userGroupId);
 
   UserGroup getUserGroup(String uid);
 

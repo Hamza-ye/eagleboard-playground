@@ -154,7 +154,7 @@ public interface UserService {
    * @param userCredentials the UserCredentials to add.
    * @return the User which the UserCredentials is associated with.
    */
-  int addUserCredentials(UserCredentials userCredentials);
+  Long addUserCredentials(UserCredentials userCredentials);
 
   /**
    * Updates a UserCredentials.
@@ -228,11 +228,11 @@ public interface UserService {
    */
   void setLastLogin(String username);
 
-  int getActiveUsersCount(int days);
+//  int getActiveUsersCount(int days);
 
   int getActiveUsersCount(Date since);
 
-  boolean credentialsNonExpired(UserCredentials credentials);
+//  boolean credentialsNonExpired(UserCredentials credentials);
 
   // -------------------------------------------------------------------------
   // UserAuthorityGroup
@@ -244,7 +244,7 @@ public interface UserService {
    * @param userAuthorityGroup the UserAuthorityGroup.
    * @return the generated identifier.
    */
-  int addUserAuthorityGroup(UserAuthorityGroup userAuthorityGroup);
+  Long addUserAuthorityGroup(UserAuthorityGroup userAuthorityGroup);
 
   /**
    * Updates a UserAuthorityGroup.
@@ -259,7 +259,7 @@ public interface UserService {
    * @param id the identifier of the UserAuthorityGroup to retrieve.
    * @return the UserAuthorityGroup.
    */
-  UserAuthorityGroup getUserAuthorityGroup(int id);
+  UserAuthorityGroup getUserAuthorityGroup(Long id);
 
   /**
    * Retrieves the UserAuthorityGroup with the given identifier.
@@ -335,7 +335,7 @@ public interface UserService {
    *
    * @param userRoles the collection of user roles.
    */
-  void canIssueFilter(Collection<UserAuthorityGroup> userRoles);
+//  void canIssueFilter(Collection<UserAuthorityGroup> userRoles);
 
   List<ErrorReport> validateUser(User user, User currentUser);
 
@@ -344,7 +344,7 @@ public interface UserService {
    *
    * @return list of active users whose credentials are expiring with in few days.
    */
-  List<User> getExpiringUsers();
+//  List<User> getExpiringUsers();
 
   void set2FA(User user, Boolean twoFA);
 }
