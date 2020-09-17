@@ -12,6 +12,7 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
@@ -23,16 +24,18 @@ import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+@Transactional
 public class HibernateGenericStore<T>
     implements GenericStore<T>
 {
   private static final Log log = LogFactory.getLog( HibernateGenericStore.class );
 
-  @Autowired
   protected SessionFactory sessionFactory;
 
+  @Autowired
   @Required
   public void setSessionFactory( SessionFactory sessionFactory )
   {
@@ -41,6 +44,7 @@ public class HibernateGenericStore<T>
 
   protected JdbcTemplate jdbcTemplate;
 
+  @Autowired
   public void setJdbcTemplate( JdbcTemplate jdbcTemplate )
   {
     this.jdbcTemplate = jdbcTemplate;
