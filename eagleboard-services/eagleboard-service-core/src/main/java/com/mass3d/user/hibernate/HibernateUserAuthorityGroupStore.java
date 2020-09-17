@@ -14,6 +14,11 @@ public class HibernateUserAuthorityGroupStore
     implements UserAuthorityGroupStore {
 
   @Override
+  public Class<UserAuthorityGroup> getClazz() {
+    return UserAuthorityGroup.class;
+  }
+
+  @Override
   public int countFieldSetUserAuthorityGroups(FieldSet fieldSet) {
     Query<Long> query = getTypedQuery(
         "select count(distinct c) from UserAuthorityGroup c where :fieldSet in elements(c.fieldSets)");

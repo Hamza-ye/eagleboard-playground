@@ -10,4 +10,8 @@ public class HibernateProjectStore
     extends HibernateIdentifiableObjectStore<Project>
     implements ProjectStore {
 
+  @Override
+  public Class<Project> getClazz() {
+    return Project.class;
+  }
 }

@@ -15,6 +15,11 @@ public class HibernateActivityStore
   // -------------------------------------------------------------------------
 
   @Override
+  public Class<Activity> getClazz() {
+    return Activity.class;
+  }
+
+  @Override
   public List<Activity> getActivitysWithoutProjects() {
     String hql = "from activity d where size(d.projects) = 0";
 

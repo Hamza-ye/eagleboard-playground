@@ -15,15 +15,14 @@ public class HibernateFieldSetStore
   // Dependencies
   // -------------------------------------------------------------------------
 
-//  private PeriodService periodService;
-//
-//  public void setPeriodService(PeriodService periodService) {
-//    this.periodService = periodService;
-//  }
-
   // -------------------------------------------------------------------------
   // FieldSet
   // -------------------------------------------------------------------------
+
+  @Override
+  public Class<FieldSet> getClazz() {
+    return FieldSet.class;
+  }
 
   @Override
   public void save(FieldSet fieldSet) {

@@ -33,6 +33,11 @@ public class HibernateUserStore
 
   private final SchemaService schemaService;
 
+  @Override
+  public Class<User> getClazz() {
+    return User.class;
+  }
+
   public HibernateUserStore(@Nonnull @Autowired SchemaService schemaService) {
     this.schemaService = schemaService;
   }

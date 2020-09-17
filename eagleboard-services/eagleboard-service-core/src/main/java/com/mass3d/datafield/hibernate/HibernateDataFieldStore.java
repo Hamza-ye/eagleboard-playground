@@ -17,6 +17,11 @@ public class HibernateDataFieldStore
   // -------------------------------------------------------------------------
 
   @Override
+  public Class<DataField> getClazz() {
+    return DataField.class;
+  }
+
+  @Override
   @SuppressWarnings("unchecked")
   public List<DataField> getDataFieldsByZeroIsSignificant(boolean zeroIsSignificant) {
     CriteriaBuilder builder = getCriteriaBuilder();

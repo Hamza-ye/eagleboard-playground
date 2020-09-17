@@ -12,6 +12,11 @@ public class HibernateUserCredentialsStore
     implements UserCredentialsStore {
 
   @Override
+  public Class<UserCredentials> getClazz() {
+    return UserCredentials.class;
+  }
+
+  @Override
   public UserCredentials getUserCredentialsByUsername(String username) {
     Query query = getQuery("from UserCredentials uc where uc.username = :username");
     query.setParameter("username", username);

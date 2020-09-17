@@ -22,6 +22,11 @@ public class HibernateTodoTaskStore
   // -------------------------------------------------------------------------
 
   @Override
+  public Class<TodoTask> getClazz() {
+    return TodoTask.class;
+  }
+
+  @Override
   @SuppressWarnings("unchecked")
   public List<TodoTask> getTodoTasksWithoutActivities() {
     String hql = "from TodoTask d where size(d.activities) = 0";
