@@ -1,9 +1,15 @@
 package com.mass3d.user.hibernate;
 
+import com.mass3d.deletedobject.DeletedObjectService;
+import com.mass3d.security.acl.AclService;
+import com.mass3d.todotask.TodoTask;
+import com.mass3d.user.CurrentUserService;
 import com.mass3d.user.UserCredentials;
 import com.mass3d.user.UserCredentialsStore;
 import com.mass3d.hibernate.HibernateGenericStore;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -11,9 +17,8 @@ public class HibernateUserCredentialsStore
     extends HibernateGenericStore<UserCredentials>
     implements UserCredentialsStore {
 
-  @Override
-  public Class<UserCredentials> getClazz() {
-    return UserCredentials.class;
+  public HibernateUserCredentialsStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate)  {
+    super( sessionFactory, jdbcTemplate, UserCredentials.class, false );
   }
 
   @Override

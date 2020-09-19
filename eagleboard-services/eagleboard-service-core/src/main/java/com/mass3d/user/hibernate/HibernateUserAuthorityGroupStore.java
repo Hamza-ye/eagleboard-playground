@@ -1,11 +1,16 @@
 package com.mass3d.user.hibernate;
 
+import com.mass3d.deletedobject.DeletedObjectService;
 import com.mass3d.fieldset.FieldSet;
+import com.mass3d.security.acl.AclService;
 import com.mass3d.todotask.TodoTask;
+import com.mass3d.user.CurrentUserService;
 import com.mass3d.user.UserAuthorityGroup;
 import com.mass3d.user.UserAuthorityGroupStore;
 import com.mass3d.common.hibernate.HibernateIdentifiableObjectStore;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -13,9 +18,11 @@ public class HibernateUserAuthorityGroupStore
     extends HibernateIdentifiableObjectStore<UserAuthorityGroup>
     implements UserAuthorityGroupStore {
 
-  @Override
-  public Class<UserAuthorityGroup> getClazz() {
-    return UserAuthorityGroup.class;
+  public HibernateUserAuthorityGroupStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
+      DeletedObjectService deletedObjectService, CurrentUserService currentUserService,
+      AclService aclService ) {
+    super( sessionFactory, jdbcTemplate, deletedObjectService, UserAuthorityGroup.class,
+        currentUserService, aclService, false );
   }
 
   @Override

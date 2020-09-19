@@ -1,15 +1,21 @@
 package com.mass3d.todotask.hibernate;
 
 import com.mass3d.common.SetMap;
+import com.mass3d.deletedobject.DeletedObjectService;
+import com.mass3d.project.Project;
+import com.mass3d.security.acl.AclService;
 import com.mass3d.todotask.TodoTask;
 import com.mass3d.todotask.TodoTaskStore;
 import com.mass3d.common.hibernate.HibernateIdentifiableObjectStore;
+import com.mass3d.user.CurrentUserService;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.hibernate.SessionFactory;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Repository;
 
@@ -17,15 +23,16 @@ import org.springframework.stereotype.Repository;
 public class HibernateTodoTaskStore
     extends HibernateIdentifiableObjectStore<TodoTask>
     implements TodoTaskStore {
+
+  public HibernateTodoTaskStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
+      DeletedObjectService deletedObjectService, CurrentUserService currentUserService,
+      AclService aclService ) {
+    super( sessionFactory, jdbcTemplate, deletedObjectService, TodoTask.class,
+        currentUserService, aclService, false );
+  }
   // -------------------------------------------------------------------------
   // TodoTask
   // -------------------------------------------------------------------------
-
-  @Override
-  public Class<TodoTask> getClazz() {
-    return TodoTask.class;
-  }
-
   @Override
   @SuppressWarnings("unchecked")
   public List<TodoTask> getTodoTasksWithoutActivities() {

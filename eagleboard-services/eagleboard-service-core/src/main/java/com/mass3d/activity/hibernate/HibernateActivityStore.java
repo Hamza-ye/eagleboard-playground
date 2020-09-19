@@ -3,7 +3,13 @@ package com.mass3d.activity.hibernate;
 import com.mass3d.activity.Activity;
 import com.mass3d.activity.ActivityStore;
 import com.mass3d.common.hibernate.HibernateIdentifiableObjectStore;
+import com.mass3d.deletedobject.DeletedObjectService;
+import com.mass3d.security.acl.AclService;
+import com.mass3d.user.CurrentUserService;
 import java.util.List;
+import org.hibernate.SessionFactory;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -13,10 +19,10 @@ public class HibernateActivityStore
   // -------------------------------------------------------------------------
   // activity
   // -------------------------------------------------------------------------
-
-  @Override
-  public Class<Activity> getClazz() {
-    return Activity.class;
+  public HibernateActivityStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
+      DeletedObjectService deletedObjectService, CurrentUserService currentUserService, AclService aclService )
+  {
+    super( sessionFactory, jdbcTemplate, deletedObjectService, Activity.class, currentUserService, aclService, false );
   }
 
   @Override

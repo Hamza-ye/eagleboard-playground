@@ -1,6 +1,10 @@
 package com.mass3d.user.hibernate;
 
 import com.mass3d.common.IdentifiableObjectUtils;
+import com.mass3d.deletedobject.DeletedObjectService;
+import com.mass3d.security.acl.AclService;
+import com.mass3d.todotask.TodoTask;
+import com.mass3d.user.CurrentUserService;
 import com.mass3d.user.User;
 import com.mass3d.user.UserQueryParams;
 import com.mass3d.user.UserStore;
@@ -22,8 +26,10 @@ import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -33,14 +39,14 @@ public class HibernateUserStore
 
   private final SchemaService schemaService;
 
-  @Override
-  public Class<User> getClazz() {
-    return User.class;
-  }
-
-  public HibernateUserStore(@Nonnull @Autowired SchemaService schemaService) {
+  public HibernateUserStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
+      DeletedObjectService deletedObjectService, CurrentUserService currentUserService,
+      AclService aclService,  SchemaService schemaService  ) {
+    super( sessionFactory, jdbcTemplate, deletedObjectService, User.class,
+        currentUserService, aclService, false );
     this.schemaService = schemaService;
   }
+
 
   @Override
   public List<User> getUsers(UserQueryParams params, @Nullable List<String> orders) {

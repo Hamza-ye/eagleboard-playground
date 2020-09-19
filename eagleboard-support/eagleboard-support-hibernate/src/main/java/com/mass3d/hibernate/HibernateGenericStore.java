@@ -1,5 +1,7 @@
 package com.mass3d.hibernate;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.mass3d.common.GenericStore;
 import java.util.List;
 import java.util.function.Function;
@@ -34,23 +36,25 @@ public class HibernateGenericStore<T>
   private static final Log log = LogFactory.getLog( HibernateGenericStore.class );
 
   protected SessionFactory sessionFactory;
-
-  @Autowired
-  @Required
-  public void setSessionFactory( SessionFactory sessionFactory )
-  {
-    this.sessionFactory = sessionFactory;
-  }
-
   protected JdbcTemplate jdbcTemplate;
+  protected Class<T> clazz;
 
-  @Autowired
-  public void setJdbcTemplate( JdbcTemplate jdbcTemplate )
+  public HibernateGenericStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate, Class<T> clazz, boolean cacheable )
   {
+    checkNotNull( sessionFactory );
+    checkNotNull( jdbcTemplate );
+    checkNotNull( clazz );
+
+    this.sessionFactory = sessionFactory;
     this.jdbcTemplate = jdbcTemplate;
+    this.clazz = clazz;
+    this.cacheable = cacheable;
   }
 
-  protected Class<T> clazz;
+  protected boolean isCacheable()
+  {
+    return cacheable;
+  }
 
   /**
    * Could be overridden programmatically.
@@ -71,14 +75,6 @@ public class HibernateGenericStore<T>
   }
 
   protected boolean cacheable = false;
-
-  /**
-   * Could be overridden programmatically.
-   */
-  protected boolean isCacheable()
-  {
-    return cacheable;
-  }
 
   /**
    * Could be injected through container.

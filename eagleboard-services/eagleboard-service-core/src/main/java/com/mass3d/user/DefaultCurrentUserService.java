@@ -2,10 +2,6 @@ package com.mass3d.user;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.mass3d.user.CurrentUserStore;
-import com.mass3d.user.User;
-import com.mass3d.user.UserCredentials;
-import com.mass3d.user.UserInfo;
 import com.mass3d.security.spring.AbstractSpringSecurityCurrentUserService;
 import com.mass3d.commons.util.SystemUtils;
 import java.util.Set;
@@ -70,13 +66,11 @@ public class DefaultCurrentUserService
   @Transactional(readOnly = true)
   public UserInfo getCurrentUserInfo() {
     UserDetails userDetails = getCurrentUserDetails();
-
     if (userDetails == null) {
       return null;
     }
 
     Long userId = USERNAME_ID_CACHE.get(userDetails.getUsername(), un -> getUserId(un));
-
     if (userId == null) {
       return null;
     }

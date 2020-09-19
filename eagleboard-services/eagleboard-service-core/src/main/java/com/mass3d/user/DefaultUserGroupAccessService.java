@@ -4,6 +4,7 @@ import com.mass3d.common.GenericStore;
 import com.mass3d.user.UserGroupAccess;
 import com.mass3d.user.UserGroupAccessService;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ public class DefaultUserGroupAccessService implements UserGroupAccessService {
 
   private GenericStore<UserGroupAccess> userGroupAccessStore;
 
+  @Autowired
   public void setUserGroupAccessStore(GenericStore<UserGroupAccess> userGroupAccessStore) {
     this.userGroupAccessStore = userGroupAccessStore;
   }

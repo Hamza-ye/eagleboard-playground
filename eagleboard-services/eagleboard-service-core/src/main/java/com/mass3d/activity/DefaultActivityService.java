@@ -8,6 +8,7 @@ import com.mass3d.user.CurrentUserService;
 import com.mass3d.user.User;
 import java.util.Collection;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,10 +23,12 @@ public class DefaultActivityService
   private ActivityStore activityStore;
   private CurrentUserService currentUserService;
 
+  @Autowired
   public void setActivityStore(ActivityStore activityStore) {
     this.activityStore = activityStore;
   }
 
+  @Autowired
   public void setCurrentUserService(CurrentUserService currentUserService) {
     this.currentUserService = currentUserService;
   }
@@ -35,20 +38,20 @@ public class DefaultActivityService
   // -------------------------------------------------------------------------
 
   @Override
-  public long addActivity(Activity dataField) {
-    activityStore.save(dataField);
+  public long addActivity(Activity activity) {
+    activityStore.save(activity);
 
-    return dataField.getId();
+    return activity.getId();
   }
 
   @Override
-  public void updateActivity(Activity dataField) {
-    activityStore.update(dataField);
+  public void updateActivity(Activity activity) {
+    activityStore.update(activity);
   }
 
   @Override
-  public void deleteActivity(Activity dataField) {
-    activityStore.delete(dataField);
+  public void deleteActivity(Activity activity) {
+    activityStore.delete(activity);
   }
 
   @Override

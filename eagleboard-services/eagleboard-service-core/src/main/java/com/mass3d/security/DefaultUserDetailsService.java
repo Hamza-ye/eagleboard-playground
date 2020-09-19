@@ -6,13 +6,16 @@ import com.mass3d.util.ObjectUtils;
 import com.mass3d.system.util.SecurityUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Service
 public class DefaultUserDetailsService
     implements UserDetailsService
 {
@@ -26,6 +29,7 @@ public class DefaultUserDetailsService
 
   private UserService userService;
 
+  @Autowired
   public void setUserService( UserService userService )
   {
     this.userService = userService;

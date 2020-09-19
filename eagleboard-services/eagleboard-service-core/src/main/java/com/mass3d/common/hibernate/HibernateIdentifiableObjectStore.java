@@ -1,5 +1,7 @@
 package com.mass3d.common.hibernate;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.mass3d.common.AuditLogUtil;
 import com.mass3d.common.BaseIdentifiableObject;
 import com.mass3d.common.IdentifiableObject;
@@ -39,6 +41,7 @@ import javax.persistence.criteria.Subquery;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Disjunction;
@@ -46,6 +49,8 @@ import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.Assert;
 
 public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
@@ -54,24 +59,34 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
 {
   private static final Log log = LogFactory.getLog( HibernateIdentifiableObjectStore.class );
 
-  @Autowired
   protected CurrentUserService currentUserService;
+  protected AclService aclService;
+  protected DeletedObjectService deletedObjectService;
+  private boolean transientIdentifiableProperties = false;
 
+  public HibernateIdentifiableObjectStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
+      DeletedObjectService deletedObjectService, Class<T> clazz,
+      CurrentUserService currentUserService, AclService aclService, boolean cacheable )
+  {
+    super( sessionFactory, jdbcTemplate, clazz, cacheable );
+
+    checkNotNull( currentUserService );
+    checkNotNull( aclService );
+    checkNotNull( deletedObjectService );
+
+    this.currentUserService = currentUserService;
+    this.aclService = aclService;
+    this.deletedObjectService = deletedObjectService;
+    this.cacheable = cacheable;
+  }
   /**
-   * Allows injection (e.g. by a unit test)
+   * Only used by tests, remove after fixing the tests
    */
+  @Deprecated
   public void setCurrentUserService( CurrentUserService currentUserService )
   {
     this.currentUserService = currentUserService;
   }
-
-  @Autowired
-  protected DeletedObjectService deletedObjectService;
-
-  @Autowired
-  protected AclService aclService;
-
-  private boolean transientIdentifiableProperties = false;
 
   /**
    * Indicates whether the object represented by the implementation does not
@@ -166,6 +181,10 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
   @Override
   public void save( T object, boolean clearSharing )
   {
+    System.out.println("currentUserService---------------------" + currentUserService);
+    System.out.println("deletedObjectService---------------------" + deletedObjectService);
+    System.out.println("aclService---------------------" + aclService);
+
     User user = currentUserService.getCurrentUser();
 
     String username = user != null ? user.getUsername() : "system-process";
@@ -322,7 +341,6 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
   public final List<T> getAll()
   {
     CriteriaBuilder builder = getCriteriaBuilder();
-
     return getList( builder, new JpaQueryParameters<T>().addPredicates( getSharingPredicates( builder ) ) );
   }
 
@@ -662,7 +680,7 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
   }
 
   @Override
-  public List<T> getById( Collection<Integer> ids )
+  public List<T> getById( Collection<Long> ids )
   {
     if ( ids == null || ids.isEmpty() )
     {
@@ -980,6 +998,9 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
   @Override
   public final List<Function<Root<T>, Predicate>> getSharingPredicates( CriteriaBuilder builder )
   {
+    System.out.println("getSharingPredicates currentUserService---------------------" + currentUserService);
+    System.out.println("getSharingPredicates deletedObjectService---------------------" + deletedObjectService);
+    System.out.println("getSharingPredicates aclService---------------------" + aclService);
     return getSharingPredicates( builder, currentUserService.getCurrentUserInfo(), AclService.LIKE_READ_METADATA );
   }
 

@@ -1,28 +1,31 @@
 package com.mass3d.fieldset.hibernate;
 
+import com.mass3d.datafield.DataField;
+import com.mass3d.deletedobject.DeletedObjectService;
 import com.mass3d.fieldset.FieldSet;
 import com.mass3d.fieldset.FieldSetStore;
+import com.mass3d.security.acl.AclService;
 import com.mass3d.todotask.TodoTask;
 import com.mass3d.common.hibernate.HibernateIdentifiableObjectStore;
+import com.mass3d.user.CurrentUserService;
 import java.util.List;
+import org.hibernate.SessionFactory;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class HibernateFieldSetStore
     extends HibernateIdentifiableObjectStore<FieldSet>
     implements FieldSetStore {
-  // -------------------------------------------------------------------------
-  // Dependencies
-  // -------------------------------------------------------------------------
 
+  public HibernateFieldSetStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
+      DeletedObjectService deletedObjectService, CurrentUserService currentUserService, AclService aclService )
+  {
+    super( sessionFactory, jdbcTemplate, deletedObjectService, FieldSet.class, currentUserService, aclService, false );
+  }
   // -------------------------------------------------------------------------
   // FieldSet
   // -------------------------------------------------------------------------
-
-  @Override
-  public Class<FieldSet> getClazz() {
-    return FieldSet.class;
-  }
 
   @Override
   public void save(FieldSet fieldSet) {

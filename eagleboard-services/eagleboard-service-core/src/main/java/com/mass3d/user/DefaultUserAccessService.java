@@ -4,6 +4,7 @@ import com.mass3d.common.GenericStore;
 import com.mass3d.user.UserAccess;
 import com.mass3d.user.UserAccessService;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ public class DefaultUserAccessService implements UserAccessService {
 
   private GenericStore<UserAccess> userAccessStore;
 
+  @Autowired
   public void setUserAccessStore(GenericStore<UserAccess> userAccessStore) {
     this.userAccessStore = userAccessStore;
   }

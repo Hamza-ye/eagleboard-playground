@@ -9,6 +9,7 @@ import com.mass3d.user.CurrentUserService;
 import com.mass3d.user.User;
 import java.util.Collection;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,10 +24,12 @@ public class DefaultFieldSetService
   private FieldSetStore fieldSetStore;
   private CurrentUserService currentUserService;
 
+  @Autowired
   public void setFieldSetStore(FieldSetStore fieldSetStore) {
     this.fieldSetStore = fieldSetStore;
   }
 
+  @Autowired
   public void setCurrentUserService(CurrentUserService currentUserService) {
     this.currentUserService = currentUserService;
   }

@@ -8,6 +8,7 @@ import com.mass3d.user.CurrentUserService;
 import com.mass3d.user.User;
 import java.util.Collection;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,10 +23,12 @@ public class DefaultProjectService
   private ProjectStore projectStore;
   private CurrentUserService currentUserService;
 
+  @Autowired
   public void setProjectStore(ProjectStore projectStore) {
     this.projectStore = projectStore;
   }
 
+  @Autowired
   public void setCurrentUserService(CurrentUserService currentUserService) {
     this.currentUserService = currentUserService;
   }

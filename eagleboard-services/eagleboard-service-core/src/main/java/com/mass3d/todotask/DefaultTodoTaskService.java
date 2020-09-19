@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,10 +26,12 @@ public class DefaultTodoTaskService
   private TodoTaskStore todoTaskStore;
   private CurrentUserService currentUserService;
 
+  @Autowired
   public void setTodoTaskStore(TodoTaskStore todoTaskStore) {
     this.todoTaskStore = todoTaskStore;
   }
 
+  @Autowired
   public void setCurrentUserService(CurrentUserService currentUserService) {
     this.currentUserService = currentUserService;
   }
