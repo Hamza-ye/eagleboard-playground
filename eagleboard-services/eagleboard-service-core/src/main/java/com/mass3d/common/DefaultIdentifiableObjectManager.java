@@ -330,7 +330,7 @@ public class DefaultIdentifiableObjectManager
       return new ArrayList<>();
     }
 
-    return null; //(List<T>) store.getByUid(uids);
+    return (List<T>) store.getByUid(uids);
   }
 
   @Override
