@@ -61,7 +61,7 @@ public interface IdentifiableObjectManager {
 
   <T extends IdentifiableObject> List<T> getByUid(Class<T> clazz, Collection<String> uids);
 
-  <T extends IdentifiableObject> List<T> getById(Class<T> clazz, Collection<Integer> ids);
+  <T extends IdentifiableObject> List<T> getById(Class<T> clazz, Collection<Long> ids);
 
   <T extends IdentifiableObject> List<T> getByUidOrdered(Class<T> clazz, List<String> uids);
 
@@ -91,7 +91,7 @@ public interface IdentifiableObjectManager {
       Collection<String> identifiers);
 
   <T extends IdentifiableObject> List<T> getObjects(Class<T> clazz,
-      Collection<Integer> identifiers);
+      Collection<Long> identifiers);
 
   <T extends IdentifiableObject> T getObject(Class<T> clazz, IdentifiableProperty property,
       String value);

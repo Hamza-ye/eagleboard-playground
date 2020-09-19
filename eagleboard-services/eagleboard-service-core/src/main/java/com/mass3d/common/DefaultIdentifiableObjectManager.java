@@ -335,7 +335,7 @@ public class DefaultIdentifiableObjectManager
 
   @Override
   @SuppressWarnings("unchecked")
-  public <T extends IdentifiableObject> List<T> getById(Class<T> clazz, Collection<Integer> ids) {
+  public <T extends IdentifiableObject> List<T> getById(Class<T> clazz, Collection<Long> ids) {
     IdentifiableObjectStore<IdentifiableObject> store = getIdentifiableObjectStore(clazz);
 
     if (store == null) {
@@ -549,7 +549,7 @@ public class DefaultIdentifiableObjectManager
   @Override
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> List<T> getObjects(Class<T> clazz,
-      Collection<Integer> identifiers) {
+      Collection<Long> identifiers) {
     IdentifiableObjectStore<T> store = (IdentifiableObjectStore<T>) getIdentifiableObjectStore(
         clazz);
 
@@ -718,7 +718,6 @@ public class DefaultIdentifiableObjectManager
     identifiableObjectStoreMap = new HashMap<>();
 
     for (IdentifiableObjectStore<? extends IdentifiableObject> store : identifiableObjectStores) {
-      System.out.println("store.getClazz(): " + store.getClazz() + "\tstore.getClass(): " + store.getClass());
       identifiableObjectStoreMap.put(store.getClazz(), store);
     }
   }
