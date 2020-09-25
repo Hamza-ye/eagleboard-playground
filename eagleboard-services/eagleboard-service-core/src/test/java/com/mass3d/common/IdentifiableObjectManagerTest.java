@@ -38,14 +38,14 @@ public class IdentifiableObjectManagerTest
     @Autowired
     private IdentifiableObjectManager identifiableObjectManager;
 
-//    @Autowired
-//    private UserService _userService;
-//
-//    @Override
-//    protected void setUpTest() throws Exception
-//    {
-//        this.userService = _userService;
-//    }
+    @Autowired
+    private UserService _userService;
+
+    @Override
+    protected void setUpTest() throws Exception
+    {
+        this.userService = _userService;
+    }
 
 //    @Test
 //    public void testGetObjectWithIdScheme()
