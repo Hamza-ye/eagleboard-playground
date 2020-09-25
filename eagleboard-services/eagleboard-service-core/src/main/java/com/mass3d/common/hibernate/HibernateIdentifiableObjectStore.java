@@ -179,10 +179,6 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
   @Override
   public void save( T object, boolean clearSharing )
   {
-    System.out.println("currentUserService---------------------" + currentUserService);
-    System.out.println("deletedObjectService---------------------" + deletedObjectService);
-    System.out.println("aclService---------------------" + aclService);
-
     User user = currentUserService.getCurrentUser();
 
     String username = user != null ? user.getUsername() : "system-process";
@@ -276,6 +272,8 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
         identifiableObject.setUser( user );
       }
     }
+
+    boolean isUpdateAllowed = isUpdateAllowed( object, user );
 
     if ( !isUpdateAllowed( object, user ) )
     {
@@ -996,9 +994,6 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
   @Override
   public final List<Function<Root<T>, Predicate>> getSharingPredicates( CriteriaBuilder builder )
   {
-    System.out.println("getSharingPredicates currentUserService---------------------" + currentUserService);
-    System.out.println("getSharingPredicates deletedObjectService---------------------" + deletedObjectService);
-    System.out.println("getSharingPredicates aclService---------------------" + aclService);
     return getSharingPredicates( builder, currentUserService.getCurrentUserInfo(), AclService.LIKE_READ_METADATA );
   }
 
