@@ -24,20 +24,11 @@ public class AclServiceTest
   @Autowired
   private AclService aclService;
 
-//    @Autowired
-//    private UserService _userService;
-
   @Autowired
   private IdentifiableObjectManager manager;
 
   @Autowired
   private CurrentUserService currentUserService;
-
-//    @Override
-//    protected void setUpTest() throws Exception
-//    {
-//        userService = _userService;
-//    }
 
   @Test
   public void testUpdateObjectWithPublicRWFail() {
