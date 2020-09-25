@@ -26,7 +26,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-@Service
 public class NodePropertyIntrospectorService extends AbstractPropertyIntrospectorService {
 
   private static final Log log = LogFactory.getLog(NodePropertyIntrospectorService.class);
