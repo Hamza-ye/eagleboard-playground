@@ -48,8 +48,6 @@ import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.Assert;
 
@@ -338,7 +336,7 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
   }
 
   @Override
-  public final List<T> getAll()
+  public List<T> getAll()
   {
     CriteriaBuilder builder = getCriteriaBuilder();
     return getList( builder, new JpaQueryParameters<T>().addPredicates( getSharingPredicates( builder ) ) );
