@@ -89,31 +89,28 @@ public class DefaultAclService implements AclService {
     }
 
     // (1) canAccess(User user, Collection<String> anyAuthorities)
-      /*  -> haveOverrideAuthority(User user) ||
-       *      -> user == null || user.isSuper()
-       *
-       *  -> anyAuthorities.isEmpty() ||
-       *  -> haveAuthority(user, anyAuthorities);
-       *      -> containsAny(user.getUserCredentials().getAllAuthorities(), anyAuthorities);
-       ************************************
-       */
+    /*  -> haveOverrideAuthority(User user) ||
+     *      -> user == null || user.isSuper()
+     *
+     *  -> anyAuthorities.isEmpty() ||
+     *  -> haveAuthority(user, anyAuthorities);
+     *      -> containsAny(user.getUserCredentials().getAllAuthorities(), anyAuthorities);
+     ************************************
+     */
     if (canAccess(user, schema.getAuthorityByType(AuthorityType.READ))) {
-      // Todo Eagle modified
-//            if ( object instanceof CategoryOptionCombo )
-//            {
-//                return checkOptionComboSharingPermission( user, object, Permission.READ );
-//            }
-
       // 2. Is the user for the object null?
       // 4. Is the object public read?
 
+      // (0) is object not Shareable
+            // -> (havePersistedProperty("user") && havePersistedProperty("userGroupAccesses")
+            //          && havePersistedProperty("publicAccess"));
       // (1) checkUser(user, object) /////////////////////////////////
         /* checkUser(User user, IdentifiableObject object)
          * - is the user trying to access is null
          * - is the user owner of the object is null
          *    -> user == null || object.getUser() == null ||
          *
-         * - the user trying to access is same as the owner of the object
+         * - is the user trying to access is same as the owner of the object
          *    -> user.getUid().equals(object.getUser().getUid())
          ************************************************************
       //(2) checkSharingPermission(user, object, Permission.READ) ////
@@ -156,12 +153,6 @@ public class DefaultAclService implements AclService {
     }
 
     if (canAccess(user, schema.getAuthorityByType(AuthorityType.DATA_READ))) {
-      // Todo Eagle modified
-//            if ( object instanceof CategoryOptionCombo )
-//            {
-//                return checkOptionComboSharingPermission( user, object, Permission.DATA_READ ) || checkOptionComboSharingPermission( user, object, Permission.DATA_WRITE );
-//            }
-
       if (schema.isDataShareable() &&
           (checkSharingPermission(user, object, Permission.DATA_READ)
               || checkSharingPermission(user, object, Permission.DATA_WRITE))) {
@@ -198,17 +189,54 @@ public class DefaultAclService implements AclService {
       anyAuthorities.addAll(schema.getAuthorityByType(AuthorityType.CREATE_PUBLIC));
     }
 
+    // (1) canAccess(User user, Collection<String> anyAuthorities)
+    /*  -> haveOverrideAuthority(User user) ||
+     *      -> user == null || user.isSuper()
+     *
+     *  -> anyAuthorities.isEmpty() ||
+     *  -> haveAuthority(user, anyAuthorities);
+     *      -> containsAny(user.getUserCredentials().getAllAuthorities(), anyAuthorities);
+     ************************************
+     */
     if (canAccess(user, anyAuthorities)) {
-      // Todo Eagle modified
-//            if ( object instanceof CategoryOptionCombo )
-//            {
-//                return checkOptionComboSharingPermission( user, object, Permission.WRITE );
-//            }
-
       if (!schema.isShareable()) {
         return true;
       }
 
+      // checkSharingAccess(User user, IdentifiableObject object)
+        /*
+         * -> Is the current user allowed to create/update the object given
+         *    based on its sharing settings.
+         *    -> return true only if not
+         *      -> object.getPublicAccess() = ------ (default access) and
+         *          !canMakePublic and !canMakePrivate --> return false
+         *      -> !canMakePublic --> return false
+         *      -> object.getExternalAccess() && !canMakeExternal --> return false
+         */
+      // (1) checkUser(user, object) /////////////////////////////////
+        /* checkUser(User user, IdentifiableObject object)
+         * - is the user trying to access is null
+         * - is the user owner of the object is null
+         *    -> user == null || object.getUser() == null ||
+         *
+         * - is the user trying to access is same as the owner of the object
+         *    -> user.getUid().equals(object.getUser().getUid())
+         ************************************************************
+      //(2) checkSharingPermission(user, object, Permission.READ) ////
+        * - Is the object public read?
+        *     -> AccessStringHelper.isEnabled(object.getPublicAccess(), permission = permission.READ)
+        *
+        * - Is the user allowed to read this object through group access
+        *     -> for (UserGroupAccess userGroupAccess : object.getUserGroupAccesses())
+        *          if (AccessStringHelper.isEnabled(userGroupAccess.getAccess(), permission)
+        *             && userGroupAccess.getUserGroup().getMembers().contains(user))
+        *
+        * - Is the user allowed to read to this object through user access?
+        *     -> for (UserAccess userAccess : object.getUserAccesses())
+        *           if (AccessStringHelper.isEnabled(userAccess.getAccess(), permission)
+        *             && user.equals(userAccess.getUser()))
+        ************************************************************
+      */
       if (checkSharingAccess(user, object) &&
           (checkUser(user, object) || checkSharingPermission(user, object, Permission.WRITE))) {
         return true;
@@ -236,12 +264,6 @@ public class DefaultAclService implements AclService {
     List<String> anyAuthorities = schema.getAuthorityByType(AuthorityType.DATA_CREATE);
 
     if (canAccess(user, anyAuthorities)) {
-      // Todo Eagle modified
-//            if ( object instanceof CategoryOptionCombo )
-//            {
-//                return checkOptionComboSharingPermission( user, object, Permission.DATA_WRITE );
-//            }
-
       if (schema.isDataShareable() && checkSharingPermission(user, object, Permission.DATA_WRITE)) {
         return true;
       }
@@ -652,27 +674,4 @@ public class DefaultAclService implements AclService {
 
     return false;
   }
-
-  // Todo Eagle modified
-//    private boolean checkOptionComboSharingPermission( User user, IdentifiableObject object, Permission permission )
-//    {
-//        CategoryOptionCombo optionCombo = (CategoryOptionCombo) object;
-//
-//        if ( optionCombo.isDefault() || optionCombo.getCategoryOptions().isEmpty() )
-//        {
-//            return true;
-//        }
-//
-//        List<Integer> accessibleOptions = new ArrayList<>();
-//
-//        for ( CategoryOption option : optionCombo.getCategoryOptions() )
-//        {
-//            if ( checkSharingPermission( user, option, permission ) )
-//            {
-//                accessibleOptions.add( option.getId() );
-//            }
-//        }
-//
-//        return accessibleOptions.size() == optionCombo.getCategoryOptions().size();
-//    }
 }

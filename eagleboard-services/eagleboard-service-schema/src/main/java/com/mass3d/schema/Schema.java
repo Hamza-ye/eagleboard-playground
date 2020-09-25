@@ -37,12 +37,14 @@ public class Schema implements Ordered, Klass {
   /**
    * Is this class a sub-class of IdentifiableObject
    *
+   * @see com.mass3d.common.IdentifiableObject
    */
   private final boolean identifiableObject;
 
   /**
    * Is this class a sub-class of NameableObject
    *
+   * @see com.mass3d.common.NameableObject
    */
   private final boolean nameableObject;
 
@@ -138,6 +140,7 @@ public class Schema implements Ordered, Klass {
    * Map of all exposed properties on this class, where key is property name, and value is instance
    * of Property class.
    *
+   * @see com.mass3d.schema.Property
    */
   private Map<String, Property> propertyMap = Maps.newHashMap();
 
