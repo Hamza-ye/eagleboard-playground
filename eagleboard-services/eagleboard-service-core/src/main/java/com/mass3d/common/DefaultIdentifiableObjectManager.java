@@ -28,9 +28,11 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 @Component
+@Transactional
 public class DefaultIdentifiableObjectManager
     implements IdentifiableObjectManager {
 
