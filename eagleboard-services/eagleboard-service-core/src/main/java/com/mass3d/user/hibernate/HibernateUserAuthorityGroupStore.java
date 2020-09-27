@@ -13,7 +13,7 @@ import org.hibernate.query.Query;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@Repository( "com.mass3d.user.UserAuthorityGroupStore" )
 public class HibernateUserAuthorityGroupStore
     extends HibernateIdentifiableObjectStore<UserAuthorityGroup>
     implements UserAuthorityGroupStore {
