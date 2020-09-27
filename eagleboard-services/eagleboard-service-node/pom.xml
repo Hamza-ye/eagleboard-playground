@@ -3,62 +3,55 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <artifactId>eagleboard-web</artifactId>
+    <artifactId>eagleboard-services</artifactId>
     <groupId>com.mass3d</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>eagleboard-web-api</artifactId>
+  <artifactId>eagleboard-service-node</artifactId>
   <packaging>jar</packaging>
 
   <dependencies>
     <dependency>
       <groupId>com.mass3d</groupId>
-      <artifactId>eagleboard-api</artifactId>
+      <artifactId>eagleboard-service-schema</artifactId>
     </dependency>
     <dependency>
       <groupId>com.mass3d</groupId>
-      <artifactId>eagleboard-service-dxf2</artifactId>
+      <artifactId>eagleboard-service-acl</artifactId>
     </dependency>
     <dependency>
       <groupId>com.mass3d</groupId>
-      <artifactId>eagleboard-service-node</artifactId>
+      <artifactId>eagleboard-support-test</artifactId>
     </dependency>
     <dependency>
       <groupId>com.mass3d</groupId>
-      <artifactId>eagleboard-service-core</artifactId>
+      <artifactId>eagleboard-support-system</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-core</artifactId>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-dbcp</artifactId>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
     </dependency>
-    <!-- Test -->
+
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-library</artifactId>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
-      <artifactId>mockito-all</artifactId>
-      <scope>test</scope>
+      <artifactId>mockito-core</artifactId>
+      <!-- use different version for tests in this artifact due to version conflict (solved for project in 2.32) -->
+      <!--<version>1.10.19</version>-->
+      <!--<scope>test</scope>-->
     </dependency>
 
   </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
   <properties>
     <rootDir>../../</rootDir>
   </properties>

@@ -16,6 +16,9 @@
     <module>eagleboard-service-core</module>
     <module>eagleboard-service-schema</module>
     <module>eagleboard-service-setting</module>
+    <module>eagleboard-service-dxf2</module>
+    <module>eagleboard-service-logging</module>
+    <module>eagleboard-service-node</module>
   </modules>
   <dependencies>
     <dependency>
