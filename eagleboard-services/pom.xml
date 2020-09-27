@@ -15,6 +15,7 @@
     <module>eagleboard-service-acl</module>
     <module>eagleboard-service-core</module>
     <module>eagleboard-service-schema</module>
+    <module>eagleboard-service-setting</module>
   </modules>
   <dependencies>
     <dependency>

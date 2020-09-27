@@ -104,6 +104,11 @@
       </dependency>
       <dependency>
         <groupId>com.mass3d</groupId>
+        <artifactId>eagleboard-service-setting</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>com.mass3d</groupId>
         <artifactId>eagleboard-web-api</artifactId>
         <version>${project.version}</version>
       </dependency>
