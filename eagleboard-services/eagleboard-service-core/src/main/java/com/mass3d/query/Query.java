@@ -2,6 +2,7 @@ package com.mass3d.query;
 
 import com.google.common.base.MoreObjects;
 import com.mass3d.common.IdentifiableObject;
+import com.mass3d.fieldfilter.Defaults;
 import com.mass3d.user.User;
 import com.mass3d.schema.Schema;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class Query extends Criteria {
 
   private boolean plannedQuery;
 
-//  private Defaults defaults = Defaults.EXCLUDE;
+  private Defaults defaults = Defaults.EXCLUDE;
 
   private List<? extends IdentifiableObject> objects;
 
@@ -148,14 +149,14 @@ public class Query extends Criteria {
     return this;
   }
 
-//  public Defaults getDefaults() {
-//    return defaults;
-//  }
-//
-//  public Query setDefaults(Defaults defaults) {
-//    this.defaults = defaults;
-//    return this;
-//  }
+  public Defaults getDefaults() {
+    return defaults;
+  }
+
+  public Query setDefaults(Defaults defaults) {
+    this.defaults = defaults;
+    return this;
+  }
 
   public List<? extends IdentifiableObject> getObjects() {
     return objects;
