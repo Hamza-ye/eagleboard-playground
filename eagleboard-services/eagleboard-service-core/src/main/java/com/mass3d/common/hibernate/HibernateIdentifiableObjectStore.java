@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.mass3d.common.AuditLogUtil;
 import com.mass3d.common.BaseIdentifiableObject;
+import com.mass3d.common.GenericDimensionalObjectStore;
 import com.mass3d.common.IdentifiableObject;
 import com.mass3d.common.IdentifiableObjectStore;
 import com.mass3d.common.MetadataObject;
@@ -52,7 +53,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.Assert;
 
 public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
-    extends HibernateGenericStore<T> implements IdentifiableObjectStore<T>,
+    extends HibernateGenericStore<T> implements GenericDimensionalObjectStore<T>,
     InternalHibernateGenericStore<T>
 {
   private static final Log log = LogFactory.getLog( HibernateIdentifiableObjectStore.class );
@@ -673,6 +674,29 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
     typedQuery.setHint( JpaQueryUtils.HIBERNATE_CACHEABLE_HINT, true );
 
     return getSingleResult( typedQuery );
+  }
+
+  @Override
+  public List<T> getByDataDimension( boolean dataDimension )
+  {
+    CriteriaBuilder builder = getCriteriaBuilder();
+
+    JpaQueryParameters<T> jpaQueryParameters = new JpaQueryParameters<T>()
+        .addPredicate( root -> builder.equal( root.get( "dataDimension" ), dataDimension ) )
+        .addPredicates( getSharingPredicates( builder ) );
+
+    return getList( builder, jpaQueryParameters );
+  }
+
+  @Override
+  public List<T> getByDataDimensionNoAcl( boolean dataDimension )
+  {
+    CriteriaBuilder builder = getCriteriaBuilder();
+
+    JpaQueryParameters<T> jpaQueryParameters = new JpaQueryParameters<T>()
+        .addPredicate( root -> builder.equal( root.get( "dataDimension" ), dataDimension ) );
+
+    return getList( builder, jpaQueryParameters );
   }
 
   @Override

@@ -1,11 +1,11 @@
 package com.mass3d.datafield;
 
-import com.mass3d.common.IdentifiableObjectStore;
+import com.mass3d.common.GenericDimensionalObjectStore;
 import com.mass3d.common.ValueType;
 import java.util.List;
 
 public interface DataFieldStore
-    extends IdentifiableObjectStore<DataField> {
+    extends GenericDimensionalObjectStore<DataField> {
 
   String ID = DataFieldStore.class.getName();
 

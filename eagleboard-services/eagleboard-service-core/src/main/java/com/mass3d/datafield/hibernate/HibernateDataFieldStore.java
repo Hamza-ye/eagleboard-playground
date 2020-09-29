@@ -1,6 +1,5 @@
 package com.mass3d.datafield.hibernate;
 
-import com.mass3d.activity.Activity;
 import com.mass3d.common.ValueType;
 import com.mass3d.datafield.DataField;
 import com.mass3d.datafield.DataFieldStore;
@@ -11,7 +10,6 @@ import com.mass3d.user.CurrentUserService;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
