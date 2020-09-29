@@ -19,9 +19,30 @@
     </dependency>
     <dependency>
       <groupId>com.mass3d</groupId>
+      <artifactId>eagleboard-support-hibernate</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.mass3d</groupId>
       <artifactId>eagleboard-support-commons</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>com.mass3d</groupId>
+      <artifactId>eagleboard-support-test</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.mass3d</groupId>
+      <artifactId>eagleboard-support-external</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.vividsolutions</groupId>
+      <artifactId>jts</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.lowagie</groupId>
+      <artifactId>itext</artifactId>
+    </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
@@ -46,6 +67,41 @@
       <groupId>com.github.ben-manes.caffeine</groupId>
       <artifactId>caffeine</artifactId>
     </dependency>
+
+
+
+
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-collections4</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-math3</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-validator</groupId>
+      <artifactId>commons-validator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.scijava</groupId>
+      <artifactId>jep</artifactId>
+    </dependency>
+
+
+
 
     <!-- Test -->
 

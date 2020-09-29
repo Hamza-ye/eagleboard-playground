@@ -10,6 +10,23 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>eagleboard-service-logging</artifactId>
+  <packaging>jar</packaging>
 
-
+  <dependencies>
+    <dependency>
+      <groupId>com.mass3d</groupId>
+      <artifactId>eagleboard-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.mass3d</groupId>
+      <artifactId>eagleboard-support-test</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.mass3d</groupId>
+      <artifactId>eagleboard-service-setting</artifactId>
+    </dependency>
+  </dependencies>
+  <properties>
+    <rootDir>../../</rootDir>
+  </properties>
 </project>

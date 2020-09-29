@@ -22,6 +22,7 @@
       <artifactId>eagleboard-support-commons</artifactId>
     </dependency>
 
+
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-core</artifactId>
@@ -46,6 +47,11 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jasypt</groupId>
+      <artifactId>jasypt</artifactId>
     </dependency>
 
     <!-- Test -->

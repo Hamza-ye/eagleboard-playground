@@ -19,6 +19,7 @@
     <module>eagleboard-service-dxf2</module>
     <module>eagleboard-service-logging</module>
     <module>eagleboard-service-node</module>
+    <module>eagleboard-service-reporting</module>
   </modules>
   <dependencies>
     <dependency>

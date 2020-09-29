@@ -16,6 +16,7 @@
     <module>eagleboard-support-system</module>
     <module>eagleboard-support-hibernate</module>
     <module>eagleboard-support-test</module>
+    <module>eagleboard-support-external</module>
   </modules>
 
   <dependencies>

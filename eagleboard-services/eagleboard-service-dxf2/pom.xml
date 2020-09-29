@@ -39,6 +39,10 @@
       <artifactId>google-api-client</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.lowagie</groupId>
+      <artifactId>itext</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-collections4</artifactId>
     </dependency>

@@ -22,6 +22,20 @@
       <groupId>com.mass3d</groupId>
       <artifactId>eagleboard-service-schema</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>com.mass3d</groupId>
+      <artifactId>eagleboard-service-setting</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.mass3d</groupId>
+      <artifactId>eagleboard-service-logging</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.mass3d</groupId>
+      <artifactId>eagleboard-service-node</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>com.mass3d</groupId>
       <artifactId>eagleboard-service-acl</artifactId>
