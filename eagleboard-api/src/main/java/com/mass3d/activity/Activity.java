@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.mass3d.common.BaseDimensionalItemObject;
 import com.mass3d.common.BaseIdentifiableObject;
 import com.mass3d.common.BaseNameableObject;
 import com.mass3d.common.DxfNamespaces;
@@ -49,7 +50,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 )
 @JacksonXmlRootElement(localName = "activity", namespace = DxfNamespaces.DXF_2_0)
 public class Activity
-    extends BaseNameableObject
+    extends BaseDimensionalItemObject
     implements MetadataObject, InterpretableObject {
 
   @ManyToOne
