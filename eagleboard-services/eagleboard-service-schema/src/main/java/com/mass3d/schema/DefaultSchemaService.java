@@ -7,19 +7,20 @@ import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.mass3d.security.Authority;
+import com.mass3d.commons.util.TextUtils;
 import com.mass3d.schema.descriptors.ActivitySchemaDescriptor;
-import com.mass3d.schema.descriptors.ProjectSchemaDescriptor;
-import com.mass3d.schema.descriptors.TodoTaskSchemaDescriptor;
-import com.mass3d.schema.descriptors.UserGroupAccessSchemaDescriptor;
 import com.mass3d.schema.descriptors.DataFieldSchemaDescriptor;
 import com.mass3d.schema.descriptors.FieldSetSchemaDescriptor;
+import com.mass3d.schema.descriptors.KeyJsonValueSchemaDescriptor;
+import com.mass3d.schema.descriptors.ProjectSchemaDescriptor;
+import com.mass3d.schema.descriptors.TodoTaskSchemaDescriptor;
 import com.mass3d.schema.descriptors.UserAccessSchemaDescriptor;
 import com.mass3d.schema.descriptors.UserCredentialsSchemaDescriptor;
+import com.mass3d.schema.descriptors.UserGroupAccessSchemaDescriptor;
 import com.mass3d.schema.descriptors.UserGroupSchemaDescriptor;
 import com.mass3d.schema.descriptors.UserRoleSchemaDescriptor;
 import com.mass3d.schema.descriptors.UserSchemaDescriptor;
-import com.mass3d.commons.util.TextUtils;
+import com.mass3d.security.Authority;
 import com.mass3d.system.util.AnnotationUtils;
 import com.mass3d.system.util.ReflectionUtils;
 import java.util.Collection;
@@ -37,23 +38,25 @@ import org.springframework.core.OrderComparator;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-@Service
+@Service("com.mass3d.schema.SchemaService")
 public class DefaultSchemaService
     implements SchemaService {
 
-  private ImmutableList<SchemaDescriptor> descriptors = new ImmutableList.Builder<SchemaDescriptor>().
+  private ImmutableList<SchemaDescriptor> descriptors = new ImmutableList.Builder<SchemaDescriptor>()
+      .
           add(new DataFieldSchemaDescriptor()).
           add(new FieldSetSchemaDescriptor()).
           add(new TodoTaskSchemaDescriptor()).
           add(new ActivitySchemaDescriptor()).
           add(new ProjectSchemaDescriptor()).
-    add(new UserCredentialsSchemaDescriptor()).
+          add(new UserCredentialsSchemaDescriptor()).
           add(new UserGroupSchemaDescriptor()).
           add(new UserRoleSchemaDescriptor()).
           add(new UserSchemaDescriptor()).
-    add(new UserAccessSchemaDescriptor()).
+          add(new UserAccessSchemaDescriptor()).
           add(new UserGroupAccessSchemaDescriptor()).
-    build();
+          add(new KeyJsonValueSchemaDescriptor()).
+          build();
 
   private Map<Class<?>, Schema> classSchemaMap = new HashMap<>();
 
