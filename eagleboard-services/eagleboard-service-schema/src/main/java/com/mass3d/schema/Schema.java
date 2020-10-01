@@ -13,6 +13,7 @@ import com.mass3d.common.EmbeddedObject;
 import com.mass3d.common.IdentifiableObject;
 import com.mass3d.common.MetadataObject;
 import com.mass3d.common.NameableObject;
+import com.mass3d.common.SubscribableObject;
 import com.mass3d.security.Authority;
 import com.mass3d.security.AuthorityType;
 import java.util.ArrayList;
@@ -47,6 +48,13 @@ public class Schema implements Ordered, Klass {
    * @see com.mass3d.common.NameableObject
    */
   private final boolean nameableObject;
+
+  /**
+   * Is this class a sub-class of SubscribableObject
+   *
+   * @see com.mass3d.common.SubscribableObject
+   */
+  private final boolean subscribableObject;
 
   /**
    * Does this class implement {@link EmbeddedObject} ?
@@ -182,6 +190,7 @@ public class Schema implements Ordered, Klass {
     this.embeddedObject = EmbeddedObject.class.isAssignableFrom(klass);
     this.identifiableObject = IdentifiableObject.class.isAssignableFrom(klass);
     this.nameableObject = NameableObject.class.isAssignableFrom(klass);
+    this.subscribableObject = SubscribableObject.class.isAssignableFrom(klass);
     this.singular = singular;
     this.plural = plural;
     this.metadata = MetadataObject.class.isAssignableFrom(klass);
@@ -204,6 +213,12 @@ public class Schema implements Ordered, Klass {
   @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public boolean isNameableObject() {
     return nameableObject;
+  }
+
+  @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
+  public boolean isSubscribableObject() {
+    return subscribableObject;
   }
 
   @JsonProperty
@@ -346,6 +361,12 @@ public class Schema implements Ordered, Klass {
   @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public boolean isFavoritable() {
     return isIdentifiableObject() && havePersistedProperty("favorites");
+  }
+
+  @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
+  public boolean isSubscribable() {
+    return isSubscribableObject() && havePersistedProperty("subscribers");
   }
 
   @JsonProperty
