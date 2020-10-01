@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Note that most methods are transactional, except for retrieving current UserInfo.
  *
  */
-@Service
+@Service( "com.mass3d.user.CurrentUserService" )
 public class DefaultCurrentUserService
     extends AbstractSpringSecurityCurrentUserService {
 

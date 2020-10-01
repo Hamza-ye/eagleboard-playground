@@ -31,7 +31,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-@Component
+@Component("com.mass3d.common.IdentifiableObjectManager")
 @Transactional
 public class DefaultIdentifiableObjectManager
     implements IdentifiableObjectManager {

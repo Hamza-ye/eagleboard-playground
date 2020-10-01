@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
  *
  */
 
-@Service
+@Service("com.mass3d.security.acl.AclService")
 public class DefaultAclService implements AclService {
 
   private final SchemaService schemaService;
