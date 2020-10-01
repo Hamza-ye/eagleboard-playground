@@ -35,7 +35,7 @@ import org.springframework.util.StringUtils;
  * for reading in properties.
  *
  */
-@Service
+@Service( "com.mass3d.schema.PropertyIntrospectorService" )
 public class Jackson2PropertyIntrospectorService
     extends AbstractPropertyIntrospectorService {
 
