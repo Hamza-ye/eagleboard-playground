@@ -10,6 +10,8 @@ import com.mass3d.common.BaseIdentifiableObject;
 import com.mass3d.common.DxfNamespaces;
 import com.mass3d.common.IdentifiableObject;
 import com.mass3d.fieldset.FieldSet;
+import com.mass3d.period.Period;
+import com.mass3d.period.PeriodType;
 import com.mass3d.project.Project;
 import com.mass3d.todotask.TodoTask;
 import com.mass3d.user.User;
@@ -69,6 +71,8 @@ public class Interpretation
   @JoinColumn(name = "todotaskid")
   private TodoTask todoTask;
 
+  private Period period; // Applicable to report table and data set report
+
   private String text;
 
   @ManyToMany
@@ -94,6 +98,13 @@ public class Interpretation
   // -------------------------------------------------------------------------
 
   public Interpretation() {
+  }
+
+  public Interpretation(FieldSet fieldSet, Period period, TodoTask todoTask, String text) {
+    this.fieldSet = fieldSet;
+    this.period = period;
+    this.todoTask = todoTask;
+    this.text = text;
   }
 
   public Interpretation(FieldSet fieldSet, TodoTask todoTask, String text) {
@@ -133,6 +144,10 @@ public class Interpretation
 
   public boolean isFieldSetReportInterpretation() {
     return fieldSet != null;
+  }
+
+  public PeriodType getPeriodType() {
+    return period != null ? period.getPeriodType() : null;
   }
 
   /**
@@ -187,6 +202,17 @@ public class Interpretation
 
   public void setFieldSet(FieldSet fieldSet) {
     this.fieldSet = fieldSet;
+  }
+
+  @JsonProperty
+  @JsonSerialize(as = BaseIdentifiableObject.class)
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
+  public Period getPeriod() {
+    return period;
+  }
+
+  public void setPeriod(Period period) {
+    this.period = period;
   }
 
   @JsonProperty

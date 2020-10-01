@@ -1,5 +1,6 @@
 package com.mass3d.common;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,9 +11,15 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
+import com.mass3d.calendar.Calendar;
+import com.mass3d.calendar.DateTimeUnit;
+import com.mass3d.period.Period;
+import com.mass3d.period.PeriodType;
+import com.mass3d.period.WeeklyAbstractPeriodType;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.springframework.util.Assert;
 
 public class IdentifiableObjectUtils {
 
@@ -23,6 +30,12 @@ public class IdentifiableObjectUtils {
       .forPattern("yyyy-MM-dd'T'HH:mm:ss");
   public static final DateTimeFormatter MEDIUM_DATE_FORMAT = DateTimeFormat
       .forPattern("yyyy-MM-dd");
+
+    public static final Map<String, String> CLASS_ALIAS = ImmutableMap.<String, String>builder()
+//        put( "CategoryOption", CategoryOption.class.getSimpleName() ).
+//        put( "Category", Category.class.getSimpleName() ).
+//        put( "CategoryCombo", CategoryCombo.class.getSimpleName() )
+      .build();
 
   /**
    * Joins the names of the IdentifiableObjects in the given list and separates them with {@link
@@ -91,6 +104,70 @@ public class IdentifiableObjectUtils {
     }
 
     return map;
+  }
+
+  /**
+   * Returns a list of calendar specific period identifiers for the given collection of periods and
+   * calendar.
+   *
+   * @param periods the list of periods.
+   * @param calendar the calendar to use for generation of iso periods.
+   * @return a list of iso period identifiers.
+   */
+  public static <T extends IdentifiableObject> List<String> getLocalPeriodIdentifiers(
+      Collection<T> periods, Calendar calendar) {
+    List<String> localIdentifiers = new ArrayList<>();
+
+    for (IdentifiableObject object : periods) {
+      Period period = (Period) object;
+      DateTimeUnit dateTimeUnit = calendar.fromIso(period.getStartDate());
+      localIdentifiers.add(period.getPeriodType().getIsoDate(dateTimeUnit));
+    }
+
+    return localIdentifiers;
+  }
+
+  /**
+   * Returns a local period identifier for a specific period / calendar.
+   *
+   * @param period the list of periods.
+   * @param calendar the calendar to use for generation of iso periods.
+   * @return Period identifier based on given calendar
+   */
+  public static String getLocalPeriodIdentifier(Period period, Calendar calendar) {
+    if (calendar.isIso8601()) {
+      return period.getIsoDate();
+    }
+
+    return period.getPeriodType().getIsoDate(calendar.fromIso(period.getStartDate()));
+  }
+
+  /**
+   * Returns the {@link Period} of the argument period type which corresponds to the argument
+   * period. The frequency order of the given period type must greater than or equal to the period
+   * type of the given period (represent "longer" periods). Weeks are converted to "longer" periods
+   * by determining which period contains at least 4 days of the week.
+   * <p>
+   * As an example, providing {@code Quarter 1, 2017} and {@code Yearly} as arguments will return
+   * the yearly period {@code 2017}.
+   *
+   * @param period the period.
+   * @param periodType the period type of the period to return.
+   * @param calendar the calendar to use when calculating the period.
+   * @return a period.
+   */
+  public static Period getPeriodByPeriodType(Period period, PeriodType periodType,
+      Calendar calendar) {
+    Assert.isTrue(periodType.getFrequencyOrder() >= period.getPeriodType().getFrequencyOrder(),
+        "Frequency order of period type must be greater than or equal to period");
+
+    Date date = period.getStartDate();
+
+    if (WeeklyAbstractPeriodType.class.isAssignableFrom(period.getPeriodType().getClass())) {
+      date = new DateTime(date.getTime()).plusDays(3).toDate();
+    }
+
+    return periodType.createPeriod(date, calendar);
   }
 
   /**
