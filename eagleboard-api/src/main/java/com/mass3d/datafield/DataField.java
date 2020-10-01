@@ -15,6 +15,7 @@ import com.mass3d.common.ValueType;
 import com.mass3d.common.ValueTypedDimensionalItemObject;
 import com.mass3d.fieldset.FieldSet;
 import com.mass3d.fieldset.FieldSetField;
+import com.mass3d.option.OptionSet;
 import com.mass3d.period.Period;
 import com.mass3d.period.PeriodType;
 import com.mass3d.period.YearlyPeriodType;
@@ -34,6 +35,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
@@ -94,6 +96,19 @@ public class DataField
    * Indicates whether to store zero data values.
    */
   private boolean zeroIsSignificant;
+
+  /**
+   * The option set for data values linked to this data field, can be null.
+   */
+  @ManyToOne
+  @JoinColumn(name = "optionsetid")
+  private OptionSet optionSet;
+  /**
+   * The option set for comments linked to this data field, can be null.
+   */
+  @ManyToOne
+  @JoinColumn(name = "commentoptionsetid")
+  private OptionSet commentOptionSet;
 
   /**
    * Field mask represent how the value should be formatted during input. This string will be
@@ -365,25 +380,25 @@ public class DataField
     return url != null && !url.trim().isEmpty();
   }
 
-//  /**
-//   * Indicates whether this data element has an option set.
-//   *
-//   * @return true if this data element has an option set.
-//   */
-//  @Override
-//  public boolean hasOptionSet()
-//  {
-//    return optionSet != null;
-//  }
+  /**
+   * Indicates whether this data element has an option set.
+   *
+   * @return true if this data element has an option set.
+   */
+  @Override
+  public boolean hasOptionSet()
+  {
+    return optionSet != null;
+  }
   // -------------------------------------------------------------------------
   // Getters & Setters
   // -------------------------------------------------------------------------
 
-//  @JsonProperty
-//  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
-//  public boolean isOptionSetValue() {
-//    return optionSet != null;
-//  }
+  @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
+  public boolean isOptionSetValue() {
+    return optionSet != null;
+  }
 
   public Set<FieldSetField> getFieldSetFields() {
     return fieldSetFields;
@@ -437,26 +452,26 @@ public class DataField
     this.zeroIsSignificant = zeroIsSignificant;
   }
 
-//  @Override
-//  @JsonProperty
-//  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
-//  public OptionSet getOptionSet() {
-//    return optionSet;
-//  }
-//
-//  public void setOptionSet(OptionSet optionSet) {
-//    this.optionSet = optionSet;
-//  }
-//
-//  @JsonProperty
-//  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
-//  public OptionSet getCommentOptionSet() {
-//    return commentOptionSet;
-//  }
-//
-//  public void setCommentOptionSet(OptionSet commentOptionSet) {
-//    this.commentOptionSet = commentOptionSet;
-//  }
+  @Override
+  @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
+  public OptionSet getOptionSet() {
+    return optionSet;
+  }
+
+  public void setOptionSet(OptionSet optionSet) {
+    this.optionSet = optionSet;
+  }
+
+  @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
+  public OptionSet getCommentOptionSet() {
+    return commentOptionSet;
+  }
+
+  public void setCommentOptionSet(OptionSet commentOptionSet) {
+    this.commentOptionSet = commentOptionSet;
+  }
 
   @JsonProperty
   @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
