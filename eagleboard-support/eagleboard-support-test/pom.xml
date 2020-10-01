@@ -19,7 +19,7 @@
     </dependency>
     <dependency>
       <groupId>com.mass3d</groupId>
-      <artifactId>eagleboard-service-acl</artifactId>
+      <artifactId>eagleboard-support-external</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
