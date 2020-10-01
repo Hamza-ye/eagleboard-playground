@@ -36,9 +36,10 @@ import com.mass3d.user.CurrentUserService;
 import com.mass3d.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component
+@Service( "com.mass3d.dxf2.metadata.MetadataImportService" )
 @Transactional
 public class DefaultMetadataImportService implements MetadataImportService
 {

@@ -43,8 +43,9 @@ import com.mass3d.system.SystemService;
 import com.mass3d.user.CurrentUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service( "com.mass3d.dxf2.metadata.MetadataExportService" )
 public class DefaultMetadataExportService implements MetadataExportService
 {
     private static final LoggingManager.Logger log = LoggingManager
