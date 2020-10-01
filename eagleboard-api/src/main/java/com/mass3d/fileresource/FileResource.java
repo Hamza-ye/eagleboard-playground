@@ -5,8 +5,37 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import java.util.Optional;
 import com.mass3d.common.BaseIdentifiableObject;
 import com.mass3d.common.DxfNamespaces;
+import javax.persistence.AssociationOverride;
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Table;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.util.MimeTypeUtils;
 
+@Entity
+@Table(name = "fileresource")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@AttributeOverride(name="id", column=@Column(name="fileresourceid"))
+@AssociationOverride(
+    name="userGroupAccesses",
+    joinTable=@JoinTable(
+        name="fileresourceusergroupaccesses",
+        joinColumns=@JoinColumn(name="fileresourceid"),
+        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
+    )
+)
+@AssociationOverride(
+    name="userAccesses",
+    joinTable=@JoinTable(
+        name="fileresourceuseraccesses",
+        joinColumns=@JoinColumn(name="fileresourceid"),
+        inverseJoinColumns=@JoinColumn(name="useraccessid")
+    )
+)
 public class FileResource
     extends BaseIdentifiableObject {
 
@@ -17,21 +46,25 @@ public class FileResource
   /**
    * MIME type.
    */
+  @Column(name = "contenttype", nullable = false, unique = false, length = 255)
   private String contentType;
 
   /**
    * Byte size of content, non negative.
    */
+  @Column(name = "contentlength", nullable = false, unique = false)
   private long contentLength;
 
   /**
    * MD5 digest of content.
    */
+  @Column(name = "contentmd5", nullable = false, length = 32)
   private String contentMd5;
 
   /**
    * Key used for content storage at external location.
    */
+  @Column(name = "storagekey", nullable = false, unique = true, length = 1024)
   private String storageKey;
 
   /**
@@ -39,6 +72,7 @@ public class FileResource
    * FileResources are generally safe to delete when reaching a certain age (unassigned objects
    * might be in staging).
    */
+  @Column(name = "isassigned", nullable = false)
   private boolean assigned = false;
 
   /**
