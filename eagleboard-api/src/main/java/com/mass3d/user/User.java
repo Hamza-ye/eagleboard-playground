@@ -8,6 +8,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.mass3d.common.BaseIdentifiableObject;
 import com.mass3d.common.DxfNamespaces;
 import com.mass3d.common.MetadataObject;
+import com.mass3d.fileresource.FileResource;
 import com.mass3d.schema.annotation.PropertyRange;
 import java.util.Date;
 import java.util.HashSet;
@@ -16,9 +17,11 @@ import javax.persistence.AssociationOverride;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -108,7 +111,9 @@ public class User
 
   private String twitter;
 
-//  private FileResource avatar;
+  @ManyToOne
+  @Column(name = "avatar")
+  private FileResource avatar;
 
 //    /**
 //     * Organisation units for data input and data capture / write operations.
@@ -557,15 +562,15 @@ public class User
     this.twitter = twitter;
   }
 
-//  @JsonProperty
-//  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
-//  public FileResource getAvatar() {
-//    return avatar;
-//  }
-//
-//  public void setAvatar(FileResource avatar) {
-//    this.avatar = avatar;
-//  }
+  @JsonProperty
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
+  public FileResource getAvatar() {
+    return avatar;
+  }
+
+  public void setAvatar(FileResource avatar) {
+    this.avatar = avatar;
+  }
 
   @Override
   public String toString() {
