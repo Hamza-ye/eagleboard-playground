@@ -21,7 +21,7 @@ public interface MetadataVersionService {
    * @param version the metadata version object to add.
    * @return the identifier of the saved version object.
    */
-  int addVersion(MetadataVersion version);
+  Long addVersion(MetadataVersion version);
 
   /**
    * Updates the metadata version.

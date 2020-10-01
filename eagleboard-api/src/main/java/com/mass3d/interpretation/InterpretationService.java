@@ -7,9 +7,9 @@ import java.util.Set;
 
 public interface InterpretationService {
 
-  int saveInterpretation(Interpretation interpretation);
+  Long saveInterpretation(Interpretation interpretation);
 
-  Interpretation getInterpretation(int id);
+  Interpretation getInterpretation(Long id);
 
   Interpretation getInterpretation(String uid);
 
