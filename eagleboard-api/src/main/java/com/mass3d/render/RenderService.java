@@ -2,6 +2,7 @@ package com.mass3d.render;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.mass3d.common.IdentifiableObject;
+import com.mass3d.metadata.version.MetadataVersion;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -51,11 +52,11 @@ public interface RenderService {
   Map<Class<? extends IdentifiableObject>, List<IdentifiableObject>> fromMetadata(
       InputStream inputStream, RenderFormat format) throws IOException;
 
-//  /**
-//   * Parses the input stream for the collection of MetadataVersion objects.
-//   *
-//   * @return List of MetadataVersion objects.
-//   */
-//  List<MetadataVersion> fromMetadataVersion(InputStream inputStream, RenderFormat format)
-//      throws IOException;
+  /**
+   * Parses the input stream for the collection of MetadataVersion objects.
+   *
+   * @return List of MetadataVersion objects.
+   */
+  List<MetadataVersion> fromMetadataVersion(InputStream inputStream, RenderFormat format)
+      throws IOException;
 }
