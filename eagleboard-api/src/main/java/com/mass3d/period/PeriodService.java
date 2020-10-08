@@ -19,7 +19,7 @@ public interface PeriodService {
    * @param period the Period to add.
    * @return a generated unique id of the added Period.
    */
-  int addPeriod(Period period);
+  Long addPeriod(Period period);
 
   /**
    * Deletes a Period.
@@ -34,7 +34,7 @@ public interface PeriodService {
    * @param id the id of the Period to return.
    * @return the Period with the given id, or null if no match.
    */
-  Period getPeriod(int id);
+  Period getPeriod(Long id);
 
   /**
    * Gets the Period with the given ISO period identifier.
