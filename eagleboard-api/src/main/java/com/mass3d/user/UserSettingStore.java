@@ -36,6 +36,18 @@ public interface UserSettingStore {
   List<UserSetting> getAllUserSettings(User user);
 
   /**
+   * Retrieves the UserSetting associated with the given User for the given
+   * UserSetting name.
+   * <p>
+   * Note: This method invocation will occur within a transaction.
+   *
+   * @param user the User.
+   * @param name the name of the UserSetting.
+   * @return the UserSetting.
+   */
+  UserSetting getUserSettingTx( User user, String name );
+
+  /**
    * Deletes a UserSetting.
    *
    * @param userSetting the UserSetting to delete.

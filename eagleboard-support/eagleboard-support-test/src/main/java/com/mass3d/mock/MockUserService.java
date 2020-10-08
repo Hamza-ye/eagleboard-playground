@@ -1,7 +1,7 @@
 package com.mass3d.mock;
 
 import com.mass3d.feedback.ErrorReport;
-import com.mass3d.fieldset.FieldSet;
+import com.mass3d.dataset.DataSet;
 import com.mass3d.todotask.TodoTask;
 import com.mass3d.user.User;
 import com.mass3d.user.UserAuthorityGroup;
@@ -11,6 +11,7 @@ import com.mass3d.user.UserService;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.Nullable;
 
 public class MockUserService implements UserService
 {
@@ -88,7 +89,7 @@ public class MockUserService implements UserService
     }
 
     @Override
-    public List<User> getUsers( UserQueryParams params, List<String> orders )
+    public List<User> getUsers( UserQueryParams params, @Nullable List<String> orders )
     {
         return null;
     }
@@ -180,11 +181,11 @@ public class MockUserService implements UserService
     {
     }
 
-//    @Override
-//    public int getActiveUsersCount( int days )
-//    {
-//        return 0;
-//    }
+    @Override
+    public int getActiveUsersCount( int days )
+    {
+        return 0;
+    }
 
     @Override
     public int getActiveUsersCount( Date since )
@@ -192,11 +193,11 @@ public class MockUserService implements UserService
         return 0;
     }
 
-//    @Override
-//    public boolean credentialsNonExpired( UserCredentials credentials )
-//    {
-//        return false;
-//    }
+    @Override
+    public boolean credentialsNonExpired( UserCredentials credentials )
+    {
+        return false;
+    }
 
     @Override
     public Long addUserAuthorityGroup( UserAuthorityGroup userAuthorityGroup )
@@ -263,15 +264,15 @@ public class MockUserService implements UserService
     }
 
     @Override
-    public int countFieldSetUserAuthorityGroups( FieldSet fieldSet )
+    public int countFieldSetUserAuthorityGroups( DataSet dataSet )
     {
         return 0;
     }
 
-//    @Override
-//    public void canIssueFilter( Collection<UserAuthorityGroup> userRoles )
-//    {
-//    }
+    @Override
+    public void canIssueFilter( Collection<UserAuthorityGroup> userRoles )
+    {
+    }
 
     @Override
     public List<ErrorReport> validateUser( User user, User currentUser )
@@ -279,11 +280,11 @@ public class MockUserService implements UserService
         return null;
     }
 
-//    @Override
-//    public List<User> getExpiringUsers()
-//    {
-//        return null;
-//    }
+    @Override
+    public List<User> getExpiringUsers()
+    {
+        return null;
+    }
 
     @Override
     public void set2FA( User user, Boolean twoFA )

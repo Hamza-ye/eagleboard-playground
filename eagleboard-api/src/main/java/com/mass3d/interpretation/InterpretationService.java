@@ -43,7 +43,7 @@ public interface InterpretationService {
    * @param id the interpretation id.
    * @return true if the current user had not already liked the interpretation.
    */
-  boolean likeInterpretation(int id);
+  boolean likeInterpretation(Long id);
 
   /**
    * Removes a like from the given interpretation for the current user. This method will have a
@@ -53,7 +53,7 @@ public interface InterpretationService {
    * @param id the interpretation id.
    * @return true if the current user had previously liked the interpretation.
    */
-  boolean unlikeInterpretation(int id);
+  boolean unlikeInterpretation(Long id);
 
 //    int countMapInterpretations(Map map);
 //

@@ -410,9 +410,9 @@ public class DimensionalObjectUtils {
 //     * @param operands the collection of operands.
 //     * @return a set of data elements.
 //     */
-//    public static Set<DimensionalItemObject> getDataFields( Collection<DataElementOperand> operands )
+//    public static Set<DimensionalItemObject> getDataElements( Collection<DataElementOperand> operands )
 //    {
-//        return operands.stream().map( DataElementOperand::getDataField ).collect( Collectors.toSet() );
+//        return operands.stream().map( DataElementOperand::getDataElement ).collect( Collectors.toSet() );
 //    }
 
 //    /**
@@ -479,7 +479,7 @@ public class DimensionalObjectUtils {
 //
 //        for ( DataElementOperand operand : dataElementOperands )
 //        {
-//            map.put( operand.getDataField().getDimensionItem(), operand.getDataField().getDimensionItem( IdScheme.from( idScheme ) ) );
+//            map.put( operand.getDataElement().getDimensionItem(), operand.getDataElement().getDimensionItem( IdScheme.from( idScheme ) ) );
 //            map.put( operand.getCategoryOptionCombo().getDimensionItem(), operand.getCategoryOptionCombo().getDimensionItem( IdScheme.from( idScheme ) ) );
 //        }
 //
@@ -513,7 +513,7 @@ public class DimensionalObjectUtils {
 //
 //            if ( DimensionItemType.DATA_ELEMENT_OPERAND.equals( item.getDimensionItemType() ) && ((DataElementOperand) item).isTotal() )
 //            {
-//                items.set( i, ((DataElementOperand) item).getDataField() );
+//                items.set( i, ((DataElementOperand) item).getDataElement() );
 //            }
 //        }
 //

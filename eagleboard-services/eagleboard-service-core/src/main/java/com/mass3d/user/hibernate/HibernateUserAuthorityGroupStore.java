@@ -1,7 +1,7 @@
 package com.mass3d.user.hibernate;
 
 import com.mass3d.deletedobject.DeletedObjectService;
-import com.mass3d.fieldset.FieldSet;
+import com.mass3d.dataset.DataSet;
 import com.mass3d.security.acl.AclService;
 import com.mass3d.todotask.TodoTask;
 import com.mass3d.user.CurrentUserService;
@@ -26,10 +26,10 @@ public class HibernateUserAuthorityGroupStore
   }
 
   @Override
-  public int countFieldSetUserAuthorityGroups(FieldSet fieldSet) {
+  public int countFieldSetUserAuthorityGroups(DataSet dataSet) {
     Query<Long> query = getTypedQuery(
-        "select count(distinct c) from UserAuthorityGroup c where :fieldSet in elements(c.fieldSets)");
-    query.setParameter("fieldSet", fieldSet);
+        "select count(distinct c) from UserAuthorityGroup c where :dataSet in elements(c.fieldSets)");
+    query.setParameter("fieldSet", dataSet);
 
     return query.getSingleResult().intValue();
   }

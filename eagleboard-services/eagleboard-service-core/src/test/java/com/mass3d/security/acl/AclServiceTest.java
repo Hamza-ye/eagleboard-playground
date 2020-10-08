@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 import com.google.common.collect.Sets;
 import com.mass3d.EagleboardSpringTest;
 import com.mass3d.common.IdentifiableObjectManager;
-import com.mass3d.datafield.DataField;
+import com.mass3d.dataelement.DataElement;
 import com.mass3d.feedback.ErrorReport;
 import com.mass3d.user.CurrentUserService;
 import com.mass3d.user.User;
@@ -33,7 +33,7 @@ public class AclServiceTest
   @Test
   public void testUpdateObjectWithPublicRWFail() {
     User user = createAdminUser("F_OPTIONSET_PUBLIC_ADD");
-    DataField dataElement = createDataField('A');
+    DataElement dataElement = createDataElement('A');
     dataElement.setPublicAccess(AccessStringHelper.READ_WRITE);
 
     assertFalse(aclService.canUpdate(user, dataElement));
@@ -42,7 +42,7 @@ public class AclServiceTest
   @Test
   public void testUpdateObjectWithPublicWFail() {
     User user = createAdminUser("F_OPTIONSET_PUBLIC_ADD");
-    DataField dataElement = createDataField('A');
+    DataElement dataElement = createDataElement('A');
     dataElement.setPublicAccess(AccessStringHelper.WRITE);
 
     assertFalse(aclService.canUpdate(user, dataElement));
@@ -51,7 +51,7 @@ public class AclServiceTest
   @Test
   public void testUpdateObjectWithPublicRFail() {
     User user = createAdminUser("F_OPTIONSET_PUBLIC_ADD");
-    DataField dataElement = createDataField('A');
+    DataElement dataElement = createDataElement('A');
     dataElement.setPublicAccess(AccessStringHelper.READ);
 
     assertFalse(aclService.canUpdate(user, dataElement));
@@ -60,7 +60,7 @@ public class AclServiceTest
   @Test
   public void testUpdateObjectWithPublicRUserOwner() {
     User user = createAdminUser("F_DATAFIELD_PUBLIC_ADD");
-    DataField dataElement = createDataField('A');
+    DataElement dataElement = createDataElement('A');
     dataElement.setUser(user);
     dataElement.setPublicAccess(AccessStringHelper.READ);
 
@@ -70,7 +70,7 @@ public class AclServiceTest
   @Test
   public void testUpdateObjectWithPublicRWSuccessPublic() {
     User user = createAdminUser("F_DATAFIELD_PUBLIC_ADD");
-    DataField dataElement = createDataField('A');
+    DataElement dataElement = createDataElement('A');
     dataElement.setPublicAccess(AccessStringHelper.READ_WRITE);
 
     assertTrue(aclService.canUpdate(user, dataElement));
@@ -79,7 +79,7 @@ public class AclServiceTest
   @Test
   public void testUpdateObjectWithPublicRWSuccessPrivate1() {
     User user = createAdminUser("F_DATAFIELD_PRIVATE_ADD");
-    DataField dataElement = createDataField('A');
+    DataElement dataElement = createDataElement('A');
     dataElement.setUser(user);
     dataElement.setPublicAccess(AccessStringHelper.READ_WRITE);
 
@@ -89,7 +89,7 @@ public class AclServiceTest
   @Test
   public void testUpdateObjectWithPublicRWSuccessPrivate2() {
     User user = createAdminUser("F_DATAFIELD_PRIVATE_ADD");
-    DataField dataElement = createDataField('A');
+    DataElement dataElement = createDataElement('A');
     dataElement.setPublicAccess(AccessStringHelper.READ_WRITE);
 
     assertFalse(aclService.canUpdate(user, dataElement));
@@ -99,7 +99,7 @@ public class AclServiceTest
   public void testVerifyDataFieldPrivateRW() {
     User user = createAdminUser("F_DATAFIELD_PRIVATE_ADD");
 
-    DataField dataElement = createDataField('A');
+    DataElement dataElement = createDataElement('A');
     dataElement.setPublicAccess(AccessStringHelper.READ_WRITE);
 
     assertFalse(aclService.verifySharing(dataElement, user).isEmpty());
@@ -109,7 +109,7 @@ public class AclServiceTest
   public void testVerifyDataFieldPrivate() {
     User user = createAdminUser("F_DATAFIELD_PRIVATE_ADD");
 
-    DataField dataElement = createDataField('A');
+    DataElement dataElement = createDataElement('A');
     dataElement.setPublicAccess(AccessStringHelper.DEFAULT);
 
     assertTrue(aclService.verifySharing(dataElement, user).isEmpty());
@@ -119,7 +119,7 @@ public class AclServiceTest
   public void testVerifyDataFieldPublicRW() {
     User user = createAdminUser("F_DATAFIELD_PUBLIC_ADD");
 
-    DataField dataElement = createDataField('A');
+    DataElement dataElement = createDataElement('A');
     dataElement.setPublicAccess(AccessStringHelper.READ_WRITE);
 
     assertTrue(aclService.verifySharing(dataElement, user).isEmpty());
@@ -129,7 +129,7 @@ public class AclServiceTest
   public void testVerifyDataFieldPublic() {
     User user = createAdminUser("F_DATAFIELD_PUBLIC_ADD");
 
-    DataField dataElement = createDataField('A');
+    DataElement dataElement = createDataElement('A');
     dataElement.setPublicAccess(AccessStringHelper.DEFAULT);
 
     assertTrue(aclService.verifySharing(dataElement, user).isEmpty());
@@ -140,7 +140,7 @@ public class AclServiceTest
     User user1 = createUser("user1", "F_DATAFIELD_PRIVATE_ADD");
     User user2 = createUser("user2", "F_DATAFIELD_PRIVATE_ADD");
 
-    DataField dataElement = createDataField('A');
+    DataElement dataElement = createDataElement('A');
     dataElement.setUser(user1);
     manager.save(dataElement);
 
@@ -169,7 +169,7 @@ public class AclServiceTest
 
     UserGroup userGroup = createUserGroup('A', Sets.newHashSet(user1, user2));
     manager.save(userGroup);
-    DataField dataElement = createDataField('A');
+    DataElement dataElement = createDataElement('A');
     dataElement.setPublicAccess(AccessStringHelper.DEFAULT);
     dataElement.setUser(user1);
 
@@ -212,7 +212,7 @@ public class AclServiceTest
     UserGroup userGroup = createUserGroup('A', Sets.newHashSet(user1, user2));
     manager.save(userGroup);
 
-    DataField dataElement = createDataField('A');
+    DataElement dataElement = createDataElement('A');
     dataElement.setPublicAccess(AccessStringHelper.DEFAULT);
     dataElement.setUser(user1);
 
@@ -246,7 +246,7 @@ public class AclServiceTest
     User user1 = createUser("user1", "F_DATAFIELD_PRIVATE_ADD");
     manager.save(user1);
 
-    DataField dataElement = createDataField('A');
+    DataElement dataElement = createDataElement('A');
     dataElement.setPublicAccess(AccessStringHelper.DEFAULT);
     dataElement.setUser(user1);
 
@@ -264,7 +264,7 @@ public class AclServiceTest
     manager.save(user1);
     manager.save(user2);
 
-    DataField dataElement = createDataField('A');
+    DataElement dataElement = createDataElement('A');
     dataElement.setPublicAccess(AccessStringHelper.DEFAULT);
     dataElement.setUser(user1);
 
@@ -280,7 +280,7 @@ public class AclServiceTest
     User user1 = createUser("user1", "F_DATAFIELD_PUBLIC_ADD");
     manager.save(user1);
 
-    DataField dataElement = createDataField('A');
+    DataElement dataElement = createDataElement('A');
     dataElement.setPublicAccess(AccessStringHelper.DEFAULT);
     dataElement.setUser(user1);
 
@@ -312,7 +312,7 @@ public class AclServiceTest
     UserGroup userGroup = createUserGroup('A', Sets.newHashSet(user1, user2));
     manager.save(userGroup);
 
-    DataField dataElement = createDataField('A');
+    DataElement dataElement = createDataElement('A');
     dataElement.setPublicAccess(AccessStringHelper.DEFAULT);
     dataElement.setUser(user1);
 
@@ -361,7 +361,7 @@ public class AclServiceTest
 
     injectSecurityContext(user1);
 
-    DataField dataElement = createDataField('A');
+    DataElement dataElement = createDataElement('A');
     dataElement.setUser(user1);
 
     Access access = aclService.getAccess(dataElement, user1);
@@ -398,7 +398,7 @@ public class AclServiceTest
 
     injectSecurityContext(user1);
 
-    DataField dataElement = createDataField('A');
+    DataElement dataElement = createDataElement('A');
     dataElement.setUser(user1);
     dataElement.setPublicAccess(AccessStringHelper.DEFAULT);
 
@@ -434,7 +434,7 @@ public class AclServiceTest
 
     injectSecurityContext(user1);
 
-    DataField dataElement = createDataField('A');
+    DataElement dataElement = createDataElement('A');
     dataElement.setUser(user1);
 
     Access access = aclService.getAccess(dataElement, user1);

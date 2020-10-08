@@ -7,16 +7,39 @@ import com.mass3d.common.BaseIdentifiableObject;
 import com.mass3d.common.DxfNamespaces;
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * Base class for MetadataVersion
  *
  */
+//@Entity
+//@Table(name = "metadataversion")
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@AttributeOverride(name="id", column=@Column(name="versionid"))
+//@AssociationOverride(
+//    name="userGroupAccesses",
+//    joinTable=@JoinTable(
+//        name="metadataversionusergroupaccesses",
+//        joinColumns=@JoinColumn(name="versionid"),
+//        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
+//    )
+//)
+//@AssociationOverride(
+//    name="userAccesses",
+//    joinTable=@JoinTable(
+//        name="metadataversionuseraccesses",
+//        joinColumns=@JoinColumn(name="versionid"),
+//        inverseJoinColumns=@JoinColumn(name="useraccessid")
+//    )
+//)
 @JacksonXmlRootElement(localName = "metadataVersion", namespace = DxfNamespaces.DXF_2_0)
 public class MetadataVersion
     extends BaseIdentifiableObject
     implements Serializable {
 
+  @Temporal( TemporalType.TIMESTAMP )
   private Date importDate;
 
   private VersionType type;

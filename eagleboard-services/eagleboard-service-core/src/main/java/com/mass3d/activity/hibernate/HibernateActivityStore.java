@@ -12,7 +12,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@Repository("com.mass3d.activity.ActivityStore")
 public class HibernateActivityStore
     extends HibernateIdentifiableObjectStore<Activity>
     implements ActivityStore {

@@ -2,10 +2,11 @@ package com.mass3d;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.mass3d.analytics.AggregationType;
 import com.mass3d.common.IdentifiableObject;
 import com.mass3d.common.ValueType;
-import com.mass3d.datafield.DataField;
-import com.mass3d.fieldset.FieldSet;
+import com.mass3d.dataelement.DataElement;
+import com.mass3d.dataset.DataSet;
 import com.mass3d.render.RenderService;
 import com.mass3d.todotask.TodoTask;
 import com.mass3d.user.User;
@@ -51,7 +52,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.Assert;
 import org.xml.sax.InputSource;
 
-@ActiveProfiles("test")
+@ActiveProfiles( profiles = { "test" } )
 public abstract class EagleboardConvenienceTest
 {
     protected static final Log log = LogFactory.getLog( EagleboardConvenienceTest.class );
@@ -75,10 +76,10 @@ public abstract class EagleboardConvenienceTest
     // Service references
     // -------------------------------------------------------------------------
 
-    @Autowired
+//    @Autowired
     protected UserService userService;
 
-    @Autowired
+//    @Autowired
     protected RenderService renderService;
 
     static
@@ -281,47 +282,47 @@ public abstract class EagleboardConvenienceTest
     /**
      * @param uniqueCharacter A unique character to identify the object.
      */
-    public static DataField createDataField( char uniqueCharacter )
+    public static DataElement createDataElement( char uniqueCharacter )
     {
-        DataField dataField = new DataField();
-        dataField.setAutoFields();
+        DataElement dataElement = new DataElement();
+        dataElement.setAutoFields();
 
-        dataField.setUid( BASE_DE_UID + uniqueCharacter );
-        dataField.setName( "DataElement" + uniqueCharacter );
-        dataField.setShortName( "DataElementShort" + uniqueCharacter );
-        dataField.setCode( "DataElementCode" + uniqueCharacter );
-        dataField.setDescription( "DataElementDescription" + uniqueCharacter );
-        dataField.setValueType( ValueType.INTEGER );
-
-        return dataField;
+        dataElement.setUid( BASE_DE_UID + uniqueCharacter );
+        dataElement.setName( "DataElement" + uniqueCharacter );
+        dataElement.setShortName( "DataElementShort" + uniqueCharacter );
+        dataElement.setCode( "DataElementCode" + uniqueCharacter );
+        dataElement.setDescription( "DataElementDescription" + uniqueCharacter );
+        dataElement.setValueType( ValueType.INTEGER );
+        dataElement.setAggregationType( AggregationType.SUM );
+        return dataElement;
     }
 
     /**
      * @param uniqueCharacter A unique character to identify the object.
      * @param valueType       The value type.
      */
-    public static DataField createDataField( char uniqueCharacter, ValueType valueType/*,  AggregationType aggregationType */ )
+    public static DataElement createDataElement( char uniqueCharacter, ValueType valueType/*,  AggregationType aggregationType */ )
     {
-        DataField dataField = createDataField( uniqueCharacter );
-        dataField.setValueType( valueType );
+        DataElement dataElement = createDataElement( uniqueCharacter );
+        dataElement.setValueType( valueType );
 
-        return dataField;
+        return dataElement;
     }
 
     /**
      * @param uniqueCharacter A unique character to identify the object.
      */
-    public static FieldSet createFieldSet( char uniqueCharacter/*,  PeriodType periodType */ )
+    public static DataSet createDataSet( char uniqueCharacter/*,  PeriodType periodType */ )
     {
-        FieldSet fieldSet = new FieldSet();
-        fieldSet.setAutoFields();
+        DataSet dataSet = new DataSet();
+        dataSet.setAutoFields();
 
-        fieldSet.setUid( BASE_DS_UID + uniqueCharacter );
-        fieldSet.setName( "DataSet" + uniqueCharacter );
-        fieldSet.setShortName( "DataSetShort" + uniqueCharacter );
-        fieldSet.setCode( "DataSetCode" + uniqueCharacter );
+        dataSet.setUid( BASE_DS_UID + uniqueCharacter );
+        dataSet.setName( "DataSet" + uniqueCharacter );
+        dataSet.setShortName( "DataSetShort" + uniqueCharacter );
+        dataSet.setCode( "DataSetCode" + uniqueCharacter );
 
-        return fieldSet;
+        return dataSet;
     }
 
     /**

@@ -27,6 +27,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import org.apache.commons.lang3.StringUtils;
 
 @MappedSuperclass
 @JacksonXmlRootElement(localName = "identifiableObject", namespace = DxfNamespaces.DXF_2_0)
@@ -63,12 +66,25 @@ public class BaseIdentifiableObject
   /**
    * The date this object was created.
    */
+  @Temporal( TemporalType.TIMESTAMP )
   protected Date created;
 
   /**
    * The date this object was last updated.
    */
+  @Temporal( TemporalType.TIMESTAMP )
   protected Date lastUpdated;
+
+//  /**
+//   * Set of available object translation, normally filtered by locale.
+//   */
+//  protected Set<Translation> translations = new HashSet<>();
+//
+//  /**
+//   * Cache for object translations, where the cache key is a combination of locale and translation
+//   * property, and value is the translated value.
+//   */
+//  protected Map<String, String> translationCache = new HashMap<>();
 
   /**
    * This object is available as external read-only.
@@ -287,7 +303,7 @@ public class BaseIdentifiableObject
 //  public Set<Translation> getTranslations() {
 //    return translations != null ? translations : new HashSet<>();
 //  }
-
+//
 //  /**
 //   * Clears out cache when setting translations.
 //   */
@@ -319,7 +335,7 @@ public class BaseIdentifiableObject
 //
 //    return translationCache.getOrDefault(cacheKey, defaultValue);
 //  }
-//
+
 //  /**
 //   * Populates the translationsCache map unless it is already populated.
 //   */

@@ -7,42 +7,41 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.mass3d.dataelement.DataElement;
+import com.mass3d.indicator.Indicator;
 import java.util.Map;
 import java.util.Set;
-import com.mass3d.datafield.DataField;
-import com.mass3d.indicator.Indicator;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
-@Entity
-@Table(name = "datadimensionitem")
+//@Entity
+//@Table(name = "datadimensionitem")
 @JacksonXmlRootElement(localName = "dataDimensionItem", namespace = DxfNamespaces.DXF_2_0)
 public class DataDimensionItem {
 
   public static final Set<Class<? extends IdentifiableObject>> DATA_DIMENSION_CLASSES = ImmutableSet.<Class<? extends IdentifiableObject>>builder()
       .
           add(Indicator.class).
-//        add( DataElement.class ).add( DataElementOperand.class ).
-//    add(ReportingRate.class).
+          add(DataElement.class).
+//        add( DataElementOperand.class ).
+    add(ReportingRate.class).
 //        add( ProgramIndicator.class ).
 //        add( ProgramDataElementDimensionItem.class ).add( ProgramTrackedEntityAttributeDimensionItem.class ).add( ValidationRule.class ).
-    add(DataField.class).build();
+    build();
 
   public static final Map<DataDimensionItemType, Class<? extends NameableObject>> DATA_DIMENSION_TYPE_CLASS_MAP = ImmutableMap.<DataDimensionItemType, Class<? extends NameableObject>>builder()
       .
           put(DataDimensionItemType.INDICATOR, Indicator.class).
-//        put( DataDimensionItemType.DATA_ELEMENT, DataElement.class ).
+        put( DataDimensionItemType.DATA_ELEMENT, DataElement.class ).
 //        put( DataDimensionItemType.DATA_ELEMENT_OPERAND, DataElementOperand.class ).
-//    put(DataDimensionItemType.REPORTING_RATE, ReportingRate.class).
+    put(DataDimensionItemType.REPORTING_RATE, ReportingRate.class).
 //        put( DataDimensionItemType.PROGRAM_INDICATOR, ProgramIndicator.class ).put( DataDimensionItemType.PROGRAM_DATA_ELEMENT, ProgramDataElementDimensionItem.class ).
 //        put( DataDimensionItemType.PROGRAM_ATTRIBUTE, ProgramTrackedEntityAttributeDimensionItem.class ).put( DataDimensionItemType.VALIDATION_RULE, ValidationRule.class).
-    put(DataDimensionItemType.DATA_FIELD, DataField.class).build();
+    build();
 
   @Id
   @GeneratedValue(
@@ -56,7 +55,7 @@ public class DataDimensionItem {
   // -------------------------------------------------------------------------
   @ManyToOne
   @JoinColumn(name = "datafieldid")
-  private DataField dataField;
+  private DataElement dataElement;
 
   // -------------------------------------------------------------------------
   // Data dimension objects
@@ -66,11 +65,10 @@ public class DataDimensionItem {
   @JoinColumn(name = "indicatorid")
   private Indicator indicator;
 
-//    private DataElement dataElement;
 //
 //    private DataElementOperand dataElementOperand;
 
-//  private ReportingRate reportingRate;
+  private ReportingRate reportingRate;
 
 //    private ProgramIndicator programIndicator;
 //
@@ -88,22 +86,22 @@ public class DataDimensionItem {
   public static DataDimensionItem create(DimensionalItemObject object) {
     DataDimensionItem dimension = new DataDimensionItem();
 
-    if (DataField.class.isAssignableFrom(object.getClass())) {
-      dimension.setDataField((DataField) object);
+    if (DataElement.class.isAssignableFrom(object.getClass())) {
+      dimension.setDataElement((DataElement) object);
     } else if (Indicator.class.isAssignableFrom(object.getClass())) {
       dimension.setIndicator((Indicator) object);
     }
-//        else if ( DataElement.class.isAssignableFrom( object.getClass() ) )
-//        {
-//            dimension.setDataField( (DataElement) object );
-//        }
+        else if ( DataElement.class.isAssignableFrom( object.getClass() ) )
+        {
+            dimension.setDataElement( (DataElement) object );
+        }
 //        else if ( DataElementOperand.class.isAssignableFrom( object.getClass() ) )
 //        {
 //            dimension.setDataElementOperand( (DataElementOperand) object );
 //        }
-//    else if (ReportingRate.class.isAssignableFrom(object.getClass())) {
-//      dimension.setReportingRate((ReportingRate) object);
-//    }
+    else if (ReportingRate.class.isAssignableFrom(object.getClass())) {
+      dimension.setReportingRate((ReportingRate) object);
+    }
 //        else if ( ProgramIndicator.class.isAssignableFrom( object.getClass() ) )
 //        {
 //            dimension.setProgramIndicator( (ProgramIndicator) object );
@@ -129,22 +127,18 @@ public class DataDimensionItem {
   // -------------------------------------------------------------------------
 
   public DimensionalItemObject getDimensionalItemObject() {
-    if (dataField != null) {
-      return dataField;
+    if (dataElement != null) {
+      return dataElement;
     } else if (indicator != null) {
       return indicator;
     }
-//        else if ( dataElement != null )
-//        {
-//            return dataElement;
-//        }
 //        else if ( dataElementOperand != null )
 //        {
 //            return dataElementOperand;
 //        }
-//    else if (reportingRate != null) {
-//      return reportingRate;
-//    }
+    else if (reportingRate != null) {
+      return reportingRate;
+    }
 //        else if ( programIndicator != null )
 //        {
 //            return programIndicator;
@@ -164,22 +158,18 @@ public class DataDimensionItem {
   @JsonProperty
   @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public DataDimensionItemType getDataDimensionItemType() {
-    if (dataField != null) {
-      return DataDimensionItemType.DATA_FIELD;
+    if (dataElement != null) {
+      return DataDimensionItemType.DATA_ELEMENT;
     } else if (indicator != null) {
       return DataDimensionItemType.INDICATOR;
     }
-//        else if ( dataElement != null )
-//        {
-//            return DataDimensionItemType.DATA_ELEMENT;
-//        }
 //        else if ( dataElementOperand != null )
 //        {
 //            return DataDimensionItemType.DATA_ELEMENT_OPERAND;
 //        }
-//    else if (reportingRate != null) {
-//      return DataDimensionItemType.REPORTING_RATE;
-//    }
+    else if (reportingRate != null) {
+      return DataDimensionItemType.REPORTING_RATE;
+    }
 //        else if ( programIndicator != null )
 //        {
 //            return DataDimensionItemType.PROGRAM_INDICATOR;
@@ -239,17 +229,6 @@ public class DataDimensionItem {
   // EagleBoard Get and set methods
   // -------------------------------------------------------------------------
 
-  @JsonProperty
-  @JsonSerialize(as = BaseNameableObject.class)
-  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
-  public DataField getDataField() {
-    return dataField;
-  }
-
-  public void setDataField(DataField dataField) {
-    this.dataField = dataField;
-  }
-
   // -------------------------------------------------------------------------
   // Get and set methods
   // -------------------------------------------------------------------------
@@ -274,18 +253,18 @@ public class DataDimensionItem {
     this.indicator = indicator;
   }
 
-//    @JsonProperty
-//    @JsonSerialize( as = BaseNameableObject.class )
-//    @JacksonXmlProperty( namespace = DxfNamespaces.DXF_2_0 )
-//    public DataElement getDataField()
-//    {
-//        return dataElement;
-//    }
-//
-//    public void setDataField( DataElement dataElement )
-//    {
-//        this.dataElement = dataElement;
-//    }
+    @JsonProperty
+    @JsonSerialize( as = BaseNameableObject.class )
+    @JacksonXmlProperty( namespace = DxfNamespaces.DXF_2_0 )
+    public DataElement getDataElement()
+    {
+        return dataElement;
+    }
+
+    public void setDataElement( DataElement dataElement )
+    {
+        this.dataElement = dataElement;
+    }
 //
 //    @JsonProperty
 //    @JsonSerialize( as = BaseNameableObject.class )
@@ -300,16 +279,16 @@ public class DataDimensionItem {
 //        this.dataElementOperand = dataElementOperand;
 //    }
 
-//  @JsonProperty
-//  @JsonSerialize(as = BaseNameableObject.class)
-//  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
-//  public ReportingRate getReportingRate() {
-//    return reportingRate;
-//  }
-//
-//  public void setReportingRate(ReportingRate reportingRate) {
-//    this.reportingRate = reportingRate;
-//  }
+  @JsonProperty
+  @JsonSerialize(as = BaseNameableObject.class)
+  @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
+  public ReportingRate getReportingRate() {
+    return reportingRate;
+  }
+
+  public void setReportingRate(ReportingRate reportingRate) {
+    this.reportingRate = reportingRate;
+  }
 
 //    @JsonProperty
 //    @JsonSerialize( as = BaseNameableObject.class )

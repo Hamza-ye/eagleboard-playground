@@ -30,7 +30,7 @@ public class DefaultCurrentUserService
   private static final Cache<String, Long> USERNAME_ID_CACHE = Caffeine.newBuilder()
       .expireAfterAccess(1, TimeUnit.HOURS)
       .initialCapacity(200)
-      .maximumSize(SystemUtils.isTestRun() ? 0 : 4000)
+      .maximumSize(4000)
       .build();
 
   // -------------------------------------------------------------------------

@@ -1,5 +1,6 @@
 package com.mass3d.keyjsonvalue.hibernate;
 
+import com.mass3d.deletedobject.DeletedObjectService;
 import com.mass3d.security.acl.AclService;
 import com.mass3d.user.CurrentUserService;
 import java.util.Date;
@@ -21,9 +22,9 @@ public class HibernateKeyJsonValueStore
     implements KeyJsonValueStore
 {
     public HibernateKeyJsonValueStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
-        CurrentUserService currentUserService, AclService aclService )
+        DeletedObjectService deletedObjectService, CurrentUserService currentUserService, AclService aclService )
     {
-        super( sessionFactory, jdbcTemplate, null, KeyJsonValue.class, currentUserService, aclService,
+        super( sessionFactory, jdbcTemplate, deletedObjectService, KeyJsonValue.class, currentUserService, aclService,
             true );
     }
 

@@ -1,4 +1,4 @@
-package com.mass3d;
+package com.mass3d.config;
 
 import com.mass3d.cache.DefaultHibernateCacheManager;
 import com.mass3d.dbms.DbmsManager;

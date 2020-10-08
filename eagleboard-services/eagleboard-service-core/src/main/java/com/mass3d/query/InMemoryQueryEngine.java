@@ -16,7 +16,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component( "com.mass3d.query.InMemoryQueryEngine" )
 public class InMemoryQueryEngine<T extends IdentifiableObject>
     implements QueryEngine<T> {
 

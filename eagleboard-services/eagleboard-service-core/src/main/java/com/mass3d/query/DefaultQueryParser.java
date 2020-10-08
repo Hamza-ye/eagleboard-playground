@@ -6,7 +6,9 @@ import com.mass3d.schema.Schema;
 import com.mass3d.schema.SchemaService;
 import java.util.Collection;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
+@Component( "com.mass3d.query.QueryParser" )
 public class DefaultQueryParser implements QueryParser {
 
   private static final String IDENTIFIABLE = "identifiable";

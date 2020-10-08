@@ -1,14 +1,12 @@
 package com.mass3d.deletedobject;
 
-import com.mass3d.deletedobject.DeletedObject;
-import com.mass3d.deletedobject.DeletedObjectQuery;
-import com.mass3d.deletedobject.DeletedObjectService;
-import com.mass3d.deletedobject.DeletedObjectStore;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Service( "com.mass3d.deletedobject.DeletedObjectService" )
 @Transactional
 public class DefaultDeletedObjectService
     implements DeletedObjectService {
@@ -16,6 +14,7 @@ public class DefaultDeletedObjectService
   private final DeletedObjectStore deletedObjectStore;
 
   public DefaultDeletedObjectService(DeletedObjectStore deletedObjectStore) {
+    checkNotNull( deletedObjectStore );
     this.deletedObjectStore = deletedObjectStore;
   }
 

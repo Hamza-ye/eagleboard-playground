@@ -8,8 +8,8 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Sets;
 import com.mass3d.EagleboardSpringTest;
-import com.mass3d.datafield.DataField;
-import com.mass3d.datafield.DataFieldService;
+import com.mass3d.dataelement.DataElement;
+import com.mass3d.dataelement.DataElementService;
 import com.mass3d.hibernate.exception.CreateAccessDeniedException;
 import com.mass3d.hibernate.exception.DeleteAccessDeniedException;
 import com.mass3d.hibernate.exception.UpdateAccessDeniedException;
@@ -33,7 +33,7 @@ public class IdentifiableObjectManagerTest
     private SessionFactory sessionFactory;
 
     @Autowired
-    private DataFieldService dataFieldService;
+    private DataElementService dataElementService;
 
     @Autowired
     private IdentifiableObjectManager identifiableObjectManager;
@@ -50,94 +50,95 @@ public class IdentifiableObjectManagerTest
 //    @Test
 //    public void testGetObjectWithIdScheme()
 //    {
-//        DataField dataFieldA = createDataField( 'A' );
+//        DataElement dataElementA = createDataElement( 'A' );
 //
-//        dataFieldService.addDataField( dataFieldA );
+//        dataElementService.addDataElement( dataElementA );
 //
-//        assertEquals( dataFieldA, identifiableObjectManager.get( DataDimensionItem.DATA_DIMENSION_CLASSES, IdScheme.CODE, dataFieldA.getCode() ) );
-//        assertEquals( dataFieldA, identifiableObjectManager.get( DataDimensionItem.DATA_DIMENSION_CLASSES, IdScheme.UID, dataFieldA.getUid() ) );
+//        assertEquals( dataElementA, identifiableObjectManager.get( DataDimensionItem.DATA_DIMENSION_CLASSES, IdScheme.CODE, dataElementA.getCode() ) );
+//        assertEquals( dataElementA, identifiableObjectManager.get( DataDimensionItem.DATA_DIMENSION_CLASSES, IdScheme.UID, dataElementA.getUid() ) );
 //    }
 
     @Test
     public void testGetObject()
     {
-        DataField dataFieldA = createDataField( 'A' );
-        DataField dataFieldB = createDataField( 'B' );
+        DataElement dataElementA = createDataElement( 'A' );
+        DataElement dataElementB = createDataElement( 'B' );
 
-        dataFieldService.addDataField( dataFieldA );
-        Long dataFieldIdA = dataFieldA.getId();
-        dataFieldService.addDataField( dataFieldB );
-        Long dataFieldIdB = dataFieldB.getId();
+        dataElementService.addDataElement(dataElementA);
+        Long dataElementIdA = dataElementA.getId();
+        dataElementService.addDataElement(dataElementB);
+        Long dataElementIdB = dataElementB.getId();
 
-        assertEquals( dataFieldA, identifiableObjectManager.getObject( dataFieldIdA, DataField.class.getSimpleName() ) );
-        assertEquals( dataFieldB, identifiableObjectManager.getObject( dataFieldIdB, DataField.class.getSimpleName() ) );
+        assertEquals(dataElementA, identifiableObjectManager.getObject( dataElementIdA, DataElement.class.getSimpleName() ) );
+        assertEquals(dataElementB, identifiableObjectManager.getObject( dataElementIdB, DataElement.class.getSimpleName() ) );
 
     }
 
 //    @Test
 //    public void testGetWithClasses()
 //    {
-//        DataField dataFieldA = createDataField( 'A' );
-//        DataField dataFieldB = createDataField( 'B' );
+//        DataElement dataElementA = createDataElement( 'A' );
+//        DataElement dataElementB = createDataElement( 'B' );
 //
-//        dataFieldService.addDataField( dataFieldA );
-//        dataFieldService.addDataField( dataFieldB );
+//        dataElementService.addDataElement( dataElementA );
+//        dataElementService.addDataElement( dataElementB );
 //
 //        Set<Class<? extends IdentifiableObject>> classes = ImmutableSet.<Class<? extends IdentifiableObject>>builder().
-//            add( Indicator.class ).add( DataField.class ).build();
+//            add( Indicator.class ).add( DataElement.class ).build();
 //
-//        assertEquals( dataFieldA, identifiableObjectManager.get( classes, dataFieldA.getUid() ) );
-//        assertEquals( dataFieldB, identifiableObjectManager.get( classes, dataFieldB.getUid() ) );
+//        assertEquals( dataElementA, identifiableObjectManager.get( classes, dataElementA.getUid() ) );
+//        assertEquals( dataElementB, identifiableObjectManager.get( classes, dataElementB.getUid() ) );
 //    }
 
     @Test
     public void publicAccessSetIfNoUser()
     {
-        DataField dataField = createDataField( 'A' );
-        identifiableObjectManager.save( dataField );
+        DataElement dataElement = createDataElement( 'A' );
+        identifiableObjectManager.save(dataElement);
 
-        assertNotNull( dataField.getPublicAccess() );
-        assertFalse( AccessStringHelper.canRead( dataField.getPublicAccess() ) );
-        assertFalse( AccessStringHelper.canWrite( dataField.getPublicAccess() ) );
+        assertNotNull( dataElement.getPublicAccess() );
+        assertFalse( AccessStringHelper.canRead( dataElement.getPublicAccess() ) );
+        assertFalse( AccessStringHelper.canWrite( dataElement.getPublicAccess() ) );
     }
 
     @Test
     public void getCount()
     {
-        identifiableObjectManager.save( createDataField( 'A' ) );
-        identifiableObjectManager.save( createDataField( 'B' ) );
-        identifiableObjectManager.save( createDataField( 'C' ) );
-        identifiableObjectManager.save( createDataField( 'D' ) );
+        identifiableObjectManager.save( createDataElement( 'A' ) );
+        identifiableObjectManager.save( createDataElement( 'B' ) );
+        identifiableObjectManager.save( createDataElement( 'C' ) );
+        identifiableObjectManager.save( createDataElement( 'D' ) );
 
-        assertEquals( 4, identifiableObjectManager.getCount( DataField.class ) );
+        assertEquals( 4, identifiableObjectManager.getCount( DataElement.class ) );
     }
 
     @Test
     public void getEqualToName()
     {
-        DataField dataField = createDataField( 'A' );
-        identifiableObjectManager.save( dataField );
+        DataElement dataElement = createDataElement( 'A' );
+        identifiableObjectManager.save(dataElement);
 
-        assertNotNull( identifiableObjectManager.getByName( DataField.class, "DataElementA" ) );
-        assertNull( identifiableObjectManager.getByName( DataField.class, "DataElementB" ) );
-        assertEquals( dataField, identifiableObjectManager.getByName( DataField.class, "DataElementA" ) );
+        assertNotNull( identifiableObjectManager.getByName( DataElement.class, "DataElementA" ) );
+        assertNull( identifiableObjectManager.getByName( DataElement.class, "DataElementB" ) );
+        assertEquals(
+            dataElement, identifiableObjectManager.getByName( DataElement.class, "DataElementA" ) );
     }
 
     @Test
     public void getAllOrderedName()
     {
-        identifiableObjectManager.save( createDataField( 'D' ) );
-        identifiableObjectManager.save( createDataField( 'B' ) );
-        identifiableObjectManager.save( createDataField( 'C' ) );
-        identifiableObjectManager.save( createDataField( 'A' ) );
+        identifiableObjectManager.save( createDataElement( 'D' ) );
+        identifiableObjectManager.save( createDataElement( 'B' ) );
+        identifiableObjectManager.save( createDataElement( 'C' ) );
+        identifiableObjectManager.save( createDataElement( 'A' ) );
 
-        List<DataField> dataFields = new ArrayList<>( identifiableObjectManager.getAllSorted( DataField.class ) );
+        List<DataElement> dataElements = new ArrayList<>( identifiableObjectManager.getAllSorted( DataElement.class ) );
 
-        assertEquals( 4, dataFields.size() );
-        assertEquals( "DataElementA", dataFields.get( 0 ).getName() );
-        assertEquals( "DataElementB", dataFields.get( 1 ).getName() );
-        assertEquals( "DataElementC", dataFields.get( 2 ).getName() );
-        assertEquals( "DataElementD", dataFields.get( 3 ).getName() );
+        assertEquals( 4, dataElements.size() );
+        assertEquals( "DataElementA", dataElements.get( 0 ).getName() );
+        assertEquals( "DataElementB", dataElements.get( 1 ).getName() );
+        assertEquals( "DataElementC", dataElements.get( 2 ).getName() );
+        assertEquals( "DataElementD", dataElements.get( 3 ).getName() );
     }
 
     @Test
@@ -145,106 +146,106 @@ public class IdentifiableObjectManagerTest
     {
         User user = createUserAndInjectSecurityContext( true );
 
-        DataField dataField = createDataField( 'A' );
-        identifiableObjectManager.save( dataField );
+        DataElement dataElement = createDataElement( 'A' );
+        identifiableObjectManager.save(dataElement);
 
-        assertNotNull( dataField.getUser() );
-        assertEquals( user, dataField.getUser() );
+        assertNotNull( dataElement.getUser() );
+        assertEquals( user, dataElement.getUser() );
     }
 
     @Test
     public void userCanCreatePublic()
     {
 //        createUserAndInjectSecurityContext( false, "F_DATAELEMENT_PUBLIC_ADD" );
-        createUserAndInjectSecurityContext( false, "F_DATAFIELD_PUBLIC_ADD" );
-        DataField dataField = createDataField( 'A' );
-        identifiableObjectManager.save( dataField );
+        createUserAndInjectSecurityContext( false, "F_DATAELEMENT_PUBLIC_ADD" );
+        DataElement dataElement = createDataElement( 'A' );
+        identifiableObjectManager.save(dataElement);
 
-        assertNotNull( dataField.getPublicAccess() );
-        assertTrue( AccessStringHelper.canRead( dataField.getPublicAccess() ) );
-        assertTrue( AccessStringHelper.canWrite( dataField.getPublicAccess() ) );
+        assertNotNull( dataElement.getPublicAccess() );
+        assertTrue( AccessStringHelper.canRead( dataElement.getPublicAccess() ) );
+        assertTrue( AccessStringHelper.canWrite( dataElement.getPublicAccess() ) );
     }
 
     @Test
     public void userCanCreatePrivate()
     {
-        createUserAndInjectSecurityContext( false, "F_DATAFIELD_PRIVATE_ADD" );
+        createUserAndInjectSecurityContext( false, "F_DATAELEMENT_PRIVATE_ADD" );
 
-        DataField dataField = createDataField( 'A' );
-        identifiableObjectManager.save( dataField );
+        DataElement dataElement = createDataElement( 'A' );
+        identifiableObjectManager.save(dataElement);
 
-        assertNotNull( dataField.getPublicAccess() );
-        assertFalse( AccessStringHelper.canRead( dataField.getPublicAccess() ) );
-        assertFalse( AccessStringHelper.canWrite( dataField.getPublicAccess() ) );
+        assertNotNull( dataElement.getPublicAccess() );
+        assertFalse( AccessStringHelper.canRead( dataElement.getPublicAccess() ) );
+        assertFalse( AccessStringHelper.canWrite( dataElement.getPublicAccess() ) );
     }
 
     @Test( expected = CreateAccessDeniedException.class )
     public void userDeniedCreateObject()
     {
         createUserAndInjectSecurityContext( false );
-        identifiableObjectManager.save( createDataField( 'A' ) );
+        identifiableObjectManager.save( createDataElement( 'A' ) );
     }
 
     @Test
     public void publicUserModifiedPublicAccessDEFAULT()
     {
-        createUserAndInjectSecurityContext( false, "F_DATAFIELD_PUBLIC_ADD" );
+        createUserAndInjectSecurityContext( false, "F_DATAELEMENT_PUBLIC_ADD" );
 
-        DataField dataField = createDataField( 'A' );
-        dataField.setPublicAccess( AccessStringHelper.DEFAULT );
+        DataElement dataElement = createDataElement( 'A' );
+        dataElement.setPublicAccess( AccessStringHelper.DEFAULT );
 
-        identifiableObjectManager.save( dataField, false );
+        identifiableObjectManager.save(dataElement, false );
 
-        assertFalse( AccessStringHelper.canRead( dataField.getPublicAccess() ) );
-        assertFalse( AccessStringHelper.canWrite( dataField.getPublicAccess() ) );
+        assertFalse( AccessStringHelper.canRead( dataElement.getPublicAccess() ) );
+        assertFalse( AccessStringHelper.canWrite( dataElement.getPublicAccess() ) );
     }
 
     @Test
     public void publicUserModifiedPublicAccessRW()
     {
-        createUserAndInjectSecurityContext( false, "F_DATAFIELD_PUBLIC_ADD" );
+        createUserAndInjectSecurityContext( false, "F_DATAELEMENT_PUBLIC_ADD" );
 
-        DataField dataField = createDataField( 'A' );
-        dataField.setPublicAccess( AccessStringHelper.READ_WRITE );
+        DataElement dataElement = createDataElement( 'A' );
+        dataElement.setPublicAccess( AccessStringHelper.READ_WRITE );
 
-        identifiableObjectManager.save( dataField, false );
+        identifiableObjectManager.save(dataElement, false );
     }
 
     @Test( expected = CreateAccessDeniedException.class )
     public void privateUserModifiedPublicAccessRW()
     {
-        createUserAndInjectSecurityContext( false, "F_DATAFIELD_PRIVATE_ADD" );
+        createUserAndInjectSecurityContext( false, "F_DATAELEMENT_PRIVATE_ADD" );
 
-        DataField dataField = createDataField( 'A' );
-        dataField.setPublicAccess( AccessStringHelper.READ_WRITE );
+        DataElement dataElement = createDataElement( 'A' );
+        dataElement.setPublicAccess( AccessStringHelper.READ_WRITE );
 
-        identifiableObjectManager.save( dataField, false );
+        identifiableObjectManager.save(dataElement, false );
     }
 
     @Test
     public void privateUserModifiedPublicAccessDEFAULT()
     {
-        createUserAndInjectSecurityContext( false, "F_DATAFIELD_PRIVATE_ADD" );
+        createUserAndInjectSecurityContext( false, "F_DATAELEMENT_PRIVATE_ADD" );
 
-        DataField dataField = createDataField( 'A' );
-        dataField.setPublicAccess( AccessStringHelper.DEFAULT );
+        DataElement dataElement = createDataElement( 'A' );
+        dataElement.setPublicAccess( AccessStringHelper.DEFAULT );
 
-        identifiableObjectManager.save( dataField, false );
+        identifiableObjectManager.save(dataElement, false );
     }
 
     @Test( expected = UpdateAccessDeniedException.class )
     public void updateForPrivateUserDeniedAfterChangePublicAccessRW()
     {
-        createUserAndInjectSecurityContext( false, "F_DATAFIELD_PRIVATE_ADD" );
+        createUserAndInjectSecurityContext( false, "F_DATAELEMENT_PRIVATE_ADD" );
 
-        DataField dataField = createDataField( 'A' );
-        dataField.setPublicAccess( AccessStringHelper.DEFAULT );
+        DataElement dataElement = createDataElement( 'A' );
+        dataElement.setPublicAccess( AccessStringHelper.DEFAULT );
 
-        identifiableObjectManager.save( dataField, false );
+        identifiableObjectManager.save(dataElement, false );
 
-        dataField.setPublicAccess( AccessStringHelper.READ_WRITE );
+        dataElement.setPublicAccess( AccessStringHelper.READ_WRITE );
 
-        identifiableObjectManager.update( dataField );
+        identifiableObjectManager.update(dataElement);
     }
 
     @Test( expected = CreateAccessDeniedException.class )
@@ -252,75 +253,75 @@ public class IdentifiableObjectManagerTest
     {
         createUserAndInjectSecurityContext( false );
 
-        DataField dataField = createDataField( 'A' );
-        dataField.setPublicAccess( AccessStringHelper.READ_WRITE );
+        DataElement dataElement = createDataElement( 'A' );
+        dataElement.setPublicAccess( AccessStringHelper.READ_WRITE );
 
-        identifiableObjectManager.save( dataField, false );
+        identifiableObjectManager.save(dataElement, false );
     }
 
     @Test( expected = DeleteAccessDeniedException.class )
     public void userDeniedDeleteObject()
     {
-        createUserAndInjectSecurityContext( false, "F_DATAFIELD_PUBLIC_ADD", "F_USER_ADD" );
+        createUserAndInjectSecurityContext( false, "F_DATAELEMENT_PUBLIC_ADD", "F_USER_ADD" );
 
         User user = createUser( 'B' );
         identifiableObjectManager.save( user );
 
-        DataField dataField = createDataField( 'A' );
-        identifiableObjectManager.save( dataField );
+        DataElement dataElement = createDataElement( 'A' );
+        identifiableObjectManager.save(dataElement);
 
-        dataField.setUser( user );
-        dataField.setPublicAccess( AccessStringHelper.DEFAULT );
-        sessionFactory.getCurrentSession().update( dataField );
+        dataElement.setUser( user );
+        dataElement.setPublicAccess( AccessStringHelper.DEFAULT );
+        sessionFactory.getCurrentSession().update(dataElement);
 
-        identifiableObjectManager.delete( dataField );
+        identifiableObjectManager.delete(dataElement);
     }
 
     @Test
     public void objectsWithNoUser()
     {
-        identifiableObjectManager.save( createDataField( 'A' ) );
-        identifiableObjectManager.save( createDataField( 'B' ) );
-        identifiableObjectManager.save( createDataField( 'C' ) );
-        identifiableObjectManager.save( createDataField( 'D' ) );
+        identifiableObjectManager.save( createDataElement( 'A' ) );
+        identifiableObjectManager.save( createDataElement( 'B' ) );
+        identifiableObjectManager.save( createDataElement( 'C' ) );
+        identifiableObjectManager.save( createDataElement( 'D' ) );
 
-        assertEquals( 4, identifiableObjectManager.getCount( DataField.class ) );
-        assertEquals( 4, identifiableObjectManager.getAll( DataField.class ).size() );
+        assertEquals( 4, identifiableObjectManager.getCount( DataElement.class ) );
+        assertEquals( 4, identifiableObjectManager.getAll( DataElement.class ).size() );
     }
 
     @Test
     public void readPrivateObjects()
     {
-        createUserAndInjectSecurityContext( false, "F_DATAFIELD_PUBLIC_ADD", "F_USER_ADD" );
+        createUserAndInjectSecurityContext( false, "F_DATAELEMENT_PUBLIC_ADD", "F_USER_ADD" );
 
         User user = createUser( 'B' );
         identifiableObjectManager.save( user );
 
-        identifiableObjectManager.save( createDataField( 'A' ) );
-        identifiableObjectManager.save( createDataField( 'B' ) );
-        identifiableObjectManager.save( createDataField( 'C' ) );
-        identifiableObjectManager.save( createDataField( 'D' ) );
+        identifiableObjectManager.save( createDataElement( 'A' ) );
+        identifiableObjectManager.save( createDataElement( 'B' ) );
+        identifiableObjectManager.save( createDataElement( 'C' ) );
+        identifiableObjectManager.save( createDataElement( 'D' ) );
 
-        assertEquals( 4, identifiableObjectManager.getAll( DataField.class ).size() );
+        assertEquals( 4, identifiableObjectManager.getAll( DataElement.class ).size() );
 
-        List<DataField> dataFields = new ArrayList<>( identifiableObjectManager.getAll( DataField.class ) );
+        List<DataElement> dataElements = new ArrayList<>( identifiableObjectManager.getAll( DataElement.class ) );
 
-        for ( DataField dataField : dataFields )
+        for ( DataElement dataElement : dataElements)
         {
-            dataField.setUser( user );
-            dataField.setPublicAccess( AccessStringHelper.DEFAULT );
+            dataElement.setUser( user );
+            dataElement.setPublicAccess( AccessStringHelper.DEFAULT );
 
-            sessionFactory.getCurrentSession().update( dataField );
+            sessionFactory.getCurrentSession().update(dataElement);
         }
 
-        assertEquals( 0, identifiableObjectManager.getCount( DataField.class ) );
-        assertEquals( 0, identifiableObjectManager.getAll( DataField.class ).size() );
+        assertEquals( 0, identifiableObjectManager.getCount( DataElement.class ) );
+        assertEquals( 0, identifiableObjectManager.getAll( DataElement.class ).size() );
     }
 
     @Test
     public void readUserGroupSharedObjects()
     {
-        User loginUser = createUserAndInjectSecurityContext( false, "F_DATAFIELD_PUBLIC_ADD", "F_USER_ADD", "F_USERGROUP_PUBLIC_ADD" );
+        User loginUser = createUserAndInjectSecurityContext( false, "F_DATAELEMENT_PUBLIC_ADD", "F_USER_ADD", "F_USERGROUP_PUBLIC_ADD" );
 
         User user = createUser( 'B' );
         identifiableObjectManager.save( user );
@@ -328,20 +329,20 @@ public class IdentifiableObjectManagerTest
         UserGroup userGroup = createUserGroup( 'A', Sets.newHashSet( loginUser ) );
         identifiableObjectManager.save( userGroup );
 
-        identifiableObjectManager.save( createDataField( 'A' ) );
-        identifiableObjectManager.save( createDataField( 'B' ) );
-        identifiableObjectManager.save( createDataField( 'C' ) );
-        identifiableObjectManager.save( createDataField( 'D' ) );
+        identifiableObjectManager.save( createDataElement( 'A' ) );
+        identifiableObjectManager.save( createDataElement( 'B' ) );
+        identifiableObjectManager.save( createDataElement( 'C' ) );
+        identifiableObjectManager.save( createDataElement( 'D' ) );
 
-        assertEquals( 4, identifiableObjectManager.getCount( DataField.class ) );
-        assertEquals( 4, identifiableObjectManager.getAll( DataField.class ).size() );
+        assertEquals( 4, identifiableObjectManager.getCount( DataElement.class ) );
+        assertEquals( 4, identifiableObjectManager.getAll( DataElement.class ).size() );
 
-        List<DataField> dataFields = new ArrayList<>( identifiableObjectManager.getAll( DataField.class ) );
+        List<DataElement> dataElements = new ArrayList<>( identifiableObjectManager.getAll( DataElement.class ) );
 
-        for ( DataField dataField : dataFields )
+        for ( DataElement dataElement : dataElements)
         {
-            dataField.setUser( user );
-            dataField.setPublicAccess( AccessStringHelper.newInstance().build() );
+            dataElement.setUser( user );
+            dataElement.setPublicAccess( AccessStringHelper.newInstance().build() );
 
             UserGroupAccess userGroupAccess = new UserGroupAccess();
             userGroupAccess.setAccess( AccessStringHelper.READ );
@@ -349,59 +350,63 @@ public class IdentifiableObjectManagerTest
 
             sessionFactory.getCurrentSession().save( userGroupAccess );
 
-            dataField.getUserGroupAccesses().add( userGroupAccess );
-            sessionFactory.getCurrentSession().update( dataField );
+            dataElement.getUserGroupAccesses().add( userGroupAccess );
+            sessionFactory.getCurrentSession().update(dataElement);
         }
 
-        assertEquals( 4, identifiableObjectManager.getAll( DataField.class ).size() );
-        assertEquals( 4, identifiableObjectManager.getCount( DataField.class ) );
+        assertEquals( 4, identifiableObjectManager.getAll( DataElement.class ).size() );
+        assertEquals( 4, identifiableObjectManager.getCount( DataElement.class ) );
     }
 
     @Test
     public void getByUidTest()
     {
-        DataField dataFieldA = createDataField( 'A' );
-        DataField dataFieldB = createDataField( 'B' );
-        DataField dataFieldC = createDataField( 'C' );
-        DataField dataFieldD = createDataField( 'D' );
+        DataElement dataElementA = createDataElement( 'A' );
+        DataElement dataElementB = createDataElement( 'B' );
+        DataElement dataElementC = createDataElement( 'C' );
+        DataElement dataElementD = createDataElement( 'D' );
 
-        identifiableObjectManager.save( dataFieldA );
-        identifiableObjectManager.save( dataFieldB );
-        identifiableObjectManager.save( dataFieldC );
-        identifiableObjectManager.save( dataFieldD );
+        identifiableObjectManager.save(dataElementA);
+        identifiableObjectManager.save(dataElementB);
+        identifiableObjectManager.save(dataElementC);
+        identifiableObjectManager.save(dataElementD);
 
-        List<DataField> ab = identifiableObjectManager.getByUid( DataField.class, Arrays.asList( dataFieldA.getUid(), dataFieldB.getUid() ) );
-        List<DataField> cd = identifiableObjectManager.getByUid( DataField.class, Arrays.asList( dataFieldC.getUid(), dataFieldD.getUid() ) );
+        List<DataElement> ab = identifiableObjectManager.getByUid( DataElement.class, Arrays.asList( dataElementA
+            .getUid(), dataElementB.getUid() ) );
+        List<DataElement> cd = identifiableObjectManager.getByUid( DataElement.class, Arrays.asList( dataElementC
+            .getUid(), dataElementD.getUid() ) );
 
-        assertTrue( ab.contains( dataFieldA ) );
-        assertTrue( ab.contains( dataFieldB ) );
-        assertFalse( ab.contains( dataFieldC ) );
-        assertFalse( ab.contains( dataFieldD ) );
+        assertTrue( ab.contains(dataElementA) );
+        assertTrue( ab.contains(dataElementB) );
+        assertFalse( ab.contains(dataElementC) );
+        assertFalse( ab.contains(dataElementD) );
 
-        assertFalse( cd.contains( dataFieldA ) );
-        assertFalse( cd.contains( dataFieldB ) );
-        assertTrue( cd.contains( dataFieldC ) );
-        assertTrue( cd.contains( dataFieldD ) );
+        assertFalse( cd.contains(dataElementA) );
+        assertFalse( cd.contains(dataElementB) );
+        assertTrue( cd.contains(dataElementC) );
+        assertTrue( cd.contains(dataElementD) );
     }
 
     @Test
     public void getByUidOrderedTest()
     {
-        DataField dataFieldA = createDataField( 'A' );
-        DataField dataFieldB = createDataField( 'B' );
-        DataField dataFieldC = createDataField( 'C' );
-        DataField dataFieldD = createDataField( 'D' );
+        DataElement dataElementA = createDataElement( 'A' );
+        DataElement dataElementB = createDataElement( 'B' );
+        DataElement dataElementC = createDataElement( 'C' );
+        DataElement dataElementD = createDataElement( 'D' );
 
-        identifiableObjectManager.save( dataFieldA );
-        identifiableObjectManager.save( dataFieldB );
-        identifiableObjectManager.save( dataFieldC );
-        identifiableObjectManager.save( dataFieldD );
+        identifiableObjectManager.save(dataElementA);
+        identifiableObjectManager.save(dataElementB);
+        identifiableObjectManager.save(dataElementC);
+        identifiableObjectManager.save(dataElementD);
 
-        List<String> uids = Arrays.asList( dataFieldA.getUid(), dataFieldC.getUid(), dataFieldB.getUid(), dataFieldD.getUid() );
+        List<String> uids = Arrays.asList( dataElementA.getUid(), dataElementC.getUid(), dataElementB
+            .getUid(), dataElementD.getUid() );
 
-        List<DataField> expected = new ArrayList<>( Arrays.asList( dataFieldA, dataFieldC, dataFieldB, dataFieldD ) );
+        List<DataElement> expected = new ArrayList<>( Arrays.asList(dataElementA, dataElementC,
+            dataElementB, dataElementD) );
 
-        List<DataField> actual = new ArrayList<>( identifiableObjectManager.getByUidOrdered( DataField.class, uids ) );
+        List<DataElement> actual = new ArrayList<>( identifiableObjectManager.getByUidOrdered( DataElement.class, uids ) );
 
         assertEquals( expected, actual );
     }
@@ -409,33 +414,35 @@ public class IdentifiableObjectManagerTest
     @Test
     public void getByCodeTest()
     {
-        DataField dataFieldA = createDataField( 'A' );
-        DataField dataFieldB = createDataField( 'B' );
-        DataField dataFieldC = createDataField( 'C' );
-        DataField dataFieldD = createDataField( 'D' );
+        DataElement dataElementA = createDataElement( 'A' );
+        DataElement dataElementB = createDataElement( 'B' );
+        DataElement dataElementC = createDataElement( 'C' );
+        DataElement dataElementD = createDataElement( 'D' );
 
-        dataFieldA.setCode( "DE_A" );
-        dataFieldB.setCode( "DE_B" );
-        dataFieldC.setCode( "DE_C" );
-        dataFieldD.setCode( "DE_D" );
+        dataElementA.setCode( "DE_A" );
+        dataElementB.setCode( "DE_B" );
+        dataElementC.setCode( "DE_C" );
+        dataElementD.setCode( "DE_D" );
 
-        identifiableObjectManager.save( dataFieldA );
-        identifiableObjectManager.save( dataFieldB );
-        identifiableObjectManager.save( dataFieldC );
-        identifiableObjectManager.save( dataFieldD );
+        identifiableObjectManager.save(dataElementA);
+        identifiableObjectManager.save(dataElementB);
+        identifiableObjectManager.save(dataElementC);
+        identifiableObjectManager.save(dataElementD);
 
-        List<DataField> ab = identifiableObjectManager.getByCode( DataField.class, Arrays.asList( dataFieldA.getCode(), dataFieldB.getCode() ) );
-        List<DataField> cd = identifiableObjectManager.getByCode( DataField.class, Arrays.asList( dataFieldC.getCode(), dataFieldD.getCode() ) );
+        List<DataElement> ab = identifiableObjectManager.getByCode( DataElement.class, Arrays.asList( dataElementA
+            .getCode(), dataElementB.getCode() ) );
+        List<DataElement> cd = identifiableObjectManager.getByCode( DataElement.class, Arrays.asList( dataElementC
+            .getCode(), dataElementD.getCode() ) );
 
-        assertTrue( ab.contains( dataFieldA ) );
-        assertTrue( ab.contains( dataFieldB ) );
-        assertFalse( ab.contains( dataFieldC ) );
-        assertFalse( ab.contains( dataFieldD ) );
+        assertTrue( ab.contains(dataElementA) );
+        assertTrue( ab.contains(dataElementB) );
+        assertFalse( ab.contains(dataElementC) );
+        assertFalse( ab.contains(dataElementD) );
 
-        assertFalse( cd.contains( dataFieldA ) );
-        assertFalse( cd.contains( dataFieldB ) );
-        assertTrue( cd.contains( dataFieldC ) );
-        assertTrue( cd.contains( dataFieldD ) );
+        assertFalse( cd.contains(dataElementA) );
+        assertFalse( cd.contains(dataElementB) );
+        assertTrue( cd.contains(dataElementC) );
+        assertTrue( cd.contains(dataElementD) );
     }
 
 //    @Test
@@ -461,16 +468,16 @@ public class IdentifiableObjectManagerTest
     @Test
     public void testGetIdMapIdScheme()
     {
-        DataField dataFieldA = createDataField( 'A' );
-        DataField dataFieldB = createDataField( 'B' );
+        DataElement dataElementA = createDataElement( 'A' );
+        DataElement dataElementB = createDataElement( 'B' );
 
-        dataFieldService.addDataField( dataFieldA );
-        dataFieldService.addDataField( dataFieldB );
+        dataElementService.addDataElement(dataElementA);
+        dataElementService.addDataElement(dataElementB);
 
-        Map<String, DataField> map = identifiableObjectManager.getIdMap( DataField.class, IdScheme.CODE );
+        Map<String, DataElement> map = identifiableObjectManager.getIdMap( DataElement.class, IdScheme.CODE );
 
-        assertEquals( dataFieldA, map.get( "DataElementCodeA" ) );
-        assertEquals( dataFieldB, map.get( "DataElementCodeB" ) );
+        assertEquals(dataElementA, map.get( "DataElementCodeA" ) );
+        assertEquals(dataElementB, map.get( "DataElementCodeB" ) );
         assertNull( map.get( "DataElementCodeX" ) );
     }
 }

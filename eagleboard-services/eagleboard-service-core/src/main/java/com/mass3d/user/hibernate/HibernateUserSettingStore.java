@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class HibernateUserSettingStore
@@ -40,6 +41,13 @@ public class HibernateUserSettingStore
     Session session = sessionFactory.getCurrentSession();
 
     session.update(userSetting);
+  }
+
+  @Override
+  @Transactional
+  public UserSetting getUserSettingTx( User user, String name )
+  {
+    return getUserSetting( user, name );
   }
 
   @Override

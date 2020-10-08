@@ -1,23 +1,13 @@
 package com.mass3d;
 
-import com.mass3d.common.IdentifiableObject;
 import com.mass3d.common.IdentifiableObjectManager;
-import com.mass3d.common.IdentifiableObjectStore;
 import com.mass3d.common.ValueType;
-import com.mass3d.datafield.DataField;
-import com.mass3d.datafield.DataFieldStore;
-import com.mass3d.user.UserCredentials;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import com.mass3d.dataelement.DataElement;
+import com.mass3d.dataelement.DataElementStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication /* (exclude = {
@@ -28,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class EagleboardPlaygroundApplication {
 
   @Autowired
-  DataFieldStore dataFieldStore;
+  DataElementStore dataElementStore;
 
   @Autowired
   IdentifiableObjectManager identifiableObjectManager;
@@ -37,19 +27,19 @@ public class EagleboardPlaygroundApplication {
     SpringApplication.run(EagleboardPlaygroundApplication.class, args);
   }
 
-  public static DataField createDataField( char uniqueCharacter )
+  public static DataElement createDataField( char uniqueCharacter )
   {
-    DataField dataField = new DataField();
-    dataField.setAutoFields();
+    DataElement dataElement = new DataElement();
+    dataElement.setAutoFields();
 
-    dataField.setUid( "deabcdefgh" + uniqueCharacter );
-    dataField.setName( "DataElement" + uniqueCharacter );
-    dataField.setShortName( "DataElementShort" + uniqueCharacter );
-    dataField.setCode( "DataElementCode" + uniqueCharacter );
-    dataField.setDescription( "DataElementDescription" + uniqueCharacter );
-    dataField.setValueType( ValueType.INTEGER );
+    dataElement.setUid( "deabcdefgh" + uniqueCharacter );
+    dataElement.setName( "DataElement" + uniqueCharacter );
+    dataElement.setShortName( "DataElementShort" + uniqueCharacter );
+    dataElement.setCode( "DataElementCode" + uniqueCharacter );
+    dataElement.setDescription( "DataElementDescription" + uniqueCharacter );
+    dataElement.setValueType( ValueType.INTEGER );
 
-    return dataField;
+    return dataElement;
   }
 
 //  public void save( IdentifiableObject object )
@@ -106,18 +96,18 @@ public class EagleboardPlaygroundApplication {
     return new CommandLineRunner() {
       @Override
       public void run(String... args) throws Exception {
-        DataField dataFieldA = createDataField( 'A' );
-        DataField dataFieldB = createDataField( 'B' );
-        DataField dataFieldC = createDataField( 'C' );
+        DataElement dataElementA = createDataField( 'A' );
+        DataElement dataElementB = createDataField( 'B' );
+        DataElement dataElementC = createDataField( 'C' );
 
-        identifiableObjectManager.save( dataFieldA );
-        Long idA = dataFieldA.getId();
-        identifiableObjectManager.save( dataFieldB );
-        Long idB = dataFieldB.getId();
-        identifiableObjectManager.save( dataFieldC );
-        Long idC = dataFieldC.getId();
+        identifiableObjectManager.save(dataElementA);
+        Long idA = dataElementA.getId();
+        identifiableObjectManager.save(dataElementB);
+        Long idB = dataElementB.getId();
+        identifiableObjectManager.save(dataElementC);
+        Long idC = dataElementC.getId();
 
-//        dataFieldA = dataFieldStore.get( idA );
+//        dataElementA = dataElementStore.get( idA );
 
         System.out.println("idA = " + idA);
         System.out.println("idB = " + idB);

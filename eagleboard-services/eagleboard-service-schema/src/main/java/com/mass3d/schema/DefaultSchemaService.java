@@ -9,8 +9,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mass3d.commons.util.TextUtils;
 import com.mass3d.schema.descriptors.ActivitySchemaDescriptor;
-import com.mass3d.schema.descriptors.DataFieldSchemaDescriptor;
-import com.mass3d.schema.descriptors.FieldSetSchemaDescriptor;
+import com.mass3d.schema.descriptors.DataElementSchemaDescriptor;
+import com.mass3d.schema.descriptors.DataSetSchemaDescriptor;
 import com.mass3d.schema.descriptors.KeyJsonValueSchemaDescriptor;
 import com.mass3d.schema.descriptors.ProjectSchemaDescriptor;
 import com.mass3d.schema.descriptors.TodoTaskSchemaDescriptor;
@@ -44,8 +44,8 @@ public class DefaultSchemaService
 
   private ImmutableList<SchemaDescriptor> descriptors = new ImmutableList.Builder<SchemaDescriptor>()
       .
-          add(new DataFieldSchemaDescriptor()).
-          add(new FieldSetSchemaDescriptor()).
+          add(new DataElementSchemaDescriptor()).
+          add(new DataSetSchemaDescriptor()).
           add(new TodoTaskSchemaDescriptor()).
           add(new ActivitySchemaDescriptor()).
           add(new ProjectSchemaDescriptor()).
@@ -70,8 +70,9 @@ public class DefaultSchemaService
 
   private SessionFactory sessionFactory;
 
-  public DefaultSchemaService(@Autowired PropertyIntrospectorService propertyIntrospectorService,
-      @Autowired SessionFactory sessionFactory) {
+  @Autowired
+  public DefaultSchemaService(PropertyIntrospectorService propertyIntrospectorService,
+      SessionFactory sessionFactory) {
     this.propertyIntrospectorService = propertyIntrospectorService;
     this.sessionFactory = sessionFactory;
   }

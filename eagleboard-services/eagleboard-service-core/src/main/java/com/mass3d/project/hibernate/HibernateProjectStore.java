@@ -1,7 +1,6 @@
 package com.mass3d.project.hibernate;
 
 import com.mass3d.deletedobject.DeletedObjectService;
-import com.mass3d.fieldset.FieldSet;
 import com.mass3d.project.Project;
 import com.mass3d.project.ProjectStore;
 import com.mass3d.common.hibernate.HibernateIdentifiableObjectStore;
@@ -11,7 +10,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@Repository("com.mass3d.project.ProjectStore")
 public class HibernateProjectStore
     extends HibernateIdentifiableObjectStore<Project>
     implements ProjectStore {

@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -214,12 +214,12 @@ public class HibernateUserStore
       query.setParameter("phoneNumber", params.getPhoneNumber());
     }
 
-//    if (params.isCanManage() && params.getUser() != null) {
-//      Collection<Integer> managedGroups = IdentifiableObjectUtils
-//          .getIdentifiers(params.getUser().getManagedGroups());
-//
-//      query.setParameterList("ids", managedGroups);
-//    }
+    if (params.isCanManage() && params.getUser() != null) {
+      Collection<Long> managedGroups = IdentifiableObjectUtils
+          .getIdentifiers(params.getUser().getManagedGroups());
+
+      query.setParameterList("ids", managedGroups);
+    }
 
     if (params.getDisabled() != null) {
       query.setParameter("disabled", params.getDisabled());

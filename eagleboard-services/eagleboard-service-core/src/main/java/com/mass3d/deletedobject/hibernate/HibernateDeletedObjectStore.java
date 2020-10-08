@@ -14,18 +14,23 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-@Service
+@Repository( "com.mass3d.deletedobject.DeletedObjectStore" )
 @Transactional
 public class HibernateDeletedObjectStore
     implements DeletedObjectStore {
 
-  @Autowired
   private SessionFactory sessionFactory;
 
+  public HibernateDeletedObjectStore( SessionFactory sessionFactory )
+  {
+    this.sessionFactory = sessionFactory;
+  }
+
   @Override
-  public int save(DeletedObject deletedObject) {
+  public Long save(DeletedObject deletedObject) {
     getCurrentSession().save(deletedObject);
 
     return deletedObject.getId();

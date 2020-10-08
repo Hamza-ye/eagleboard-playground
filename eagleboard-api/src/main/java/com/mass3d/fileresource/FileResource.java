@@ -16,26 +16,26 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.util.MimeTypeUtils;
 
-@Entity
-@Table(name = "fileresource")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@AttributeOverride(name="id", column=@Column(name="fileresourceid"))
-@AssociationOverride(
-    name="userGroupAccesses",
-    joinTable=@JoinTable(
-        name="fileresourceusergroupaccesses",
-        joinColumns=@JoinColumn(name="fileresourceid"),
-        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
-    )
-)
-@AssociationOverride(
-    name="userAccesses",
-    joinTable=@JoinTable(
-        name="fileresourceuseraccesses",
-        joinColumns=@JoinColumn(name="fileresourceid"),
-        inverseJoinColumns=@JoinColumn(name="useraccessid")
-    )
-)
+//@Entity
+//@Table(name = "fileresource")
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@AttributeOverride(name="id", column=@Column(name="fileresourceid"))
+//@AssociationOverride(
+//    name="userGroupAccesses",
+//    joinTable=@JoinTable(
+//        name="fileresourceusergroupaccesses",
+//        joinColumns=@JoinColumn(name="fileresourceid"),
+//        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
+//    )
+//)
+//@AssociationOverride(
+//    name="userAccesses",
+//    joinTable=@JoinTable(
+//        name="fileresourceuseraccesses",
+//        joinColumns=@JoinColumn(name="fileresourceid"),
+//        inverseJoinColumns=@JoinColumn(name="useraccessid")
+//    )
+//)
 public class FileResource
     extends BaseIdentifiableObject {
 

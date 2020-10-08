@@ -1,4 +1,4 @@
-package com.mass3d;
+package com.mass3d.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.h2.H2ConsoleProperties;
@@ -8,9 +8,9 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-@Configuration
+//@Configuration
 // before the default configuration
-@Order(SecurityProperties.BASIC_AUTH_ORDER - 11)
+//@Order(SecurityProperties.BASIC_AUTH_ORDER - 11)
 class CustomH2ConsoleSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 

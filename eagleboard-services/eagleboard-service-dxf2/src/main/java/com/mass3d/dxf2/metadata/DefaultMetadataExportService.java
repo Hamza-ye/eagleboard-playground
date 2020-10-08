@@ -3,6 +3,8 @@ package com.mass3d.dxf2.metadata;
 import com.google.common.base.Enums;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.mass3d.dataelement.DataElement;
+import com.mass3d.dataset.DataSet;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,9 +18,7 @@ import com.mass3d.commons.timer.SystemTimer;
 import com.mass3d.commons.timer.Timer;
 import com.mass3d.document.Document;
 import com.mass3d.dxf2.common.OrderParams;
-import com.mass3d.datafield.DataField;
-import com.mass3d.fieldset.FieldSet;
-import com.mass3d.fieldset.FieldSetField;
+import com.mass3d.dataset.DataSetElement;
 import com.mass3d.fieldfilter.Defaults;
 import com.mass3d.fieldfilter.FieldFilterParams;
 import com.mass3d.fieldfilter.FieldFilterService;
@@ -42,7 +42,6 @@ import com.mass3d.system.SystemInfo;
 import com.mass3d.system.SystemService;
 import com.mass3d.user.CurrentUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service( "com.mass3d.dxf2.metadata.MetadataExportService" )
@@ -286,7 +285,7 @@ public class DefaultMetadataExportService implements MetadataExportService
         SetMap<Class<? extends IdentifiableObject>, IdentifiableObject> metadata = new SetMap<>();
 
         // Todo Eagle adding
-        if ( FieldSet.class.isInstance( object ) ) return handleFieldSet( metadata, (FieldSet) object );
+        if ( DataSet.class.isInstance( object ) ) return handleFieldSet( metadata, (DataSet) object );
 
 //        if ( DataSet.class.isInstance( object ) ) return handleDataSet( metadata, (DataSet) object );
 //        if ( Program.class.isInstance( object ) ) return handleProgram( metadata, (Program) object );
@@ -330,22 +329,22 @@ public class DefaultMetadataExportService implements MetadataExportService
     }
 
     // Todo Eagle added
-    private SetMap<Class<? extends IdentifiableObject>, IdentifiableObject> handleFieldSet( SetMap<Class<? extends IdentifiableObject>, IdentifiableObject> metadata, FieldSet fieldSet )
+    private SetMap<Class<? extends IdentifiableObject>, IdentifiableObject> handleFieldSet( SetMap<Class<? extends IdentifiableObject>, IdentifiableObject> metadata, DataSet dataSet)
     {
-        metadata.putValue( FieldSet.class, fieldSet );
-//        handleAttributes( metadata, fieldSet );
+        metadata.putValue( DataSet.class, dataSet);
+//        handleAttributes( metadata, dataSet );
 
-        fieldSet.getFieldSetFields().forEach( dataSetElement -> handleFieldSetField( metadata, dataSetElement ) );
+        dataSet.getDataSetElements().forEach( dataSetElement -> handleFieldSetField( metadata, dataSetElement ) );
         // Todo comment out handle sections
-//        fieldSet.getSections().forEach( section -> handleSection( metadata, section ) );
-        fieldSet.getIndicators().forEach( indicator -> handleIndicator( metadata, indicator ) );
+//        dataSet.getSections().forEach( section -> handleSection( metadata, section ) );
+        dataSet.getIndicators().forEach( indicator -> handleIndicator( metadata, indicator ) );
 
-//        handleDataEntryForm( metadata, fieldSet.getDataEntryForm() );
-//        handleLegendSet( metadata, fieldSet.getLegendSets() );
-//        handleCategoryCombo( metadata, fieldSet.getCategoryCombo() );
+//        handleDataEntryForm( metadata, dataSet.getDataEntryForm() );
+//        handleLegendSet( metadata, dataSet.getLegendSets() );
+//        handleCategoryCombo( metadata, dataSet.getCategoryCombo() );
 
-//        fieldSet.getCompulsoryDataElementOperands().forEach( dataElementOperand -> handleDataElementOperand( metadata, dataElementOperand ) );
-//        fieldSet.getDataElementOptionCombos().forEach( dataElementOptionCombo -> handleCategoryOptionCombo( metadata, dataElementOptionCombo ) );
+//        dataSet.getCompulsoryDataElementOperands().forEach( dataElementOperand -> handleDataElementOperand( metadata, dataElementOperand ) );
+//        dataSet.getDataElementOptionCombos().forEach( dataElementOptionCombo -> handleCategoryOptionCombo( metadata, dataElementOptionCombo ) );
 
         return metadata;
     }
@@ -376,7 +375,7 @@ public class DefaultMetadataExportService implements MetadataExportService
 //
 //        handleCategoryOptionCombo( metadata, dataElementOperand.getCategoryOptionCombo() );
 //        handleLegendSet( metadata, dataElementOperand.getLegendSets() );
-//        handleDataElement( metadata, dataElementOperand.getDataField() );
+//        handleDataElement( metadata, dataElementOperand.getDataElement() );
 //
 //        return metadata;
 //    }
@@ -461,12 +460,12 @@ public class DefaultMetadataExportService implements MetadataExportService
 //        return metadata;
 //    }
 
-    private SetMap<Class<? extends IdentifiableObject>, IdentifiableObject> handleFieldSetField( SetMap<Class<? extends IdentifiableObject>, IdentifiableObject> metadata, FieldSetField fieldSetField )
+    private SetMap<Class<? extends IdentifiableObject>, IdentifiableObject> handleFieldSetField( SetMap<Class<? extends IdentifiableObject>, IdentifiableObject> metadata, DataSetElement dataSetElement)
     {
-        if ( fieldSetField == null ) return metadata;
+        if ( dataSetElement == null ) return metadata;
 
-        handleDataField( metadata, fieldSetField.getDataField() );
-//        handleCategoryCombo( metadata, fieldSetField.getCategoryCombo() );
+        handleDataField( metadata, dataSetElement.getDataElement() );
+//        handleCategoryCombo( metadata, dataSetElement.getCategoryCombo() );
 
         return metadata;
     }
@@ -476,22 +475,22 @@ public class DefaultMetadataExportService implements MetadataExportService
 //    {
 //        if ( dataSetElement == null ) return metadata;
 //
-//        handleDataElement( metadata, dataSetElement.getDataField() );
+//        handleDataElement( metadata, dataSetElement.getDataElement() );
 //        handleCategoryCombo( metadata, dataSetElement.getCategoryCombo() );
 //
 //        return metadata;
 //    }
 
     // Todo Eagle adding handleDataField
-    private SetMap<Class<? extends IdentifiableObject>, IdentifiableObject> handleDataField( SetMap<Class<? extends IdentifiableObject>, IdentifiableObject> metadata, DataField dataField )
+    private SetMap<Class<? extends IdentifiableObject>, IdentifiableObject> handleDataField( SetMap<Class<? extends IdentifiableObject>, IdentifiableObject> metadata, DataElement dataElement)
     {
-        if ( dataField == null ) return metadata;
-        metadata.putValue( DataField.class, dataField );
-//        handleAttributes( metadata, dataField );
+        if ( dataElement == null ) return metadata;
+        metadata.putValue( DataElement.class, dataElement);
+//        handleAttributes( metadata, dataElement );
 
-//        handleCategoryCombo( metadata, dataField.getDataElementCategoryCombo() );
-        handleOptionSet( metadata, dataField.getOptionSet() );
-        handleOptionSet( metadata, dataField.getCommentOptionSet() );
+//        handleCategoryCombo( metadata, dataElement.getDataElementCategoryCombo() );
+        handleOptionSet( metadata, dataElement.getOptionSet() );
+        handleOptionSet( metadata, dataElement.getCommentOptionSet() );
 
         return metadata;
     }
@@ -539,7 +538,7 @@ public class DefaultMetadataExportService implements MetadataExportService
 //
 //        section.getGreyedFields().forEach( dataElementOperand -> handleDataElementOperand( metadata, dataElementOperand ) );
 //        section.getIndicators().forEach( indicator -> handleIndicator( metadata, indicator ) );
-//        section.getDataFields().forEach( dataElement -> handleDataElement( metadata, dataElement ) );
+//        section.getDataElements().forEach( dataElement -> handleDataElement( metadata, dataElement ) );
 //
 //        return metadata;
 //    }
@@ -613,7 +612,7 @@ public class DefaultMetadataExportService implements MetadataExportService
 //        handleAttributes( metadata, programRuleVariable );
 //
 //        handleTrackedEntityAttribute( metadata, programRuleVariable.getAttribute() );
-//        handleDataElement( metadata, programRuleVariable.getDataField() );
+//        handleDataElement( metadata, programRuleVariable.getDataElement() );
 //        handleProgramStage( metadata, programRuleVariable.getProgramStage() );
 //
 //        return metadata;
@@ -647,7 +646,7 @@ public class DefaultMetadataExportService implements MetadataExportService
 //        metadata.putValue( ProgramRuleAction.class, programRuleAction );
 //        handleAttributes( metadata, programRuleAction );
 //
-//        handleDataElement( metadata, programRuleAction.getDataField() );
+//        handleDataElement( metadata, programRuleAction.getDataElement() );
 //        handleTrackedEntityAttribute( metadata, programRuleAction.getAttribute() );
 //        handleProgramIndicator( metadata, programRuleAction.getProgramIndicator() );
 //        handleProgramStageSection( metadata, programRuleAction.getProgramStageSection() );
@@ -708,7 +707,7 @@ public class DefaultMetadataExportService implements MetadataExportService
 //        metadata.putValue( ProgramStageDataElement.class, programStageDataElement );
 //
 //        handleAttributes( metadata, programStageDataElement );
-//        handleDataElement( metadata, programStageDataElement.getDataField() );
+//        handleDataElement( metadata, programStageDataElement.getDataElement() );
 //
 //        return metadata;
 //    }

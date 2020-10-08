@@ -19,7 +19,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@Repository("com.mass3d.todotask.TodoTaskStore")
 public class HibernateTodoTaskStore
     extends HibernateIdentifiableObjectStore<TodoTask>
     implements TodoTaskStore {

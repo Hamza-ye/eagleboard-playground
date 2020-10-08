@@ -15,9 +15,7 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
-@ComponentScan(basePackages = {"com.mass3d"})
-//@ImportResource({"classpath*:META-INF/dhis/beans.xml", "classpath*:META-INF/dhis/security.xml" })
-//@EnableAutoConfiguration(exclude = {org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration.class})
+//@ComponentScan(basePackages = {"com.mass3d"})
 public class CoreConfiguration {
 
   @Bean

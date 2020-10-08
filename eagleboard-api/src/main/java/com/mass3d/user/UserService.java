@@ -1,11 +1,12 @@
 package com.mass3d.user;
 
 import com.mass3d.feedback.ErrorReport;
-import com.mass3d.fieldset.FieldSet;
+import com.mass3d.dataset.DataSet;
 import com.mass3d.todotask.TodoTask;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.Nullable;
 
 public interface UserService {
 
@@ -112,7 +113,7 @@ public interface UserService {
    * @param orders the already validated order strings (e.g. email:asc).
    * @return a List of users.
    */
-  List<User> getUsers(UserQueryParams params, List<String> orders);
+  List<User> getUsers(UserQueryParams params, @Nullable List<String> orders);
 
   /**
    * Returns the number of users based on the given query parameters.
@@ -228,11 +229,11 @@ public interface UserService {
    */
   void setLastLogin(String username);
 
-//  int getActiveUsersCount(int days);
+  int getActiveUsersCount(int days);
 
   int getActiveUsersCount(Date since);
 
-//  boolean credentialsNonExpired(UserCredentials credentials);
+  boolean credentialsNonExpired(UserCredentials credentials);
 
   // -------------------------------------------------------------------------
   // UserAuthorityGroup
@@ -313,13 +314,22 @@ public interface UserService {
    */
   List<UserAuthorityGroup> getUserRolesBetweenByName(String name, int first, int max);
 
+//    /**
+//     * Returns the number of UserAuthorityGroups which are associated with the
+//     * given DataSet.
+//     *
+//     * @param dataSet the DataSet.
+//     * @return number of UserAuthorityGroups.
+//     */
+//    int countDataSetUserAuthorityGroups(DataSet dataSet);
+
   /**
    * Returns the number of UserAuthorityGroups which are associated with the given DataSet.
    *
-   * @param fieldSet the DataSet.
+   * @param dataSet the DataSet.
    * @return number of UserAuthorityGroups.
    */
-  int countFieldSetUserAuthorityGroups(FieldSet fieldSet);
+  int countFieldSetUserAuthorityGroups(DataSet dataSet);
 
   /**
    * Returns the number of UserAuthorityGroups which are associated with the given TodoTask.
@@ -335,7 +345,7 @@ public interface UserService {
    *
    * @param userRoles the collection of user roles.
    */
-//  void canIssueFilter(Collection<UserAuthorityGroup> userRoles);
+  void canIssueFilter(Collection<UserAuthorityGroup> userRoles);
 
   List<ErrorReport> validateUser(User user, User currentUser);
 
@@ -344,7 +354,7 @@ public interface UserService {
    *
    * @return list of active users whose credentials are expiring with in few days.
    */
-//  List<User> getExpiringUsers();
+  List<User> getExpiringUsers();
 
   void set2FA(User user, Boolean twoFA);
 }

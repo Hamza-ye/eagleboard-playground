@@ -7,15 +7,17 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+//@RunWith( SpringRunner.class )
+//@SpringBootTest
+//@ContextConfiguration(classes= ApplicationTest.class)
 @RunWith( SpringRunner.class )
-@SpringBootTest
-////@AutoConfigureMockMvc
-//@DataJpaTest
-@ContextConfiguration(classes= ApplicationTest.class)
+@ActiveProfiles( profiles = { "test" } )
+@ContextConfiguration( classes = UnitTestConfiguration.class )
 @Transactional
 public abstract class EagleboardSpringTest
     extends EagleboardConvenienceTest

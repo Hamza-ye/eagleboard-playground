@@ -4,14 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.mass3d.dataelement.DataElement;
+import com.mass3d.dataset.DataSet;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import com.mass3d.common.DxfNamespaces;
 import com.mass3d.common.NameableObject;
 import com.mass3d.activity.Activity;
-import com.mass3d.datafield.DataField;
-import com.mass3d.fieldset.FieldSet;
 import com.mass3d.project.Project;
 import com.mass3d.todotask.TodoTask;
 import com.mass3d.interpretation.Interpretation;
@@ -31,11 +31,11 @@ public class Metadata
     private List<MetadataVersion> metadataVersions = new ArrayList<>();
 
     // Todo Eagle added
-    private List<DataField> dataFields = new ArrayList<>();
+    private List<DataElement> dataElements = new ArrayList<>();
     private List<TodoTask> todoTasks = new ArrayList<>();
     private List<Activity> activities = new ArrayList<>();
     private List<Project> projects = new ArrayList<>();
-    private List<FieldSet> fieldSets = new ArrayList<>();
+    private List<DataSet> dataSets = new ArrayList<>();
 
     // Todo Eagle Items commented out
 //    private List<Attribute> attributes = new ArrayList<>();
@@ -216,16 +216,16 @@ public class Metadata
 
     // Todo Eagle adding Eagle's items and commenting out other
     @JsonProperty
-    @JacksonXmlElementWrapper( localName = "dataFields", namespace = DxfNamespaces.DXF_2_0 )
+    @JacksonXmlElementWrapper( localName = "dataElements", namespace = DxfNamespaces.DXF_2_0 )
     @JacksonXmlProperty( localName = "dataField", namespace = DxfNamespaces.DXF_2_0 )
-    public List<DataField> getDataFields()
+    public List<DataElement> getDataElements()
     {
-        return dataFields;
+        return dataElements;
     }
 
-    public void setDataFields( List<DataField> dataFields )
+    public void setDataElements( List<DataElement> dataElements)
     {
-        this.dataFields = dataFields;
+        this.dataElements = dataElements;
     }
 
     @JsonProperty
@@ -262,14 +262,14 @@ public class Metadata
     }
 
     @JsonProperty
-    @JacksonXmlElementWrapper( localName = "fieldSets", namespace = DxfNamespaces.DXF_2_0 )
+    @JacksonXmlElementWrapper( localName = "dataSets", namespace = DxfNamespaces.DXF_2_0 )
     @JacksonXmlProperty( localName = "fieldSet", namespace = DxfNamespaces.DXF_2_0 )
-    public List<FieldSet> getFieldSets() {
-        return fieldSets;
+    public List<DataSet> getDataSets() {
+        return dataSets;
     }
 
-    public void setFieldSets(List<FieldSet> fieldSets) {
-        this.fieldSets = fieldSets;
+    public void setDataSets(List<DataSet> dataSets) {
+        this.dataSets = dataSets;
     }
 
     //    @JsonProperty
@@ -379,12 +379,12 @@ public class Metadata
 //    @JsonProperty
 //    @JacksonXmlElementWrapper( localName = "dataElements", namespace = DxfNamespaces.DXF_2_0 )
 //    @JacksonXmlProperty( localName = "dataElement", namespace = DxfNamespaces.DXF_2_0 )
-//    public List<DataElement> getDataFields()
+//    public List<DataElement> getDataElements()
 //    {
 //        return dataElements;
 //    }
 //
-//    public void setDataFields( List<DataElement> dataElements )
+//    public void setDataElements( List<DataElement> dataElements )
 //    {
 //        this.dataElements = dataElements;
 //    }
@@ -678,12 +678,12 @@ public class Metadata
 //    @JsonProperty
 //    @JacksonXmlElementWrapper( localName = "dataSets", namespace = DxfNamespaces.DXF_2_0 )
 //    @JacksonXmlProperty( localName = "fieldSet", namespace = DxfNamespaces.DXF_2_0 )
-//    public List<DataSet> getFieldSets()
+//    public List<DataSet> getDataSets()
 //    {
 //        return dataSets;
 //    }
 //
-//    public void setFieldSets( List<DataSet> dataSets )
+//    public void setDataSets( List<DataSet> dataSets )
 //    {
 //        this.dataSets = dataSets;
 //    }
@@ -1169,8 +1169,8 @@ public class Metadata
 //            ", dataElements=" + dataElements +
 //            ", dataElementGroups=" + dataElementGroups +
 //            ", dataElementGroupSets=" + dataElementGroupSets +
-            ", dataFields=" + dataFields +
-            ", fieldSets=" + fieldSets +
+            ", dataElements=" + dataElements +
+            ", dataSets=" + dataSets +
             ", todoTasks=" + todoTasks +
             ", activities=" + activities +
             ", projects=" + projects +

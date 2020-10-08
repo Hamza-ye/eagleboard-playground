@@ -1,14 +1,23 @@
 package com.mass3d.user;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.collect.Lists;
 import com.mass3d.common.AuditLogUtil;
 import com.mass3d.common.BaseIdentifiableObject;
+import com.mass3d.commons.filter.FilterUtils;
 import com.mass3d.feedback.ErrorCode;
 import com.mass3d.feedback.ErrorReport;
-import com.mass3d.fieldset.FieldSet;
+import com.mass3d.dataset.DataSet;
+import com.mass3d.system.filter.UserAuthorityGroupCanIssueFilter;
+import com.mass3d.system.util.DateUtils;
+import com.mass3d.period.PeriodType;
 import com.mass3d.security.PasswordManager;
+import com.mass3d.setting.SettingKey;
+import com.mass3d.setting.SystemSettingManager;
 import com.mass3d.todotask.TodoTask;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -17,11 +26,14 @@ import javax.annotation.Nullable;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Service("com.mass3d.user.UserService")
 public class DefaultUserService
     implements UserService {
 
@@ -38,8 +50,31 @@ public class DefaultUserService
   private UserCredentialsStore userCredentialsStore;
   private UserAuthorityGroupStore userAuthorityGroupStore;
   private CurrentUserService currentUserService;
-//  private SystemSettingManager systemSettingManager;
+  private SystemSettingManager systemSettingManager;
   private PasswordManager passwordManager;
+
+  public DefaultUserService( UserStore userStore, UserGroupService userGroupService,
+      UserCredentialsStore userCredentialsStore, UserAuthorityGroupStore userAuthorityGroupStore,
+      CurrentUserService currentUserService, SystemSettingManager systemSettingManager,
+      @Lazy PasswordManager passwordManager)
+  {
+    checkNotNull( userStore );
+    checkNotNull( userGroupService );
+    checkNotNull( userCredentialsStore );
+    checkNotNull( userAuthorityGroupStore );
+    checkNotNull( systemSettingManager );
+    checkNotNull( passwordManager );
+//    checkNotNull( sessionRegistry );
+
+    this.userStore = userStore;
+    this.userGroupService = userGroupService;
+    this.userCredentialsStore = userCredentialsStore;
+    this.userAuthorityGroupStore = userAuthorityGroupStore;
+    this.currentUserService = currentUserService;
+    this.systemSettingManager = systemSettingManager;
+    this.passwordManager = passwordManager;
+//    this.sessionRegistry = sessionRegistry;
+  }
 
   @Autowired
   public void setUserStore(UserStore userStore) {
@@ -184,9 +219,9 @@ public class DefaultUserService
   }
 
   private void handleUserQueryParams(UserQueryParams params) {
-//    boolean canGrantOwnRoles = (Boolean) systemSettingManager
-//        .getSystemSetting(SettingKey.CAN_GRANT_OWN_USER_AUTHORITY_GROUPS);
-//    params.setDisjointRoles(!canGrantOwnRoles);
+    boolean canGrantOwnRoles = (Boolean) systemSettingManager
+        .getSystemSetting(SettingKey.CAN_GRANT_OWN_USER_AUTHORITY_GROUPS);
+    params.setDisjointRoles(!canGrantOwnRoles);
 
     if (!params.hasUser()) {
       params.setUser(currentUserService.getCurrentUser());
@@ -198,11 +233,11 @@ public class DefaultUserService
       params.setDisjointRoles(false);
     }
 
-//    if (params.getInactiveMonths() != null) {
-//      Calendar cal = PeriodType.createCalendarInstance();
-//      cal.add(Calendar.MONTH, (params.getInactiveMonths() * -1));
-//      params.setInactiveSince(cal.getTime());
-//    }
+    if (params.getInactiveMonths() != null) {
+      Calendar cal = PeriodType.createCalendarInstance();
+      cal.add(Calendar.MONTH, (params.getInactiveMonths() * -1));
+      params.setInactiveSince(cal.getTime());
+    }
     // Todo Eagle commented out in handleUserQueryParams()
 //        if ( params.isUserOrgUnits() && params.hasUser() )
 //        {
@@ -211,7 +246,8 @@ public class DefaultUserService
   }
 
   private boolean validateUserQueryParams(UserQueryParams params) {
-    if (params.isCanManage() && (params.getUser() == null)) {
+    if (params.isCanManage() && (params.getUser() == null || !params.getUser()
+        .hasManagedGroups())) {
       log.warn("Cannot get managed users as user does not have any managed groups");
       return false;
     }
@@ -386,7 +422,7 @@ public class DefaultUserService
   // Todo Eagle added function countFieldSetUserAuthorityGroups( FieldSet fieldSet )
   @Override
   @Transactional(readOnly = true)
-  public int countFieldSetUserAuthorityGroups(FieldSet fieldSet) {
+  public int countFieldSetUserAuthorityGroups(DataSet fieldSet) {
     return userAuthorityGroupStore.countFieldSetUserAuthorityGroups(fieldSet);
   }
 
@@ -397,17 +433,17 @@ public class DefaultUserService
     return userAuthorityGroupStore.countTodoTaskUserAuthorityGroups(todoTask);
   }
 
-//  @Override
-//  @Transactional(readOnly = true)
-//  public void canIssueFilter(Collection<UserAuthorityGroup> userRoles) {
-//    User user = currentUserService.getCurrentUser();
-//
-//    boolean canGrantOwnUserAuthorityGroups = (Boolean) systemSettingManager
-//        .getSystemSetting(SettingKey.CAN_GRANT_OWN_USER_AUTHORITY_GROUPS);
-//
-//    FilterUtils.filter(userRoles,
-//        new UserAuthorityGroupCanIssueFilter(user, canGrantOwnUserAuthorityGroups));
-//  }
+  @Override
+  @Transactional(readOnly = true)
+  public void canIssueFilter(Collection<UserAuthorityGroup> userRoles) {
+    User user = currentUserService.getCurrentUser();
+
+    boolean canGrantOwnUserAuthorityGroups = (Boolean) systemSettingManager
+        .getSystemSetting(SettingKey.CAN_GRANT_OWN_USER_AUTHORITY_GROUPS);
+
+    FilterUtils.filter(userRoles,
+        new UserAuthorityGroupCanIssueFilter(user, canGrantOwnUserAuthorityGroups));
+  }
 
   // -------------------------------------------------------------------------
   // UserCredentials
@@ -493,14 +529,14 @@ public class DefaultUserService
     }
   }
 
-//  @Override
-//  @Transactional(readOnly = true)
-//  public int getActiveUsersCount(int days) {
-//    Calendar cal = PeriodType.createCalendarInstance();
-//    cal.add(Calendar.DAY_OF_YEAR, (days * -1));
-//
-//    return getActiveUsersCount(cal.getTime());
-//  }
+  @Override
+  @Transactional(readOnly = true)
+  public int getActiveUsersCount(int days) {
+    Calendar cal = PeriodType.createCalendarInstance();
+    cal.add(Calendar.DAY_OF_YEAR, (days * -1));
+
+    return getActiveUsersCount(cal.getTime());
+  }
 
   @Override
   @Transactional(readOnly = true)
@@ -511,23 +547,23 @@ public class DefaultUserService
     return getUserCount(params);
   }
 
-//  @Override
-//  @Transactional(readOnly = true)
-//  public boolean credentialsNonExpired(UserCredentials credentials) {
-//    int credentialsExpires = systemSettingManager.credentialsExpires();
-//
-//    if (credentialsExpires == 0) {
-//      return true;
-//    }
-//
-//    if (credentials == null || credentials.getPasswordLastUpdated() == null) {
-//      return true;
-//    }
-//
-//    int months = DateUtils.monthsBetween(credentials.getPasswordLastUpdated(), new Date());
-//
-//    return months < credentialsExpires;
-//  }
+  @Override
+  @Transactional(readOnly = true)
+  public boolean credentialsNonExpired(UserCredentials credentials) {
+    int credentialsExpires = systemSettingManager.credentialsExpires();
+
+    if (credentialsExpires == 0) {
+      return true;
+    }
+
+    if (credentials == null || credentials.getPasswordLastUpdated() == null) {
+      return true;
+    }
+
+    int months = DateUtils.monthsBetween(credentials.getPasswordLastUpdated(), new Date());
+
+    return months < credentialsExpires;
+  }
 
   @Override
   @Transactional(readOnly = true)
@@ -541,8 +577,8 @@ public class DefaultUserService
 
     // Validate user role
 
-//    boolean canGrantOwnUserAuthorityGroups = (Boolean) systemSettingManager
-//        .getSystemSetting(SettingKey.CAN_GRANT_OWN_USER_AUTHORITY_GROUPS);
+    boolean canGrantOwnUserAuthorityGroups = (Boolean) systemSettingManager
+        .getSystemSetting(SettingKey.CAN_GRANT_OWN_USER_AUTHORITY_GROUPS);
 
     List<UserAuthorityGroup> roles = userAuthorityGroupStore.getByUid(
         user.getUserCredentials().getUserAuthorityGroups().stream()
@@ -550,7 +586,7 @@ public class DefaultUserService
 
     roles.forEach(ur ->
     {
-      if (!currentUser.getUserCredentials().canIssueUserRole(ur, true)) {
+      if (!currentUser.getUserCredentials().canIssueUserRole(ur, canGrantOwnUserAuthorityGroups)) {
         errors.add(
             new ErrorReport(UserAuthorityGroup.class, ErrorCode.E3003, currentUser.getUsername(),
                 ur.getName()));
@@ -583,21 +619,21 @@ public class DefaultUserService
     return errors;
   }
 
-//  @Override
-//  @Transactional(readOnly = true)
-//  public List<User> getExpiringUsers() {
-//    int daysBeforePasswordChangeRequired =
-//        (Integer) systemSettingManager.getSystemSetting(SettingKey.CREDENTIALS_EXPIRES) * 30;
-//
-//    Date daysPassed = new DateTime(new Date())
-//        .minusDays(daysBeforePasswordChangeRequired - EXPIRY_THRESHOLD).toDate();
-//
-//    UserQueryParams userQueryParams = new UserQueryParams()
-//        .setDisabled(false)
-//        .setPasswordLastUpdated(daysPassed);
-//
-//    return userStore.getExpiringUsers(userQueryParams);
-//  }
+  @Override
+  @Transactional(readOnly = true)
+  public List<User> getExpiringUsers() {
+    int daysBeforePasswordChangeRequired =
+        (Integer) systemSettingManager.getSystemSetting(SettingKey.CREDENTIALS_EXPIRES) * 30;
+
+    Date daysPassed = new DateTime(new Date())
+        .minusDays(daysBeforePasswordChangeRequired - EXPIRY_THRESHOLD).toDate();
+
+    UserQueryParams userQueryParams = new UserQueryParams()
+        .setDisabled(false)
+        .setPasswordLastUpdated(daysPassed);
+
+    return userStore.getExpiringUsers(userQueryParams);
+  }
 
   public void set2FA(User user, Boolean twoFa) {
     user.getUserCredentials().setTwoFA(twoFa);
