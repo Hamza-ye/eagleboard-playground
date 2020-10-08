@@ -1,0 +1,568 @@
+package com.mass3d.dataelement;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import com.mass3d.EagleboardSpringTest;
+import com.mass3d.common.IdentifiableObjectManager;
+import com.mass3d.common.ValueType;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+//@RunWith( SpringRunner.class )
+//@DataJpaTest
+public class DataElementStoreTest
+    extends EagleboardSpringTest
+{
+    @Autowired
+    private DataElementStore dataElementStore;
+
+//    @Autowired
+//    private AttributeService attributeService;
+    
+    @Autowired
+    private IdentifiableObjectManager idObjectManager;
+
+    // -------------------------------------------------------------------------
+    // Tests
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void testAddDataElement()
+    {
+        DataElement dataElementA = createDataElement( 'A' );
+        DataElement dataElementB = createDataElement( 'B' );
+        DataElement dataElementC = createDataElement( 'C' );
+
+        dataElementStore.save(dataElementA);
+        Long idA = dataElementA.getId();
+        dataElementStore.save(dataElementB);
+        Long idB = dataElementB.getId();
+        dataElementStore.save(dataElementC);
+        Long idC = dataElementC.getId();
+
+        dataElementA = dataElementStore.get( idA );
+        assertNotNull(dataElementA);
+        assertEquals( idA, dataElementA.getId() );
+        assertEquals( "DataElementA", dataElementA.getName() );
+
+        dataElementB = dataElementStore.get( idB );
+        assertNotNull(dataElementB);
+        assertEquals( idB, dataElementB.getId() );
+        assertEquals( "DataElementB", dataElementB.getName() );
+
+        dataElementC = dataElementStore.get( idC );
+        assertNotNull(dataElementC);
+        assertEquals( idC, dataElementC.getId() );
+        assertEquals( "DataElementC", dataElementC.getName() );
+    }
+
+    @Test
+    public void testUpdateDataElement()
+    {
+        DataElement dataElementA = createDataElement( 'A' );
+        dataElementStore.save( dataElementA );
+        Long idA = dataElementA.getId();
+        dataElementA = dataElementStore.get( idA );
+        assertEquals( ValueType.INTEGER, dataElementA.getValueType() );
+
+        dataElementA.setValueType( ValueType.BOOLEAN );
+        dataElementStore.update( dataElementA );
+        dataElementA = dataElementStore.get( idA );
+        assertNotNull( dataElementA.getValueType() );
+        assertEquals( ValueType.BOOLEAN, dataElementA.getValueType() );
+    }
+
+    @Test
+    public void testDeleteAndGetDataElement()
+    {
+        DataElement dataElementA = createDataElement( 'A' );
+        DataElement dataElementB = createDataElement( 'B' );
+        DataElement dataElementC = createDataElement( 'C' );
+        DataElement dataElementD = createDataElement( 'D' );
+
+        dataElementStore.save( dataElementA );
+        Long idA = dataElementA.getId();
+        dataElementStore.save( dataElementB );
+        Long idB = dataElementB.getId();
+        dataElementStore.save( dataElementC );
+        Long idC = dataElementC.getId();
+        dataElementStore.save( dataElementD );
+        Long idD = dataElementD.getId();
+
+            assertNotNull( dataElementStore.get( idA ) );
+        assertNotNull( dataElementStore.get( idB ) );
+        assertNotNull( dataElementStore.get( idC ) );
+        assertNotNull( dataElementStore.get( idD ) );
+
+        dataElementA = dataElementStore.get( idA );
+        dataElementB = dataElementStore.get( idB );
+        dataElementC = dataElementStore.get( idC );
+        dataElementD = dataElementStore.get( idD );
+
+        dataElementStore.delete( dataElementA );
+        assertNull( dataElementStore.get( idA ) );
+        assertNotNull( dataElementStore.get( idB ) );
+        assertNotNull( dataElementStore.get( idC ) );
+        assertNotNull( dataElementStore.get( idD ) );
+
+        dataElementStore.delete( dataElementB );
+        assertNull( dataElementStore.get( idA ) );
+        assertNull( dataElementStore.get( idB ) );
+        assertNotNull( dataElementStore.get( idC ) );
+        assertNotNull( dataElementStore.get( idD ) );
+
+        dataElementStore.delete( dataElementC );
+        assertNull( dataElementStore.get( idA ) );
+        assertNull( dataElementStore.get( idB ) );
+        assertNull( dataElementStore.get( idC ) );
+        assertNotNull( dataElementStore.get( idD ) );
+
+        dataElementStore.delete( dataElementD );
+        assertNull( dataElementStore.get( idA ) );
+        assertNull( dataElementStore.get( idB ) );
+        assertNull( dataElementStore.get( idC ) );
+        assertNull( dataElementStore.get( idD ) );
+    }
+
+    @Test
+    public void testGetDataElementByName()
+    {
+        DataElement dataElementA = createDataElement( 'A' );
+        DataElement dataElementB = createDataElement( 'B' );
+        dataElementStore.save(dataElementA);
+        Long idA = dataElementA.getId();
+        dataElementStore.save(dataElementB);
+        Long idB = dataElementB.getId();
+
+        dataElementA = dataElementStore.getByName( "DataElementA" );
+        assertNotNull(dataElementA);
+        assertEquals( idA, dataElementA.getId() );
+        assertEquals( "DataElementA", dataElementA.getName() );
+
+        dataElementB = dataElementStore.getByName( "DataElementB" );
+        assertNotNull(dataElementB);
+        assertEquals( idB, dataElementB.getId() );
+        assertEquals( "DataElementB", dataElementB.getName() );
+
+        DataElement dataElementC = dataElementStore.getByName( "DataElementC" );
+        assertNull( dataElementC );
+    }
+
+    @Test
+    public void testGetAllDataElements()
+    {
+        assertEquals( 0, dataElementStore.getAll().size() );
+
+        DataElement dataElementA = createDataElement( 'A' );
+        DataElement dataElementB = createDataElement( 'B' );
+        DataElement dataElementC = createDataElement( 'C' );
+        DataElement dataElementD = createDataElement( 'D' );
+
+        dataElementStore.save(dataElementA);
+        dataElementStore.save(dataElementB);
+        dataElementStore.save(dataElementC);
+        dataElementStore.save(dataElementD);
+
+        List<DataElement> dataElementsRef = new ArrayList<>();
+        dataElementsRef.add(dataElementA);
+        dataElementsRef.add(dataElementB);
+        dataElementsRef.add(dataElementC);
+        dataElementsRef.add(dataElementD);
+
+        List<DataElement> dataElements = dataElementStore.getAll();
+        assertNotNull(dataElements);
+        assertEquals( dataElementsRef.size(), dataElements.size() );
+        assertTrue( dataElements.containsAll( dataElementsRef ) );
+    }
+
+//    @Test
+//    public void testGetDataElementsByDomainType()
+//    {
+//        assertEquals( 0, dataElementStore.getDataElementsByDomainType( DataElementDomain.AGGREGATE ).size() );
+//        assertEquals( 0, dataElementStore.getDataElementsByDomainType( DataElementDomain.TRACKER ).size() );
+//
+//        DataElement dataElementA = createDataElement( 'A' );
+//        dataElementA.setDomainType( DataElementDomain.AGGREGATE );
+//        DataElement dataElementB = createDataElement( 'B' );
+//        dataElementB.setDomainType( DataElementDomain.TRACKER );
+//        DataElement dataElementC = createDataElement( 'C' );
+//        dataElementC.setDomainType( DataElementDomain.TRACKER );
+//        DataElement dataElementD = createDataElement( 'D' );
+//        dataElementD.setDomainType( DataElementDomain.TRACKER );
+//
+//        dataElementStore.save( dataElementA );
+//        dataElementStore.save( dataElementB );
+//        dataElementStore.save( dataElementC );
+//        dataElementStore.save( dataElementD );
+//
+//        assertEquals( 1, dataElementStore.getDataElementsByDomainType( DataElementDomain.AGGREGATE ).size() );
+//        assertEquals( 3, dataElementStore.getDataElementsByDomainType( DataElementDomain.TRACKER ).size() );
+//    }
+
+//    @Test
+//    public void testGetDataElementAggregationLevels()
+//    {
+//        List<Integer> aggregationLevels = Arrays.asList( 3, 5 );
+//
+//        DataElement dataElementA = createDataElement( 'A' );
+//        dataElementA.setAggregationLevels( aggregationLevels );
+//
+//        dataElementStore.save( dataElementA );
+//        int idA = dataElementA.getId();
+//
+//        assertNotNull( dataElementStore.get( idA ).getAggregationLevels() );
+//        assertEquals( 2, dataElementStore.get( idA ).getAggregationLevels().size() );
+//        assertEquals( aggregationLevels, dataElementStore.get( idA ).getAggregationLevels() );
+//    }
+//
+
+//    @Test
+//    public void testGetDataElementsWithoutFieldSets()
+//    {
+//        DataElement dataElementA = createDataElement( 'A' );
+//        DataElement dataElementB = createDataElement( 'B' );
+//        DataElement dataElementC = createDataElement( 'C' );
+//        DataElement dataElementD = createDataElement( 'D' );
+//        DataElement dataElementE = createDataElement( 'E' );
+//
+//        dataElementStore.save( dataElementA );
+//        dataElementStore.save( dataElementB );
+//        dataElementStore.save( dataElementC );
+//        dataElementStore.save( dataElementD );
+//        dataElementStore.save( dataElementE );
+//
+//        DataElementGroup dgA = createDataElementGroup( 'A' );
+//        dgA.addDataElement( dataElementA );
+//        dgA.addDataElement( dataElementD );
+//
+//        idObjectManager.save( dgA );
+//
+//        List<DataElement> dataElements = dataElementStore.getDataElementsWithoutFieldSets();
+//
+//        assertEquals( 3, dataElements.size() );
+//        assertTrue( dataElements.contains( dataElementB ) );
+//        assertTrue( dataElements.contains( dataElementC ) );
+//        assertTrue( dataElements.contains( dataElementE ) );
+//    }
+
+//    @Test
+//    public void testGetDataElementsByAggregationLevel()
+//    {
+//        DataElement dataElementA = createDataElement( 'A' );
+//        DataElement dataElementB = createDataElement( 'B' );
+//        DataElement dataElementC = createDataElement( 'C' );
+//
+//        dataElementA.getAggregationLevels().addAll( Arrays.asList( 3, 5 ) );
+//        dataElementB.getAggregationLevels().addAll( Arrays.asList( 4, 5 ) );
+//
+//        dataElementStore.save( dataElementA );
+//        dataElementStore.save( dataElementB );
+//        dataElementStore.save( dataElementC );
+//
+//        List<DataElement> dataElements = dataElementStore.getDataElementsByAggregationLevel( 2 );
+//
+//        assertEquals( 0, dataElements.size() );
+//
+//        dataElements = dataElementStore.getDataElementsByAggregationLevel( 3 );
+//
+//        assertEquals( 1, dataElements.size() );
+//
+//        dataElements = dataElementStore.getDataElementsByAggregationLevel( 4 );
+//
+//        assertEquals( 1, dataElements.size() );
+//
+//        dataElements = dataElementStore.getDataElementsByAggregationLevel( 5 );
+//
+//        assertEquals( 2, dataElements.size() );
+//        assertTrue( dataElements.contains( dataElementA ) );
+//        assertTrue( dataElements.contains( dataElementB ) );
+//    }
+
+    @Test
+    public void testGetDataElementsZeroIsSignificant()
+    {
+        DataElement dataElementA = createDataElement( 'A' );
+        DataElement dataElementB = createDataElement( 'B' );
+        DataElement dataElementC = createDataElement( 'C' );
+        DataElement dataElementD = createDataElement( 'D' );
+
+        dataElementA.setZeroIsSignificant( true );
+        dataElementB.setZeroIsSignificant( true );
+
+        dataElementStore.save(dataElementA);
+        dataElementStore.save(dataElementB);
+        dataElementStore.save(dataElementC);
+        dataElementStore.save(dataElementD);
+
+        List<DataElement> dataElements = dataElementStore.getDataElementsByZeroIsSignificant( true );
+
+        assertTrue( equals(dataElements, dataElementA, dataElementB) );
+    }
+
+//    @Test
+//    public void testAttributeValueFromAttribute() throws NonUniqueAttributeValueException
+//    {
+//        Attribute attribute = new Attribute( "test", ValueType.TEXT );
+//        attribute.setDataElementAttribute( true );
+//        attributeService.addAttribute( attribute );
+//
+//        DataElement dataElementA = createDataElement( 'A' );
+//        DataElement dataElementB = createDataElement( 'B' );
+//        DataElement dataElementC = createDataElement( 'C' );
+//
+//        dataElementStore.save( dataElementA );
+//        dataElementStore.save( dataElementB );
+//        dataElementStore.save( dataElementC );
+//
+//        AttributeValue attributeValueA = new AttributeValue( "SOME VALUE", attribute );
+//        AttributeValue attributeValueB = new AttributeValue( "SOME VALUE", attribute );
+//        AttributeValue attributeValueC = new AttributeValue( "ANOTHER VALUE", attribute );
+//
+//        attributeService.addAttributeValue( dataElementA, attributeValueA );
+//        attributeService.addAttributeValue( dataElementB, attributeValueB );
+//        attributeService.addAttributeValue( dataElementC, attributeValueC );
+//
+//        dataElementStore.update( dataElementA );
+//        dataElementStore.update( dataElementB );
+//        dataElementStore.update( dataElementC );
+//
+//        List<AttributeValue> values = dataElementStore.getAttributeValueByAttribute( attribute );
+//        assertEquals( 3, values.size() );
+//    }
+//
+//    @Test
+//    public void testAttributeValueFromAttributeAndValue() throws NonUniqueAttributeValueException
+//    {
+//        Attribute attribute = new Attribute( "test", ValueType.TEXT );
+//        attribute.setDataElementAttribute( true );
+//        attributeService.addAttribute( attribute );
+//
+//        DataElement dataElementA = createDataElement( 'A' );
+//        DataElement dataElementB = createDataElement( 'B' );
+//        DataElement dataElementC = createDataElement( 'C' );
+//
+//        dataElementStore.save( dataElementA );
+//        dataElementStore.save( dataElementB );
+//        dataElementStore.save( dataElementC );
+//
+//        AttributeValue attributeValueA = new AttributeValue( "SOME VALUE", attribute );
+//        AttributeValue attributeValueB = new AttributeValue( "SOME VALUE", attribute );
+//        AttributeValue attributeValueC = new AttributeValue( "ANOTHER VALUE", attribute );
+//
+//        attributeService.addAttributeValue( dataElementA, attributeValueA );
+//        attributeService.addAttributeValue( dataElementB, attributeValueB );
+//        attributeService.addAttributeValue( dataElementC, attributeValueC );
+//
+//        dataElementStore.update( dataElementA );
+//        dataElementStore.update( dataElementB );
+//        dataElementStore.update( dataElementC );
+//
+//        List<AttributeValue> values = dataElementStore
+//            .getAttributeValueByAttributeAndValue( attribute, "SOME VALUE" );
+//        assertEquals( 2, values.size() );
+//
+//        values = dataElementStore.getAttributeValueByAttributeAndValue( attribute, "ANOTHER VALUE" );
+//        assertEquals( 1, values.size() );
+//    }
+//
+//    @Test
+//    public void testUniqueAttributesWithSameValues()
+//    {
+//        Attribute attributeA = new Attribute( "ATTRIBUTEA", ValueType.TEXT );
+//        attributeA.setDataElementAttribute( true );
+//        attributeA.setUnique( true );
+//        attributeService.addAttribute( attributeA );
+//
+//        Attribute attributeB = new Attribute( "ATTRIBUTEB", ValueType.TEXT );
+//        attributeB.setDataElementAttribute( true );
+//        attributeB.setUnique( true );
+//        attributeService.addAttribute( attributeB );
+//
+//        Attribute attributeC = new Attribute( "ATTRIBUTEC", ValueType.TEXT );
+//        attributeC.setDataElementAttribute( true );
+//        attributeC.setUnique( true );
+//        attributeService.addAttribute( attributeC );
+//
+//        DataElement dataElementA = createDataElement( 'A' );
+//        DataElement dataElementB = createDataElement( 'B' );
+//
+//        dataElementStore.save( dataElementA );
+//        dataElementStore.save( dataElementB );
+//
+//        AttributeValue attributeValueA = new AttributeValue( "VALUE", attributeA );
+//        AttributeValue attributeValueB = new AttributeValue( "VALUE", attributeB );
+//        AttributeValue attributeValueC = new AttributeValue( "VALUE", attributeC );
+//
+//        attributeService.addAttributeValue( dataElementA, attributeValueA );
+//        attributeService.addAttributeValue( dataElementB, attributeValueB );
+//        attributeService.addAttributeValue( dataElementB, attributeValueC );
+//
+//        dataElementStore.update( dataElementA );
+//        dataElementStore.update( dataElementB );
+//
+//        assertNotNull( dataElementStore.getByUniqueAttributeValue( attributeA, "VALUE" ) );
+//        assertNotNull( dataElementStore.getByUniqueAttributeValue( attributeB, "VALUE" ) );
+//        assertNotNull( dataElementStore.getByUniqueAttributeValue( attributeC, "VALUE" ) );
+//
+//        assertEquals( "DataElementA", dataElementStore.getByUniqueAttributeValue( attributeA, "VALUE" ).getName() );
+//        assertEquals( "DataElementB", dataElementStore.getByUniqueAttributeValue( attributeB, "VALUE" ).getName() );
+//        assertEquals( "DataElementB", dataElementStore.getByUniqueAttributeValue( attributeC, "VALUE" ).getName() );
+//    }
+//
+//    @Test
+//    public void testDataElementByUniqueAttributeValue() throws NonUniqueAttributeValueException
+//    {
+//        Attribute attribute = new Attribute( "cid", ValueType.TEXT );
+//        attribute.setDataElementAttribute( true );
+//        attribute.setUnique( true );
+//        attributeService.addAttribute( attribute );
+//
+//        DataElement dataElementA = createDataElement( 'A' );
+//        DataElement dataElementB = createDataElement( 'B' );
+//        DataElement dataElementC = createDataElement( 'C' );
+//
+//        dataElementStore.save( dataElementA );
+//        dataElementStore.save( dataElementB );
+//        dataElementStore.save( dataElementC );
+//
+//        AttributeValue attributeValueA = new AttributeValue( "CID1", attribute );
+//        AttributeValue attributeValueB = new AttributeValue( "CID2", attribute );
+//        AttributeValue attributeValueC = new AttributeValue( "CID3", attribute );
+//
+//        attributeService.addAttributeValue( dataElementA, attributeValueA );
+//        attributeService.addAttributeValue( dataElementB, attributeValueB );
+//        attributeService.addAttributeValue( dataElementC, attributeValueC );
+//
+//        dataElementStore.update( dataElementA );
+//        dataElementStore.update( dataElementB );
+//        dataElementStore.update( dataElementC );
+//
+//        assertNotNull( dataElementStore.getByUniqueAttributeValue( attribute, "CID1" ) );
+//        assertNotNull( dataElementStore.getByUniqueAttributeValue( attribute, "CID2" ) );
+//        assertNotNull( dataElementStore.getByUniqueAttributeValue( attribute, "CID3" ) );
+//        assertNull( dataElementStore.getByUniqueAttributeValue( attribute, "CID4" ) );
+//        assertNull( dataElementStore.getByUniqueAttributeValue( attribute, "CID5" ) );
+//
+//        assertEquals( "DataElementA", dataElementStore.getByUniqueAttributeValue( attribute, "CID1" ).getName() );
+//        assertEquals( "DataElementB", dataElementStore.getByUniqueAttributeValue( attribute, "CID2" ).getName() );
+//        assertEquals( "DataElementC", dataElementStore.getByUniqueAttributeValue( attribute, "CID3" ).getName() );
+//    }
+//
+//    @Test
+//    public void testDataElementByNonUniqueAttributeValue() throws NonUniqueAttributeValueException
+//    {
+//        Attribute attribute = new Attribute( "cid", ValueType.TEXT );
+//        attribute.setDataElementAttribute( true );
+//        attributeService.addAttribute( attribute );
+//
+//        DataElement dataElementA = createDataElement( 'A' );
+//        DataElement dataElementB = createDataElement( 'B' );
+//        DataElement dataElementC = createDataElement( 'C' );
+//
+//        dataElementStore.save( dataElementA );
+//        dataElementStore.save( dataElementB );
+//        dataElementStore.save( dataElementC );
+//
+//        AttributeValue attributeValueA = new AttributeValue( "CID1", attribute );
+//        AttributeValue attributeValueB = new AttributeValue( "CID2", attribute );
+//        AttributeValue attributeValueC = new AttributeValue( "CID3", attribute );
+//
+//        attributeService.addAttributeValue( dataElementA, attributeValueA );
+//        attributeService.addAttributeValue( dataElementB, attributeValueB );
+//        attributeService.addAttributeValue( dataElementC, attributeValueC );
+//
+//        dataElementStore.update( dataElementA );
+//        dataElementStore.update( dataElementB );
+//        dataElementStore.update( dataElementC );
+//
+//        assertNull( dataElementStore.getByUniqueAttributeValue( attribute, "CID1" ) );
+//        assertNull( dataElementStore.getByUniqueAttributeValue( attribute, "CID2" ) );
+//        assertNull( dataElementStore.getByUniqueAttributeValue( attribute, "CID3" ) );
+//    }
+
+    @Test
+    public void testGetLastUpdated()
+    {
+        DataElement dataElementA = createDataElement( 'A' );
+        DataElement dataElementB = createDataElement( 'B' );
+
+        dataElementStore.save(dataElementA);
+        dataElementStore.save(dataElementB);
+        Date lastUpdated = dataElementStore.getLastUpdated();
+
+        dataElementA.setDescription( "testA" );
+        dataElementStore.update(dataElementA);
+
+        dataElementB.setDescription( "testB" );
+        dataElementStore.update(dataElementB);
+
+        assertNotEquals( lastUpdated, dataElementStore.getLastUpdated() );
+    }
+
+    @Test
+    public void testCountByJpaQueryParameters()
+    {
+        DataElement dataElementA = createDataElement( 'A' );
+        DataElement dataElementB = createDataElement( 'B' );
+
+        dataElementStore.save(dataElementA);
+        dataElementStore.save(dataElementB);
+
+        assertEquals( 2, dataElementStore.getCount() );
+    }
+
+    @Test
+    public void testGetDataElements()
+    {
+        DataElement dataElementA = createDataElement( 'A' );
+        DataElement dataElementB = createDataElement( 'B' );
+
+        dataElementStore.save(dataElementA);
+        dataElementStore.save(dataElementB);
+
+        assertNotNull( dataElementStore.getByUid( dataElementA.getUid() ) );
+
+        assertNotNull( dataElementStore.getByUidNoAcl( dataElementA.getUid() ) );
+
+        List<String> uids = new ArrayList<>();
+        uids.add( dataElementA.getUid() );
+        uids.add( dataElementB.getUid() );
+
+        assertNotNull( dataElementStore.getByUidNoAcl( uids ) );
+
+        assertNotNull( dataElementStore.getByName( dataElementA.getName() ) );
+
+        assertNotNull( dataElementStore.getByCode( dataElementA.getCode() ) );
+
+        assertEquals( 1, dataElementStore.getAllEqName( "DataElementA" ).size() );
+
+        assertEquals( 2, dataElementStore.getAllLikeName( "DataElement" ).size() );
+    }
+
+    @Test
+    public void testCountMethods()
+    {
+        DataElement dataElementA = createDataElement( 'A' );
+        DataElement dataElementB = createDataElement( 'B' );
+
+        dataElementStore.save(dataElementA);
+        dataElementStore.save(dataElementB);
+
+        assertEquals( 2, dataElementStore.getCountLikeName( "dataelement" ) );
+
+        assertEquals( 2, dataElementStore.getCount() );
+
+        assertEquals( 0, dataElementStore.getCountGeCreated( new Date() ) );
+
+        assertEquals( 2, dataElementStore.getCountGeCreated( dataElementA.getCreated() ) );
+
+        assertEquals( 2, dataElementStore.getCountGeLastUpdated( dataElementA.getLastUpdated() ) );
+    }
+}

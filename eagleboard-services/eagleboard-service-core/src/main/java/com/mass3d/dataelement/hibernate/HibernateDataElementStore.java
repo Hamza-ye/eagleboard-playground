@@ -1,8 +1,8 @@
-package com.mass3d.datafield.hibernate;
+package com.mass3d.dataelement.hibernate;
 
 import com.mass3d.common.ValueType;
-import com.mass3d.datafield.DataField;
-import com.mass3d.datafield.DataFieldStore;
+import com.mass3d.dataelement.DataElement;
+import com.mass3d.dataelement.DataElementStore;
 import com.mass3d.common.hibernate.HibernateIdentifiableObjectStore;
 import com.mass3d.deletedobject.DeletedObjectService;
 import com.mass3d.security.acl.AclService;
@@ -13,22 +13,22 @@ import org.hibernate.SessionFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public class HibernateDataFieldStore
-    extends HibernateIdentifiableObjectStore<DataField>
-    implements DataFieldStore {
+@Repository( "com.mass3d.dataelement.DataElementStore" )
+public class HibernateDataElementStore
+    extends HibernateIdentifiableObjectStore<DataElement>
+    implements DataElementStore {
 
-  public HibernateDataFieldStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
+  public HibernateDataElementStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
       DeletedObjectService deletedObjectService, CurrentUserService currentUserService, AclService aclService )
   {
-    super( sessionFactory, jdbcTemplate, deletedObjectService, DataField.class, currentUserService, aclService, false );
+    super( sessionFactory, jdbcTemplate, deletedObjectService, DataElement.class, currentUserService, aclService, false );
   }
   // -------------------------------------------------------------------------
   // DataElement
   // -------------------------------------------------------------------------
   @Override
   @SuppressWarnings("unchecked")
-  public List<DataField> getDataFieldsByZeroIsSignificant(boolean zeroIsSignificant) {
+  public List<DataElement> getDataElementsByZeroIsSignificant(boolean zeroIsSignificant) {
     CriteriaBuilder builder = getCriteriaBuilder();
 
     return getList( builder, newJpaParameters()
@@ -38,8 +38,8 @@ public class HibernateDataFieldStore
 
   @Override
   @SuppressWarnings("unchecked")
-  public List<DataField> getDataFieldsWithoutFieldSets() {
-    String hql = "from DataField d where size(d.fieldSetFields) = 0";
+  public List<DataElement> getDataElementsWithoutDataSets() {
+    String hql = "from DataElement d where size(d.dataSetElements) = 0";
 
     return getQuery(hql).setCacheable(true).list();
 //        return getQuery( hql ).setParameter( "domainType", DataElementDomain.AGGREGATE ).setCacheable( true ).list();
@@ -47,21 +47,21 @@ public class HibernateDataFieldStore
 
   @Override
   @SuppressWarnings("unchecked")
-  public List<DataField> getDataFieldsWithFieldSets() {
-    String hql = "from DataField d where size(d.fieldSetFields) > 0";
+  public List<DataElement> getDataElementsWithDataSets() {
+    String hql = "from DataElement d where size(d.dataSetElements) > 0";
 
     return getQuery(hql).setCacheable(true).list();
   }
 
   @Override
-  public List<DataField> getDataFieldsByAggregationLevel(int aggregationLevel) {
-    String hql = "from DataField df join df.aggregationLevels al where al = :aggregationLevel";
+  public List<DataElement> getDataElementsByAggregationLevel(int aggregationLevel) {
+    String hql = "from DataElement df join df.aggregationLevels al where al = :aggregationLevel";
 
     return getQuery( hql ).setParameter( "aggregationLevel", aggregationLevel ).list();
   }
 
   @Override
-  public List<DataField> getDataFieldsByValueType(ValueType valueType) {
+  public List<DataElement> getDataElementsByValueType(ValueType valueType) {
     CriteriaBuilder builder = getCriteriaBuilder();
 
     return getList( builder, newJpaParameters().addPredicate( root -> builder.equal( root.get( "valueType" ), valueType ) ) );

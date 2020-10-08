@@ -1,7 +1,7 @@
-package com.mass3d.fieldset;
+package com.mass3d.dataset;
 
 import com.mass3d.common.EmbeddedObject;
-import com.mass3d.datafield.DataField;
+import com.mass3d.dataelement.DataElement;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +14,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class FieldSetField implements EmbeddedObject {
+public class DataSetElement implements EmbeddedObject {
 
   /**
    * The database internal identifier for this Object.
@@ -26,18 +26,18 @@ public class FieldSetField implements EmbeddedObject {
   private int id;
 
   /**
-   * Data field set, never null.
+   * Data element set, never null.
    */
   @ManyToOne
   @JoinColumn(name = "datasetid")
-  private FieldSet fieldSet;
+  private DataSet dataSet;
 
   /**
-   * Data field, never null.
+   * Data element, never null.
    */
   @ManyToOne
-  @JoinColumn(name = "datafieldid")
-  private DataField dataField;
+  @JoinColumn(name = "dataelementid")
+  private DataElement dataElement;
 
   /**
    * Category combination, potentially null.
@@ -47,19 +47,19 @@ public class FieldSetField implements EmbeddedObject {
   // -------------------------------------------------------------------------
   // Constructors
   // -------------------------------------------------------------------------
-  public FieldSetField() {
+  public DataSetElement() {
 
   }
 
-  public FieldSetField(FieldSet fieldSet, DataField dataField) {
-    this.fieldSet = fieldSet;
-    this.dataField = dataField;
+  public DataSetElement(DataSet dataSet, DataElement dataElement) {
+    this.dataSet = dataSet;
+    this.dataElement = dataElement;
   }
 
-//  public FieldSetField( FieldSet fieldSet, DataField datafield, DataElementCategoryCombo categoryCombo )
+//  public DataSetElement( DataSet dataSet, DataElement dataelement, DataElementCategoryCombo categoryCombo )
 //  {
-//    this.fieldSet = fieldSet;
-//    this.datafield = datafield;
+//    this.dataSet = dataSet;
+//    this.dataelement = dataelement;
 //    this.categoryCombo = categoryCombo;
 //  }
 
@@ -69,7 +69,7 @@ public class FieldSetField implements EmbeddedObject {
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode(), fieldSet, dataField);
+    return Objects.hash(super.hashCode(), dataSet, dataElement);
   }
 
   @Override
@@ -86,21 +86,21 @@ public class FieldSetField implements EmbeddedObject {
       return false;
     }
 
-    FieldSetField other = (FieldSetField) object;
+    DataSetElement other = (DataSetElement) object;
 
     return objectEquals(other);
   }
 
-  public boolean objectEquals(FieldSetField other) {
-    return fieldSet.equals(other.getFieldSet()) && dataField.equals(other.getDataField());
+  public boolean objectEquals(DataSetElement other) {
+    return dataSet.equals(other.getDataSet()) && dataElement.equals(other.getDataElement());
   }
 
   @Override
   public String toString() {
     return "{" +
         "\"class\":\"" + getClass() + "\", " +
-        "\"fieldSet\":\"" + fieldSet + "\", " +
-        "\"datafield\":\"" + dataField + "\" " +
+        "\"dataSet\":\"" + dataSet + "\", " +
+        "\"dataelement\":\"" + dataElement + "\" " +
 //        "\"categoryCombo\":\"" + categoryCombo + "\" " +
         "}";
   }
@@ -117,20 +117,20 @@ public class FieldSetField implements EmbeddedObject {
     this.id = id;
   }
 
-  public FieldSet getFieldSet() {
-    return fieldSet;
+  public DataSet getDataSet() {
+    return dataSet;
   }
 
-  public void setFieldSet(FieldSet fieldSet) {
-    this.fieldSet = fieldSet;
+  public void setDataSet(DataSet dataSet) {
+    this.dataSet = dataSet;
   }
 
-  public DataField getDataField() {
-    return dataField;
+  public DataElement getDataElement() {
+    return dataElement;
   }
 
-  public void setDataField(DataField dataField) {
-    this.dataField = dataField;
+  public void setDataElement(DataElement dataElement) {
+    this.dataElement = dataElement;
   }
 
 }

@@ -1,4 +1,4 @@
-package com.mass3d.fieldset;
+package com.mass3d.dataset;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

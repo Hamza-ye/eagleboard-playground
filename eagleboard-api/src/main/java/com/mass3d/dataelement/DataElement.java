@@ -1,20 +1,19 @@
-package com.mass3d.datafield;
+package com.mass3d.dataelement;
 
 
-import static com.mass3d.fieldset.FieldSet.NO_EXPIRY;
+import static com.mass3d.dataset.DataSet.NO_EXPIRY;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.google.common.collect.ImmutableSet;
 import com.mass3d.common.BaseDimensionalItemObject;
-import com.mass3d.common.BaseNameableObject;
 import com.mass3d.common.DxfNamespaces;
 import com.mass3d.common.MetadataObject;
 import com.mass3d.common.ValueType;
 import com.mass3d.common.ValueTypedDimensionalItemObject;
-import com.mass3d.fieldset.FieldSet;
-import com.mass3d.fieldset.FieldSetField;
+import com.mass3d.dataset.DataSet;
+import com.mass3d.dataset.DataSetElement;
 import com.mass3d.option.OptionSet;
 import com.mass3d.period.Period;
 import com.mass3d.period.PeriodType;
@@ -28,43 +27,37 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.persistence.AssociationOverride;
-import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.joda.time.DateTime;
 
 
-@Entity
-@Table(name = "datafield")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@AttributeOverride(name = "id", column = @Column(name = "datafieldid"))
-@AssociationOverride(
-    name="userGroupAccesses",
-    joinTable=@JoinTable(
-        name="datafieldusergroupaccesses",
-        joinColumns=@JoinColumn(name="datafieldid"),
-        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
-    )
-)
-@AssociationOverride(
-    name="userAccesses",
-    joinTable=@JoinTable(
-        name="datafielduseraccesses",
-        joinColumns=@JoinColumn(name="datafieldid"),
-        inverseJoinColumns=@JoinColumn(name="useraccessid")
-    )
-)
-@JacksonXmlRootElement(localName = "dataField", namespace = DxfNamespaces.DXF_2_0)
-public class DataField
+//@Entity
+//@Table(name = "dataelement")
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@AttributeOverride(name = "id", column = @Column(name = "dataelementid"))
+//@AssociationOverride(
+//    name="userGroupAccesses",
+//    joinTable=@JoinTable(
+//        name="dataelementusergroupaccesses",
+//        joinColumns=@JoinColumn(name="dataelementid"),
+//        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
+//    )
+//)
+//@AssociationOverride(
+//    name="userAccesses",
+//    joinTable=@JoinTable(
+//        name="dataelementuseraccesses",
+//        joinColumns=@JoinColumn(name="dataelementid"),
+//        inverseJoinColumns=@JoinColumn(name="useraccessid")
+//    )
+//)
+@JacksonXmlRootElement(localName = "dataElement", namespace = DxfNamespaces.DXF_2_0)
+public class DataElement
     extends BaseDimensionalItemObject
     implements MetadataObject, ValueTypedDimensionalItemObject {
 
@@ -74,14 +67,14 @@ public class DataField
   protected transient String displayFormName;
 
   @OneToMany(
-      mappedBy = "dataField",
+      mappedBy = "dataElement",
       cascade = CascadeType.ALL,
       orphanRemoval = true
   )
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-  private Set<FieldSetField> fieldSetFields = new HashSet<>();
+  private Set<DataSetElement> dataSetElements = new HashSet<>();
   /**
-   * Data field value type (int, boolean, etc)
+   * Data element value type (int, boolean, etc)
    */
   private ValueType valueType;
   /**
@@ -98,13 +91,13 @@ public class DataField
   private boolean zeroIsSignificant;
 
   /**
-   * The option set for data values linked to this data field, can be null.
+   * The option set for data values linked to this data element, can be null.
    */
   @ManyToOne
   @JoinColumn(name = "optionsetid")
   private OptionSet optionSet;
   /**
-   * The option set for comments linked to this data field, can be null.
+   * The option set for comments linked to this data element, can be null.
    */
   @ManyToOne
   @JoinColumn(name = "commentoptionsetid")
@@ -119,10 +112,10 @@ public class DataField
   // Constructors
   // -------------------------------------------------------------------------
 
-  public DataField() {
+  public DataElement() {
   }
 
-  public DataField(String name) {
+  public DataElement(String name) {
     this();
     this.name = name;
   }
@@ -131,41 +124,41 @@ public class DataField
   // Logic
   // -------------------------------------------------------------------------
 
-  public boolean removeDataSetElement(FieldSetField fieldSetField) {
-    fieldSetFields.remove(fieldSetField);
-    return fieldSetField.getFieldSet().getFieldSetFields().remove(fieldSetField);
+  public boolean removeDataSetElement(DataSetElement dataSetElement) {
+    dataSetElements.remove(dataSetElement);
+    return dataSetElement.getDataSet().getDataElements().remove(dataSetElement);
   }
 
   /**
-   * Indicates whether the value type of this data field is numeric.
+   * Indicates whether the value type of this data element is numeric.
    */
   public boolean isNumericType() {
     return getValueType().isNumeric();
   }
 
   /**
-   * Indicates whether the value type of this data field is a file (externally stored resource)
+   * Indicates whether the value type of this data element is a file (externally stored resource)
    */
   public boolean isFileType() {
     return getValueType().isFile();
   }
 
   /**
-   * Returns the field set of this data field. If this data field has multiple field sets, the field
+   * Returns the element set of this data element. If this data element has multiple element sets, the element
    * set with the highest collection frequency is returned.
    */
-  public FieldSet getFieldSet() {
-    List<FieldSet> list = new ArrayList<>(getFieldSets());
+  public DataSet getDataSet() {
+    List<DataSet> list = new ArrayList<>(getDataSets());
 //    Collections.sort( list, DataSetFrequencyComparator.INSTANCE );
     return !list.isEmpty() ? list.get(0) : null;
   }
 
   /**
    * Note that this method returns an immutable set and can not be used to modify the model. Returns
-   * an immutable set of field sets associated with this data field.
+   * an immutable set of element sets associated with this data element.
    */
-  public Set<FieldSet> getFieldSets() {
-    return ImmutableSet.copyOf(fieldSetFields.stream().map(FieldSetField::getFieldSet).filter(
+  public Set<DataSet> getDataSets() {
+    return ImmutableSet.copyOf(dataSetElements.stream().map(DataSetElement::getDataSet).filter(
         dataSet -> dataSet != null).collect(Collectors.toSet()));
   }
 
@@ -183,9 +176,9 @@ public class DataField
    */
   public PeriodType getPeriodType()
   {
-    FieldSet fieldSet = getFieldSet();
+    DataSet dataSet = getDataSet();
 
-    return fieldSet != null ? fieldSet.getPeriodType() : null;
+    return dataSet != null ? dataSet.getPeriodType() : null;
   }
 
   /**
@@ -194,7 +187,7 @@ public class DataField
    */
   public Set<PeriodType> getPeriodTypes()
   {
-    return getFieldSets().stream().map( FieldSet::getPeriodType ).collect( Collectors.toSet() );
+    return getDataSets().stream().map( DataSet::getPeriodType ).collect( Collectors.toSet() );
   }
 
   /**
@@ -204,7 +197,7 @@ public class DataField
    */
   public boolean isApproveData()
   {
-//    for ( FieldSet fieldSet : getFieldSets() )
+//    for ( DataSet fieldSet : getDataSets() )
 //    {
 //      if ( fieldSet != null && fieldSet.getWorkflow() != null )
 //      {
@@ -224,9 +217,9 @@ public class DataField
   {
     int maxOpenPeriods = 0;
 
-    for ( FieldSet fieldSet : getFieldSets() )
+    for ( DataSet dataSet : getDataSets() )
     {
-//      maxOpenPeriods = Math.max( maxOpenPeriods, fieldSet.getOpenFuturePeriods() );
+//      maxOpenPeriods = Math.max( maxOpenPeriods, dataSet.getOpenFuturePeriods() );
     }
 
     return maxOpenPeriods;
@@ -278,14 +271,14 @@ public class DataField
   {
     PeriodType periodType = null;
 
-    for ( FieldSet fieldSet : getFieldSets() )
+    for ( DataSet dataSet : getDataSets() )
     {
-      if ( periodType != null && !periodType.equals( fieldSet.getPeriodType() ) )
+      if ( periodType != null && !periodType.equals( dataSet.getPeriodType() ) )
       {
         return false;
       }
 
-      periodType = fieldSet.getPeriodType();
+      periodType = dataSet.getPeriodType();
     }
 
     return true;
@@ -322,22 +315,22 @@ public class DataField
 
   /**
    * Returns the maximum number of expiry days from the data sets of this data
-   * element. Returns {@link FieldSet#NO_EXPIRY} if any data set has no expiry.
+   * element. Returns {@link DataSet#NO_EXPIRY} if any data set has no expiry.
    */
   public int getExpiryDays()
   {
     int expiryDays = Integer.MIN_VALUE;
 
-    for ( FieldSet fieldSet : getFieldSets() )
+    for ( DataSet dataSet : getDataSets() )
     {
-      if ( fieldSet.getExpiryDays() == NO_EXPIRY )
+      if ( dataSet.getExpiryDays() == NO_EXPIRY )
       {
         return NO_EXPIRY;
       }
 
-      if ( fieldSet.getExpiryDays() > expiryDays )
+      if ( dataSet.getExpiryDays() > expiryDays )
       {
-        expiryDays = fieldSet.getExpiryDays();
+        expiryDays = dataSet.getExpiryDays();
       }
     }
 
@@ -400,20 +393,19 @@ public class DataField
     return optionSet != null;
   }
 
-  public Set<FieldSetField> getFieldSetFields() {
-    return fieldSetFields;
+  public Set<DataSetElement> getDataSetElements() {
+    return dataSetElements;
   }
 
-  public void setFieldSetFields(Set<FieldSetField> fieldSetFields) {
-    this.fieldSetFields = fieldSetFields;
+  public void setDataSetElements(Set<DataSetElement> dataSetElements) {
+    this.dataSetElements = dataSetElements;
   }
 
   @Override
   @JsonProperty
   @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
   public ValueType getValueType() {
-    //TODO return optionSet != null ? optionSet.getValueType() : valueType;
-    return valueType;
+    return optionSet != null ? optionSet.getValueType() : valueType;
   }
 
   public void setValueType(ValueType valueType) {

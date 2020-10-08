@@ -13,8 +13,8 @@ public class IdSchemes {
   private IdScheme idScheme = IdScheme.UID;
 
   // Eagle Board modifications
-  private IdScheme dataFieldIdScheme;
-  private IdScheme fieldSetIdScheme;
+  private IdScheme dataElementIdScheme;
+  private IdScheme DataSetIdScheme;
   private IdScheme todoTaskIdScheme;
   private IdScheme activityIdScheme;
   private IdScheme projectIdScheme;
@@ -84,21 +84,21 @@ public class IdSchemes {
   //--------------------------------------------------------------------------
   // Eagle Board Object type id schemes
   //--------------------------------------------------------------------------
-  public IdScheme getDataFieldIdScheme() {
-    return getScheme(dataFieldIdScheme);
+  public IdScheme getDataElementIdScheme() {
+    return getScheme(dataElementIdScheme);
   }
 
-  public IdSchemes setDataFieldIdScheme(String idScheme) {
-    this.dataFieldIdScheme = IdScheme.from(idScheme);
+  public IdSchemes setDataElementIdScheme(String idScheme) {
+    this.dataElementIdScheme = IdScheme.from(idScheme);
     return this;
   }
 
-  public IdScheme getFieldSetIdScheme() {
-    return getScheme(fieldSetIdScheme);
+  public IdScheme getDataSetIdScheme() {
+    return getScheme(DataSetIdScheme);
   }
 
-  public IdSchemes setFieldSetIdScheme(String idScheme) {
-    this.fieldSetIdScheme = IdScheme.from(idScheme);
+  public IdSchemes setDataSetIdScheme(String idScheme) {
+    this.DataSetIdScheme = IdScheme.from(idScheme);
     return this;
   }
 
@@ -229,8 +229,8 @@ public class IdSchemes {
   public String toString() {
     return MoreObjects.toStringHelper(this)
         .add("idScheme", idScheme)
-        .add("dataFieldIdScheme", dataFieldIdScheme)
-        .add("fieldSetIdScheme", fieldSetIdScheme)
+        .add("dataElementIdScheme", dataElementIdScheme)
+        .add("DataSetIdScheme", DataSetIdScheme)
         .add("todoTaskIdScheme", todoTaskIdScheme)
         .add("activityIdScheme", activityIdScheme)
         .add("projectIdScheme", projectIdScheme)
