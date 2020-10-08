@@ -30,6 +30,11 @@
       <groupId>com.mass3d</groupId>
       <artifactId>eagleboard-support-system</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <scope>compile</scope>
+    </dependency>
 
   </dependencies>
   <properties>
