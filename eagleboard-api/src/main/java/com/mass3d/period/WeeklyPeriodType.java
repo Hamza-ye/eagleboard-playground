@@ -9,8 +9,8 @@ import javax.persistence.Entity;
  * week.
  *
  */
-@Entity(name = "WeeklyPeriodType")
-@DiscriminatorValue("Weekly")
+//@Entity(name = "WeeklyPeriodType")
+//@DiscriminatorValue("Weekly")
 public class WeeklyPeriodType
     extends WeeklyAbstractPeriodType {
 

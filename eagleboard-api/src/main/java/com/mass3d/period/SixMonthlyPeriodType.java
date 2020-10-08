@@ -12,8 +12,8 @@ import org.joda.time.DateTimeConstants;
  *
  * @version $Id: SixMonthlyPeriodType.java 2971 2007-03-03 18:54:56Z torgeilo $
  */
-@Entity(name = "SixMonthlyPeriodType")
-@DiscriminatorValue("SixMonthly")
+//@Entity(name = "SixMonthlyPeriodType")
+//@DiscriminatorValue("SixMonthly")
 public class SixMonthlyPeriodType
     extends SixMonthlyAbstractPeriodType {
 

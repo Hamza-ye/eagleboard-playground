@@ -1,7 +1,7 @@
 package com.mass3d.user;
 
 import com.mass3d.common.IdentifiableObjectStore;
-import com.mass3d.fieldset.FieldSet;
+import com.mass3d.dataset.DataSet;
 import com.mass3d.todotask.TodoTask;
 
 public interface UserAuthorityGroupStore
@@ -18,10 +18,10 @@ public interface UserAuthorityGroupStore
   /**
    * Returns the number of UserAuthorityGroups which are associated with the given DataSet.
    *
-   * @param fieldSet the DataSet.
+   * @param dataSet the DataSet.
    * @return number of UserAuthorityGroups.
    */
-  int countFieldSetUserAuthorityGroups(FieldSet fieldSet);
+  int countFieldSetUserAuthorityGroups(DataSet dataSet);
 
   /**
    * Returns the number of UserAuthorityGroups which are associated with the given TodoTask.

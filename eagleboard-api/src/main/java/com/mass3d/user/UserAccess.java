@@ -20,9 +20,9 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-@Entity
-@Table(name = "useraccess")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@Entity
+//@Table(name = "useraccess")
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @JacksonXmlRootElement(localName = "userAccess", namespace = DxfNamespaces.DXF_2_0)
 public class UserAccess
     implements Serializable, EmbeddedObject {

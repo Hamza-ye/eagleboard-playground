@@ -13,8 +13,8 @@ import org.joda.time.DateTimeConstants;
  *
  * @author Jim Grace
  */
-@Entity(name = "SixMonthlyAprilPeriodType")
-@DiscriminatorValue("SixMonthlyApril")
+//@Entity(name = "SixMonthlyAprilPeriodType")
+//@DiscriminatorValue("SixMonthlyApril")
 public class SixMonthlyAprilPeriodType
     extends SixMonthlyAbstractPeriodType {
 

@@ -30,26 +30,26 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.util.StringUtils;
 
-@Entity
-@Table(name = "user")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@AttributeOverride(name = "id", column = @Column(name = "userid"))
-@AssociationOverride(
-    name="userGroupAccesses",
-    joinTable=@JoinTable(
-        name="userusergroupaccesses",
-        joinColumns=@JoinColumn(name="userid"),
-        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
-    )
-)
-@AssociationOverride(
-    name="userAccesses",
-    joinTable=@JoinTable(
-        name="useruseraccesses",
-        joinColumns=@JoinColumn(name="userid"),
-        inverseJoinColumns=@JoinColumn(name="useraccessid")
-    )
-)
+//@Entity
+//@Table(name = "user")
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@AttributeOverride(name = "id", column = @Column(name = "userid"))
+//@AssociationOverride(
+//    name="userGroupAccesses",
+//    joinTable=@JoinTable(
+//        name="userusergroupaccesses",
+//        joinColumns=@JoinColumn(name="userid"),
+//        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
+//    )
+//)
+//@AssociationOverride(
+//    name="userAccesses",
+//    joinTable=@JoinTable(
+//        name="useruseraccesses",
+//        joinColumns=@JoinColumn(name="userid"),
+//        inverseJoinColumns=@JoinColumn(name="useraccessid")
+//    )
+//)
 @JacksonXmlRootElement(localName = "user", namespace = DxfNamespaces.DXF_2_0)
 public class User
     extends BaseIdentifiableObject implements MetadataObject {
@@ -213,6 +213,27 @@ public class User
    */
   public boolean isAuthorized(String auth) {
     return userCredentials != null && userCredentials.isAuthorized(auth);
+  }
+
+  public Set<UserGroup> getManagedGroups() {
+    Set<UserGroup> managedGroups = new HashSet<>();
+
+    for (UserGroup group : groups) {
+      managedGroups.addAll(group.getManagedGroups());
+    }
+
+    return managedGroups;
+  }
+
+  public boolean hasManagedGroups() {
+    for (UserGroup group : groups) {
+      if (group != null && group.getManagedGroups() != null && !group.getManagedGroups()
+          .isEmpty()) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   /**

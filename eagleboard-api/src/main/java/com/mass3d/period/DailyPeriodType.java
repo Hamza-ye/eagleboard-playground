@@ -12,8 +12,8 @@ import javax.persistence.Entity;
  * PeriodType for daily Periods. A valid daily Period has equal startDate and endDate.
  *
  */
-@Entity(name = "DailyPeriodType")
-@DiscriminatorValue("Daily")
+//@Entity(name = "DailyPeriodType")
+//@DiscriminatorValue("Daily")
 public class DailyPeriodType
     extends CalendarPeriodType {
 

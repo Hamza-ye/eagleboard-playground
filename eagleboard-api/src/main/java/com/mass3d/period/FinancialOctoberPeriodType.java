@@ -5,8 +5,8 @@ import com.mass3d.calendar.DateTimeUnit;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-@Entity//(name = "FinancialOctoberPeriodType")
-@DiscriminatorValue("FinancialOct")
+//@Entity//(name = "FinancialOctoberPeriodType")
+//@DiscriminatorValue("FinancialOct")
 public class FinancialOctoberPeriodType
     extends FinancialPeriodType {
 

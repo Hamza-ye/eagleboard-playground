@@ -42,12 +42,12 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  *
  */
 
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "name", discriminatorType= DiscriminatorType.STRING)
-@Table(name = "periodtype")
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@Entity
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@DiscriminatorColumn(name = "name", discriminatorType= DiscriminatorType.STRING)
+//@Table(name = "periodtype")
+//@Cacheable
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @JacksonXmlRootElement(localName = "periodType", namespace = DxfNamespaces.DXF_2_0)
 public abstract class PeriodType
     implements Serializable {

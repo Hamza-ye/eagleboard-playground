@@ -28,27 +28,27 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
-@Entity
-@Table(name = "period", uniqueConstraints=
-@UniqueConstraint(columnNames={"periodtypeid", "startDate", "endDate"}))
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@AttributeOverride(name = "id", column = @Column(name = "periodid"))
-@AssociationOverride(
-    name="userGroupAccesses",
-    joinTable=@JoinTable(
-        name="periodusergroupaccesses",
-        joinColumns=@JoinColumn(name="periodid"),
-        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
-    )
-)
-@AssociationOverride(
-    name="userAccesses",
-    joinTable=@JoinTable(
-        name="perioduseraccesses",
-        joinColumns=@JoinColumn(name="periodid"),
-        inverseJoinColumns=@JoinColumn(name="useraccessid")
-    )
-)
+//@Entity
+//@Table(name = "period", uniqueConstraints=
+//@UniqueConstraint(columnNames={"periodtypeid", "startDate", "endDate"}))
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@AttributeOverride(name = "id", column = @Column(name = "periodid"))
+//@AssociationOverride(
+//    name="userGroupAccesses",
+//    joinTable=@JoinTable(
+//        name="periodusergroupaccesses",
+//        joinColumns=@JoinColumn(name="periodid"),
+//        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
+//    )
+//)
+//@AssociationOverride(
+//    name="userAccesses",
+//    joinTable=@JoinTable(
+//        name="perioduseraccesses",
+//        joinColumns=@JoinColumn(name="periodid"),
+//        inverseJoinColumns=@JoinColumn(name="useraccessid")
+//    )
+//)
 @JacksonXmlRootElement(localName = "period", namespace = DxfNamespaces.DXF_2_0)
 public class Period
     extends BaseDimensionalItemObject {

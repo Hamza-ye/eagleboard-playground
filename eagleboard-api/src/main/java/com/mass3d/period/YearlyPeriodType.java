@@ -14,8 +14,8 @@ import javax.persistence.Entity;
  *
  * @version $Id: YearlyPeriodType.java 2971 2007-03-03 18:54:56Z torgeilo $
  */
-@Entity(name = "YearlyPeriodType")
-@DiscriminatorValue("Yearly")
+//@Entity(name = "YearlyPeriodType")
+//@DiscriminatorValue("Yearly")
 public class YearlyPeriodType
     extends CalendarPeriodType {
 

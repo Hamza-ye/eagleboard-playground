@@ -8,8 +8,8 @@ import com.mass3d.calendar.DateTimeUnit;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-@Entity(name = "BiMonthlyPeriodType")
-@DiscriminatorValue("BiMonthly")
+//@Entity(name = "BiMonthlyPeriodType")
+//@DiscriminatorValue("BiMonthly")
 public class BiMonthlyPeriodType
     extends CalendarPeriodType {
 

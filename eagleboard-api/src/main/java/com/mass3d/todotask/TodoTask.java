@@ -12,7 +12,7 @@ import com.mass3d.common.BaseNameableObject;
 import com.mass3d.common.DxfNamespaces;
 import com.mass3d.common.InterpretableObject;
 import com.mass3d.common.MetadataObject;
-import com.mass3d.fieldset.FieldSet;
+import com.mass3d.dataset.DataSet;
 import com.mass3d.interpretation.Interpretation;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,26 +29,26 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-@Entity
-@Table(name = "todotask")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@AttributeOverride(name = "id", column = @Column(name = "todotaskid"))
-@AssociationOverride(
-    name="userGroupAccesses",
-    joinTable=@JoinTable(
-        name="todotaskusergroupaccesses",
-        joinColumns=@JoinColumn(name="todotaskid"),
-        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
-    )
-)
-@AssociationOverride(
-    name="userAccesses",
-    joinTable=@JoinTable(
-        name="todotaskuseraccesses",
-        joinColumns=@JoinColumn(name="todotaskid"),
-        inverseJoinColumns=@JoinColumn(name="useraccessid")
-    )
-)
+//@Entity
+//@Table(name = "todotask")
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@AttributeOverride(name = "id", column = @Column(name = "todotaskid"))
+//@AssociationOverride(
+//    name="userGroupAccesses",
+//    joinTable=@JoinTable(
+//        name="todotaskusergroupaccesses",
+//        joinColumns=@JoinColumn(name="todotaskid"),
+//        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
+//    )
+//)
+//@AssociationOverride(
+//    name="userAccesses",
+//    joinTable=@JoinTable(
+//        name="todotaskuseraccesses",
+//        joinColumns=@JoinColumn(name="todotaskid"),
+//        inverseJoinColumns=@JoinColumn(name="useraccessid")
+//    )
+//)
 @JacksonXmlRootElement(localName = "todoTask", namespace = DxfNamespaces.DXF_2_0)
 public class TodoTask
     extends BaseNameableObject
@@ -56,7 +56,7 @@ public class TodoTask
 
   @ManyToMany (mappedBy="sources")
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-  Set<FieldSet> fieldSets = new HashSet<>();
+  Set<DataSet> dataSets = new HashSet<>();
 
   @ManyToOne
   @JoinTable(
@@ -94,20 +94,20 @@ public class TodoTask
   // Logic
   // -------------------------------------------------------------------------
 
-  public boolean addFieldSet(FieldSet fieldSet) {
-    fieldSets.add(fieldSet);
-    return fieldSet.getSources().add(this);
+  public boolean addFieldSet(DataSet dataSet) {
+    dataSets.add(dataSet);
+    return dataSet.getSources().add(this);
   }
 
-  public void updateFieldSets(Set<FieldSet> updates) {
-    Set<FieldSet> toRemove = Sets.difference(fieldSets, updates);
-    Set<FieldSet> toAdd = Sets.difference(updates, fieldSets);
+  public void updateFieldSets(Set<DataSet> updates) {
+    Set<DataSet> toRemove = Sets.difference(dataSets, updates);
+    Set<DataSet> toAdd = Sets.difference(updates, dataSets);
 
     toRemove.forEach(u -> u.getSources().remove(this));
     toAdd.forEach(u -> u.getSources().add(this));
 
-    fieldSets.clear();
-    fieldSets.addAll(updates);
+    dataSets.clear();
+    dataSets.addAll(updates);
   }
 
   // ----------------------------------------------------------------------------
@@ -116,14 +116,14 @@ public class TodoTask
 
   @JsonProperty
   @JsonSerialize(contentAs = BaseIdentifiableObject.class)
-  @JacksonXmlElementWrapper(localName = "fieldSets", namespace = DxfNamespaces.DXF_2_0)
+  @JacksonXmlElementWrapper(localName = "dataSets", namespace = DxfNamespaces.DXF_2_0)
   @JacksonXmlProperty(localName = "fieldSet", namespace = DxfNamespaces.DXF_2_0)
-  public Set<FieldSet> getFieldSets() {
-    return fieldSets;
+  public Set<DataSet> getDataSets() {
+    return dataSets;
   }
 
-  public void setFieldSets(Set<FieldSet> fieldSets) {
-    this.fieldSets = fieldSets;
+  public void setDataSets(Set<DataSet> dataSets) {
+    this.dataSets = dataSets;
   }
 
   @JsonProperty

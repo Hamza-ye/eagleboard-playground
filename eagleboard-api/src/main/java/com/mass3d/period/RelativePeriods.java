@@ -32,10 +32,10 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.joda.time.DateTime;
 
-@Entity
-@Table(name = "relativeperiods")
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@Entity
+//@Table(name = "relativeperiods")
+//@Cacheable
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @JacksonXmlRootElement(localName = "relativePeriods", namespace = DxfNamespaces.DXF_2_0)
 public class RelativePeriods
     implements Serializable {
