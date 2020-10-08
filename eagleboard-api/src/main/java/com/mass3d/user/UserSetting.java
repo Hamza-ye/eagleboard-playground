@@ -11,8 +11,8 @@ import javax.persistence.Table;
  * TODO make IdentifiableObject
  *
  */
-@Entity
-@Table(name = "usersetting")
+//@Entity
+//@Table(name = "usersetting")
 @IdClass(UserSettingId.class)
 public class UserSetting
     implements Serializable {
