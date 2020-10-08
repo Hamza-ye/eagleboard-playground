@@ -21,27 +21,26 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-//import com.mass3d.common.ObjectStyle;
-@Entity
-@Table(name = "optionvalue")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@AttributeOverride(name = "id", column = @Column(name = "optionvalueid"))
-@AssociationOverride(
-    name="userGroupAccesses",
-    joinTable=@JoinTable(
-        name="optionvalueusergroupaccesses",
-        joinColumns=@JoinColumn(name="optionvalueid"),
-        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
-    )
-)
-@AssociationOverride(
-    name="userAccesses",
-    joinTable=@JoinTable(
-        name="optionvalueuseraccesses",
-        joinColumns=@JoinColumn(name="optionvalueid"),
-        inverseJoinColumns=@JoinColumn(name="useraccessid")
-    )
-)
+//@Entity
+//@Table(name = "optionvalue")
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@AttributeOverride(name = "id", column = @Column(name = "optionvalueid"))
+//@AssociationOverride(
+//    name="userGroupAccesses",
+//    joinTable=@JoinTable(
+//        name="optionvalueusergroupaccesses",
+//        joinColumns=@JoinColumn(name="optionvalueid"),
+//        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
+//    )
+//)
+//@AssociationOverride(
+//    name="userAccesses",
+//    joinTable=@JoinTable(
+//        name="optionvalueuseraccesses",
+//        joinColumns=@JoinColumn(name="optionvalueid"),
+//        inverseJoinColumns=@JoinColumn(name="useraccessid")
+//    )
+//)
 @JacksonXmlRootElement(localName = "option", namespace = DxfNamespaces.DXF_2_0)
 public class Option
     extends BaseIdentifiableObject implements MetadataObject {

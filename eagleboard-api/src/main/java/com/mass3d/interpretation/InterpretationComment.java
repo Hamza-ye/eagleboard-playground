@@ -1,12 +1,17 @@
 package com.mass3d.interpretation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.mass3d.common.BaseIdentifiableObject;
 import com.mass3d.common.DxfNamespaces;
 import com.mass3d.user.User;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 import javax.persistence.AssociationOverride;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -17,26 +22,26 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-@Entity
-@Table(name = "interpretationcomment")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@AttributeOverride(name = "id", column = @Column(name = "interpretationcommentid"))
-@AssociationOverride(
-    name = "userGroupAccesses",
-    joinTable = @JoinTable(
-        name = "interpretationcommentusergroupaccesses",
-        joinColumns = @JoinColumn(name = "interpretationcommentid"),
-        inverseJoinColumns = @JoinColumn(name = "usergroupaccessid")
-    )
-)
-@AssociationOverride(
-    name = "userAccesses",
-    joinTable = @JoinTable(
-        name = "interpretationcommentuseraccesses",
-        joinColumns = @JoinColumn(name = "interpretationcommentid"),
-        inverseJoinColumns = @JoinColumn(name = "useraccessid")
-    )
-)
+//@Entity
+//@Table(name = "interpretationcomment")
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@AttributeOverride(name = "id", column = @Column(name = "interpretationcommentid"))
+//@AssociationOverride(
+//    name = "userGroupAccesses",
+//    joinTable = @JoinTable(
+//        name = "interpretationcommentusergroupaccesses",
+//        joinColumns = @JoinColumn(name = "interpretationcommentid"),
+//        inverseJoinColumns = @JoinColumn(name = "usergroupaccessid")
+//    )
+//)
+//@AssociationOverride(
+//    name = "userAccesses",
+//    joinTable = @JoinTable(
+//        name = "interpretationcommentuseraccesses",
+//        joinColumns = @JoinColumn(name = "interpretationcommentid"),
+//        inverseJoinColumns = @JoinColumn(name = "useraccessid")
+//    )
+//)
 @JacksonXmlRootElement(localName = "interpretationComment", namespace = DxfNamespaces.DXF_2_0)
 public class InterpretationComment
     extends BaseIdentifiableObject {

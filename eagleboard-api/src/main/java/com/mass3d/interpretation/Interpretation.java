@@ -1,5 +1,6 @@
 package com.mass3d.interpretation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -9,7 +10,7 @@ import com.mass3d.activity.Activity;
 import com.mass3d.common.BaseIdentifiableObject;
 import com.mass3d.common.DxfNamespaces;
 import com.mass3d.common.IdentifiableObject;
-import com.mass3d.fieldset.FieldSet;
+import com.mass3d.dataset.DataSet;
 import com.mass3d.period.Period;
 import com.mass3d.period.PeriodType;
 import com.mass3d.project.Project;
@@ -31,26 +32,26 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-@Entity
-@Table(name = "interpretation")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@AttributeOverride(name = "id", column = @Column(name = "interpretationid"))
-@AssociationOverride(
-    name = "userGroupAccesses",
-    joinTable = @JoinTable(
-        name = "interpretationusergroupaccesses",
-        joinColumns = @JoinColumn(name = "interpretationid"),
-        inverseJoinColumns = @JoinColumn(name = "usergroupaccessid")
-    )
-)
-@AssociationOverride(
-    name = "userAccesses",
-    joinTable = @JoinTable(
-        name = "interpretationuseraccesses",
-        joinColumns = @JoinColumn(name = "interpretationid"),
-        inverseJoinColumns = @JoinColumn(name = "useraccessid")
-    )
-)
+//@Entity
+//@Table(name = "interpretation")
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@AttributeOverride(name = "id", column = @Column(name = "interpretationid"))
+//@AssociationOverride(
+//    name = "userGroupAccesses",
+//    joinTable = @JoinTable(
+//        name = "interpretationusergroupaccesses",
+//        joinColumns = @JoinColumn(name = "interpretationid"),
+//        inverseJoinColumns = @JoinColumn(name = "usergroupaccessid")
+//    )
+//)
+//@AssociationOverride(
+//    name = "userAccesses",
+//    joinTable = @JoinTable(
+//        name = "interpretationuseraccesses",
+//        joinColumns = @JoinColumn(name = "interpretationid"),
+//        inverseJoinColumns = @JoinColumn(name = "useraccessid")
+//    )
+//)
 @JacksonXmlRootElement(localName = "interpretation", namespace = DxfNamespaces.DXF_2_0)
 public class Interpretation
     extends BaseIdentifiableObject {
@@ -65,7 +66,7 @@ public class Interpretation
 
   @ManyToOne
   @JoinColumn(name = "fieldsetid")
-  private FieldSet fieldSet;
+  private DataSet dataSet;
 
   @ManyToOne
   @JoinColumn(name = "todotaskid")
@@ -100,15 +101,15 @@ public class Interpretation
   public Interpretation() {
   }
 
-  public Interpretation(FieldSet fieldSet, Period period, TodoTask todoTask, String text) {
-    this.fieldSet = fieldSet;
+  public Interpretation(DataSet dataSet, Period period, TodoTask todoTask, String text) {
+    this.dataSet = dataSet;
     this.period = period;
     this.todoTask = todoTask;
     this.text = text;
   }
 
-  public Interpretation(FieldSet fieldSet, TodoTask todoTask, String text) {
-    this.fieldSet = fieldSet;
+  public Interpretation(DataSet dataSet, TodoTask todoTask, String text) {
+    this.dataSet = dataSet;
     this.todoTask = todoTask;
     this.text = text;
   }
@@ -130,8 +131,8 @@ public class Interpretation
   }
 
   public IdentifiableObject getObject() {
-    if (fieldSet != null) {
-      return fieldSet;
+    if (dataSet != null) {
+      return dataSet;
     } else if (todoTask != null) {
       return todoTask;
     }
@@ -143,7 +144,7 @@ public class Interpretation
   }
 
   public boolean isFieldSetReportInterpretation() {
-    return fieldSet != null;
+    return dataSet != null;
   }
 
   public PeriodType getPeriodType() {
@@ -196,12 +197,12 @@ public class Interpretation
   @JsonProperty
   @JsonSerialize(as = BaseIdentifiableObject.class)
   @JacksonXmlProperty(namespace = DxfNamespaces.DXF_2_0)
-  public FieldSet getFieldSet() {
-    return fieldSet;
+  public DataSet getDataSet() {
+    return dataSet;
   }
 
-  public void setFieldSet(FieldSet fieldSet) {
-    this.fieldSet = fieldSet;
+  public void setDataSet(DataSet dataSet) {
+    this.dataSet = dataSet;
   }
 
   @JsonProperty

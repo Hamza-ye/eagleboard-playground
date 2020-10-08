@@ -7,6 +7,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.mass3d.common.TotalAggregationType;
+import com.mass3d.dataset.DataSet;
 import java.util.HashSet;
 import java.util.Set;
 import com.mass3d.common.BaseDataDimensionalItemObject;
@@ -14,7 +15,6 @@ import com.mass3d.common.BaseIdentifiableObject;
 import com.mass3d.common.DimensionItemType;
 import com.mass3d.common.DxfNamespaces;
 import com.mass3d.common.MetadataObject;
-import com.mass3d.fieldset.FieldSet;
 import com.mass3d.schema.PropertyType;
 import com.mass3d.schema.annotation.Property;
 import javax.persistence.AssociationOverride;
@@ -30,26 +30,26 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-@Entity
-@Table(name = "indicator")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@AttributeOverride(name = "id", column = @Column(name = "indicatorid"))
-@AssociationOverride(
-    name="userGroupAccesses",
-    joinTable=@JoinTable(
-        name="indicatorusergroupaccesses",
-        joinColumns=@JoinColumn(name="indicatorid"),
-        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
-    )
-)
-@AssociationOverride(
-    name="userAccesses",
-    joinTable=@JoinTable(
-        name="indicatoruseraccesses",
-        joinColumns=@JoinColumn(name="indicatorid"),
-        inverseJoinColumns=@JoinColumn(name="useraccessid")
-    )
-)
+//@Entity
+//@Table(name = "indicator")
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@AttributeOverride(name = "id", column = @Column(name = "indicatorid"))
+//@AssociationOverride(
+//    name="userGroupAccesses",
+//    joinTable=@JoinTable(
+//        name="indicatorusergroupaccesses",
+//        joinColumns=@JoinColumn(name="indicatorid"),
+//        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
+//    )
+//)
+//@AssociationOverride(
+//    name="userAccesses",
+//    joinTable=@JoinTable(
+//        name="indicatoruseraccesses",
+//        joinColumns=@JoinColumn(name="indicatorid"),
+//        inverseJoinColumns=@JoinColumn(name="useraccessid")
+//    )
+//)
 @JacksonXmlRootElement(localName = "indicator", namespace = DxfNamespaces.DXF_2_0)
 public class Indicator
     extends BaseDataDimensionalItemObject implements MetadataObject {
@@ -90,12 +90,12 @@ public class Indicator
   private Set<IndicatorGroup> groups = new HashSet<>();
 
   @ManyToMany(cascade = CascadeType.ALL)
-  @JoinTable(name = "fieldsetindicators",
+  @JoinTable(name = "datasetindicators",
       joinColumns = @JoinColumn(name = "indicatorid", referencedColumnName = "id"),
-      inverseJoinColumns = @JoinColumn(name = "fieldsetid", referencedColumnName = "id")
+      inverseJoinColumns = @JoinColumn(name = "datasetid", referencedColumnName = "id")
   )
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-  private Set<FieldSet> fieldSets = new HashSet<>();
+  private Set<DataSet> dataSets = new HashSet<>();
 
   public Indicator() {
   }
@@ -126,14 +126,14 @@ public class Indicator
     }
   }
 
-  public void addFieldSet(FieldSet fieldSet) {
-    this.fieldSets.add(fieldSet);
-    fieldSet.getIndicators().add(this);
+  public void addFieldSet(DataSet dataSet) {
+    this.dataSets.add(dataSet);
+    dataSet.getIndicators().add(this);
   }
 
-  public void removeFieldSet(FieldSet fieldSet) {
-    this.fieldSets.remove(fieldSet);
-    fieldSet.getIndicators().remove(this);
+  public void removeFieldSet(DataSet dataSet) {
+    this.dataSets.remove(dataSet);
+    dataSet.getIndicators().remove(this);
   }
 
   public boolean hasDecimals() {
@@ -280,14 +280,14 @@ public class Indicator
 
   @JsonProperty
   @JsonSerialize(contentAs = BaseIdentifiableObject.class)
-  @JacksonXmlElementWrapper(localName = "fieldSets", namespace = DxfNamespaces.DXF_2_0)
+  @JacksonXmlElementWrapper(localName = "dataSets", namespace = DxfNamespaces.DXF_2_0)
   @JacksonXmlProperty(localName = "fieldSet", namespace = DxfNamespaces.DXF_2_0)
-  public Set<FieldSet> getFieldSets() {
-    return fieldSets;
+  public Set<DataSet> getDataSets() {
+    return dataSets;
   }
 
-  public void setFieldSets(Set<FieldSet> fieldSets) {
-    this.fieldSets = fieldSets;
+  public void setDataSets(Set<DataSet> dataSets) {
+    this.dataSets = dataSets;
   }
 
   @JsonProperty

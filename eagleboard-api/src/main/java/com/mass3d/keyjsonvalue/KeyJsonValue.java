@@ -13,26 +13,26 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-@Entity
-@Table(name = "keyjsonvalue")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@AttributeOverride(name="id", column=@Column(name="keyjsonvalueid"))
-@AssociationOverride(
-    name="userGroupAccesses",
-    joinTable=@JoinTable(
-        name="keyjsonvalueusergroupaccesses",
-        joinColumns=@JoinColumn(name="keyjsonvalueid"),
-        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
-    )
-)
-@AssociationOverride(
-    name="userAccesses",
-    joinTable=@JoinTable(
-        name="keyjsonvalueuseraccesses",
-        joinColumns=@JoinColumn(name="keyjsonvalueid"),
-        inverseJoinColumns=@JoinColumn(name="useraccessid")
-    )
-)
+//@Entity
+//@Table(name = "keyjsonvalue")
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@AttributeOverride(name="id", column=@Column(name="keyjsonvalueid"))
+//@AssociationOverride(
+//    name="userGroupAccesses",
+//    joinTable=@JoinTable(
+//        name="keyjsonvalueusergroupaccesses",
+//        joinColumns=@JoinColumn(name="keyjsonvalueid"),
+//        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
+//    )
+//)
+//@AssociationOverride(
+//    name="userAccesses",
+//    joinTable=@JoinTable(
+//        name="keyjsonvalueuseraccesses",
+//        joinColumns=@JoinColumn(name="keyjsonvalueid"),
+//        inverseJoinColumns=@JoinColumn(name="useraccessid")
+//    )
+//)
 public class KeyJsonValue
     extends BaseIdentifiableObject {
 

@@ -26,44 +26,44 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 
-@Entity
-@Table(name = "project")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@AttributeOverride(name = "id", column = @Column(name = "projectid"))
-@AssociationOverride(
-    name="userGroupAccesses",
-    joinTable=@JoinTable(
-        name="projectusergroupaccesses",
-        joinColumns=@JoinColumn(name="projectid"),
-        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
-    )
-)
-@AssociationOverride(
-    name="userAccesses",
-    joinTable=@JoinTable(
-        name="projectuseraccesses",
-        joinColumns=@JoinColumn(name="projectid"),
-        inverseJoinColumns=@JoinColumn(name="useraccessid")
-    )
-)
+//@Entity
+//@Table(name = "project")
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@AttributeOverride(name = "id", column = @Column(name = "projectid"))
+//@AssociationOverride(
+//    name="userGroupAccesses",
+//    joinTable=@JoinTable(
+//        name="projectusergroupaccesses",
+//        joinColumns=@JoinColumn(name="projectid"),
+//        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
+//    )
+//)
+//@AssociationOverride(
+//    name="userAccesses",
+//    joinTable=@JoinTable(
+//        name="projectuseraccesses",
+//        joinColumns=@JoinColumn(name="projectid"),
+//        inverseJoinColumns=@JoinColumn(name="useraccessid")
+//    )
+//)
 @JacksonXmlRootElement(localName = "project", namespace = DxfNamespaces.DXF_2_0)
 public class Project
     extends BaseNameableObject
     implements MetadataObject , InterpretableObject {
 
-  @OneToMany
-  @JoinTable(
-      name = "projectactivities",
-      joinColumns = @JoinColumn(name = "projectid", referencedColumnName = "projectid"),
-      inverseJoinColumns = @JoinColumn(name = "activityid", referencedColumnName = "activityid")
-  )
-  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//  @OneToMany
+//  @JoinTable(
+//      name = "projectactivities",
+//      joinColumns = @JoinColumn(name = "projectid", referencedColumnName = "projectid"),
+//      inverseJoinColumns = @JoinColumn(name = "activityid", referencedColumnName = "activityid")
+//  )
+//  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
   private Set<Activity> activities = new HashSet<>();
 
   /**
    * Interpretations of this project.
    */
-  @OneToMany(mappedBy = "project")
+//  @OneToMany(mappedBy = "project")
   private Set<Interpretation> interpretations = new HashSet<>();
   // -------------------------------------------------------------------------
   // Constructors
