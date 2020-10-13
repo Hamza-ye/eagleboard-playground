@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * This class deals with the configuring an appropriate notifier depending on
@@ -19,6 +21,7 @@ import org.springframework.data.redis.core.RedisTemplate;
  *
  */
 @Configuration
+@ImportResource({"classpath*:META-INF/mass3d/beans.xml"})
 public class NotifierConfiguration
 {
     @Autowired( required = false )

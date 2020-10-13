@@ -23,7 +23,6 @@ public class DefaultQueryPlanner implements QueryPlanner {
 
   private final SchemaService schemaService;
 
-  @Autowired
   public DefaultQueryPlanner(SchemaService schemaService) {
     this.schemaService = schemaService;
   }

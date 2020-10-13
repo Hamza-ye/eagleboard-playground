@@ -9,7 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@Repository("com.mass3d.user.CurrentUserStore")
 public class HibernateCurrentUserStore
     implements CurrentUserStore {
 

@@ -23,10 +23,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration("coreStoreConfig")
 @ComponentScan(basePackages = {"com.mass3d"})
-@ImportResource( locations = { "classpath*:/META-INF/mass3d/beans.xml" } )
+@ImportResource({"classpath*:META-INF/mass3d/beans.xml"})
+@EnableTransactionManagement
 public class StoreConfig {
 
   @Autowired

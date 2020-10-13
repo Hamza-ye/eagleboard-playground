@@ -1,5 +1,6 @@
 package com.mass3d.dataset;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mass3d.common.EmbeddedObject;
 import com.mass3d.dataelement.DataElement;
 import java.util.Objects;
@@ -109,6 +110,7 @@ public class DataSetElement implements EmbeddedObject {
   // Get and set methods
   // -------------------------------------------------------------------------
 
+  @JsonIgnore
   public int getId() {
     return id;
   }

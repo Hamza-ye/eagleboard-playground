@@ -8,11 +8,14 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.orm.hibernate5.support.OpenSessionInViewFilter;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@ImportResource({"classpath*:META-INF/mass3d/beans.xml"})
+//@ImportResource({"classpath*:META-INF/mass3d/beans.xml"})
 //@EntityScan(basePackages = "com.mass3d")
 @ComponentScan(basePackages = {"com.mass3d"})
+@ImportResource({"classpath*:META-INF/mass3d/beans.xml"})
+@EnableTransactionManagement
 //@EnableSpringDataWebSupport
 public class webApiConfiguration {
 

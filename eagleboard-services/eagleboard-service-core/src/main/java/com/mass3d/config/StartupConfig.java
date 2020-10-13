@@ -19,12 +19,16 @@ import com.mass3d.user.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author Luciano Fiandesio
  */
 @Configuration
 @ComponentScan(basePackages = {"com.mass3d"})
+@ImportResource({"classpath*:META-INF/mass3d/beans.xml"})
+@EnableTransactionManagement
 public class StartupConfig
 {
     @Bean( "com.mass3d.period.PeriodTypePopulator" )

@@ -103,58 +103,58 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
   // InternalHibernateGenericStore implementation
   // -------------------------------------------------------------------------
 
-  public final Criteria getDataSharingCriteria() {
+  public Criteria getDataSharingCriteria() {
     return getExecutableCriteria(
         getDataSharingDetachedCriteria(currentUserService.getCurrentUserInfo(),
             AclService.LIKE_READ_DATA));
   }
 
   @Override
-  public final Criteria getDataSharingCriteria(String access) {
+  public Criteria getDataSharingCriteria(String access) {
     return getExecutableCriteria(
         getDataSharingDetachedCriteria(currentUserService.getCurrentUserInfo(), access));
   }
 
   @Override
-  public final Criteria getDataSharingCriteria(User user, String access) {
+  public Criteria getDataSharingCriteria(User user, String access) {
     return getExecutableCriteria(getDataSharingDetachedCriteria(UserInfo.fromUser(user), access));
   }
 
   @Override
-  public final Criteria getSharingCriteria(String access) {
+  public Criteria getSharingCriteria(String access) {
     return getExecutableCriteria(
         getSharingDetachedCriteria(currentUserService.getCurrentUserInfo(), access));
   }
 
   @Override
-  public final Criteria getSharingCriteria(User user) {
+  public Criteria getSharingCriteria(User user) {
     return getExecutableCriteria(
         getSharingDetachedCriteria(UserInfo.fromUser(user), AclService.LIKE_READ_METADATA));
   }
 
   @Override
-  public final DetachedCriteria getSharingDetachedCriteria() {
+  public DetachedCriteria getSharingDetachedCriteria() {
     return getSharingDetachedCriteria(currentUserService.getCurrentUserInfo(),
         AclService.LIKE_READ_METADATA);
   }
 
   @Override
-  public final DetachedCriteria getSharingDetachedCriteria(String access) {
+  public DetachedCriteria getSharingDetachedCriteria(String access) {
     return getSharingDetachedCriteria(currentUserService.getCurrentUserInfo(), access);
   }
 
   @Override
-  public final DetachedCriteria getDataSharingDetachedCriteria(String access) {
+  public DetachedCriteria getDataSharingDetachedCriteria(String access) {
     return getDataSharingDetachedCriteria(currentUserService.getCurrentUserInfo(), access);
   }
 
   @Override
-  public final DetachedCriteria getSharingDetachedCriteria(User user) {
+  public DetachedCriteria getSharingDetachedCriteria(User user) {
     return getSharingDetachedCriteria(UserInfo.fromUser(user), AclService.LIKE_READ_METADATA);
   }
 
   @Override
-  public final DetachedCriteria getDataSharingDetachedCriteria(User user) {
+  public DetachedCriteria getDataSharingDetachedCriteria(User user) {
     return getDataSharingDetachedCriteria(UserInfo.fromUser(user), AclService.LIKE_READ_DATA);
   }
 
@@ -270,7 +270,7 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
   }
 
   @Override
-  public final void delete(T object, User user) {
+  public void delete(T object, User user) {
     String username = user != null ? user.getUsername() : "system-process";
 
     if (!isDeleteAllowed(object, user)) {
@@ -286,7 +286,7 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
   }
 
   @Override
-  public final T get(long id) {
+  public T get(long id) {
     T object = getSession().get(getClazz(), id);
 
     if (!isReadAllowed(object, currentUserService.getCurrentUser())) {
@@ -317,7 +317,7 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
   }
 
   @Override
-  public final T getByUid(String uid) {
+  public T getByUid(String uid) {
     if (isTransientIdentifiableProperties()) {
       return null;
     }
@@ -332,7 +332,7 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
   }
 
   @Override
-  public final T getByUidNoAcl(String uid) {
+  public T getByUidNoAcl(String uid) {
     if (isTransientIdentifiableProperties()) {
       return null;
     }
@@ -346,7 +346,7 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
   }
 
   @Override
-  public final void updateNoAcl(T object) {
+  public void updateNoAcl(T object) {
     object.setAutoFields();
     getSession().update(object);
   }
@@ -355,7 +355,7 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
    * Uses query since name property might not be unique.
    */
   @Override
-  public final T getByName(String name) {
+  public T getByName(String name) {
     CriteriaBuilder builder = getCriteriaBuilder();
 
     JpaQueryParameters<T> param = new JpaQueryParameters<T>()
@@ -376,7 +376,7 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
   }
 
   @Override
-  public final T getByCode(String code) {
+  public T getByCode(String code) {
     if (isTransientIdentifiableProperties()) {
       return null;
     }
@@ -721,7 +721,7 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
   //----------------------------------------------------------------------------------------------------------------
 
   @Override
-  public final List<T> getDataReadAll() {
+  public List<T> getDataReadAll() {
     CriteriaBuilder builder = getCriteriaBuilder();
 
     JpaQueryParameters<T> parameters = new JpaQueryParameters<T>()
@@ -731,7 +731,7 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
   }
 
   @Override
-  public final List<T> getDataReadAll(User user) {
+  public List<T> getDataReadAll(User user) {
     CriteriaBuilder builder = getCriteriaBuilder();
 
     JpaQueryParameters<T> parameters = new JpaQueryParameters<T>()
@@ -741,7 +741,7 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
   }
 
   @Override
-  public final List<T> getDataWriteAll() {
+  public List<T> getDataWriteAll() {
     CriteriaBuilder builder = getCriteriaBuilder();
 
     JpaQueryParameters<T> parameters = new JpaQueryParameters<T>()
@@ -751,7 +751,7 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
   }
 
   @Override
-  public final List<T> getDataWriteAll(User user) {
+  public List<T> getDataWriteAll(User user) {
     CriteriaBuilder builder = getCriteriaBuilder();
 
     JpaQueryParameters<T> parameters = new JpaQueryParameters<T>()
@@ -761,7 +761,7 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
   }
 
   @Override
-  public final List<T> getDataReadAll(int first, int max) {
+  public List<T> getDataReadAll(int first, int max) {
     CriteriaBuilder builder = getCriteriaBuilder();
 
     JpaQueryParameters<T> parameters = new JpaQueryParameters<T>()
@@ -780,7 +780,7 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
    * Creates a criteria with sharing restrictions relative to the given user and access string.
    */
   @Override
-  public final Criteria getSharingCriteria() {
+  public Criteria getSharingCriteria() {
     return getExecutableCriteria(getSharingDetachedCriteria(currentUserService.getCurrentUserInfo(),
         AclService.LIKE_READ_METADATA));
   }
@@ -898,7 +898,7 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
   // ----------------------------------------------------------------------
 
   @Override
-  public final List<Function<Root<T>, Predicate>> getDataSharingPredicates(
+  public List<Function<Root<T>, Predicate>> getDataSharingPredicates(
       CriteriaBuilder builder) {
     return getDataSharingPredicates(builder, currentUserService.getCurrentUserInfo(),
         AclService.LIKE_READ_DATA);
@@ -917,19 +917,19 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
   }
 
   @Override
-  public final List<Function<Root<T>, Predicate>> getDataSharingPredicates(CriteriaBuilder builder,
+  public List<Function<Root<T>, Predicate>> getDataSharingPredicates(CriteriaBuilder builder,
       String access) {
     return getDataSharingPredicates(builder, currentUserService.getCurrentUserInfo(), access);
   }
 
   @Override
-  public final List<Function<Root<T>, Predicate>> getDataSharingPredicates(CriteriaBuilder builder,
+  public List<Function<Root<T>, Predicate>> getDataSharingPredicates(CriteriaBuilder builder,
       User user, String access) {
     return getDataSharingPredicates(builder, UserInfo.fromUser(user), access);
   }
 
   @Override
-  public final List<Function<Root<T>, Predicate>> getSharingPredicates(CriteriaBuilder builder) {
+  public List<Function<Root<T>, Predicate>> getSharingPredicates(CriteriaBuilder builder) {
     return getSharingPredicates(builder, currentUserService.getCurrentUserInfo(),
         AclService.LIKE_READ_METADATA);
   }
@@ -967,7 +967,7 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
    * @return List of Function<Root<T>, Predicate>
    */
   @Override
-  public final List<Function<Root<T>, Predicate>> getSharingPredicates(CriteriaBuilder builder,
+  public List<Function<Root<T>, Predicate>> getSharingPredicates(CriteriaBuilder builder,
       String access) {
     return getSharingPredicates(builder, currentUserService.getCurrentUserInfo(), access);
   }
@@ -1089,7 +1089,7 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
    * @param expressions the Criterions for the Criteria.
    * @return a Criteria instance.
    */
-  protected final Criteria getSharingDetachedCriteria(Criterion... expressions) {
+  protected Criteria getSharingDetachedCriteria(Criterion... expressions) {
     Criteria criteria = getSharingCriteria();
 
     for (Criterion expression : expressions) {

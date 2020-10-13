@@ -5,10 +5,14 @@ import com.mass3d.i18n.ui.resourcebundle.ResourceBundleManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration( "coreServiceConfig" )
 @ComponentScan(basePackages = {"com.mass3d"})
+@ImportResource({"classpath*:META-INF/mass3d/beans.xml"})
+@EnableTransactionManagement
 public class ServiceConfig
 {
     @Bean( "taskScheduler" )

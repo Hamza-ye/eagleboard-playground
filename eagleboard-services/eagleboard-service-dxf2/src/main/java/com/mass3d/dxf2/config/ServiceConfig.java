@@ -10,16 +10,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.retry.backoff.ExponentialBackOffPolicy;
 import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author Luciano Fiandesio
  */
 @Configuration( "dxf2ServiceConfig" )
+@ImportResource({"classpath*:META-INF/mass3d/beans.xml"})
+@EnableTransactionManagement
 public class ServiceConfig
 {
     @Autowired

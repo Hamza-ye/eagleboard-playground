@@ -72,20 +72,20 @@ public class DefaultSecurityService
   // Dependencies
   // -------------------------------------------------------------------------
 
-  @Autowired
-  private CurrentUserService currentUserService;
+//  @Autowired
+  private final CurrentUserService currentUserService;
 
-  @Autowired
-  private UserSettingService userSettingService;
+//  @Autowired
+  private final UserSettingService userSettingService;
 
-  @Autowired
-  private AclService aclService;
+//  @Autowired
+  private final AclService aclService;
 
-  @Autowired
-  private RestTemplate restTemplate;
+//  @Autowired
+  private final RestTemplate restTemplate;
 
-  @Autowired
-  private CacheProvider cacheProvider;
+//  @Autowired
+  private final CacheProvider cacheProvider;
 
   private final PasswordManager passwordManager;
   private final MessageSender emailMessageSender;
@@ -94,58 +94,39 @@ public class DefaultSecurityService
   private final I18nManager i18nManager;
 
   public DefaultSecurityService(
+      CurrentUserService currentUserService,
+      UserSettingService userSettingService,
+      AclService aclService,
+      RestTemplate restTemplate,
+      CacheProvider cacheProvider,
       @Lazy PasswordManager passwordManager,
       MessageSender emailMessageSender,
       UserService userService,
       SystemSettingManager systemSettingManager,
       I18nManager i18nManager )
   {
+    checkNotNull( currentUserService );
+    checkNotNull( userSettingService );
+    checkNotNull( aclService );
+    checkNotNull( restTemplate );
+    checkNotNull( cacheProvider );
     checkNotNull( passwordManager );
     checkNotNull( emailMessageSender );
     checkNotNull( userService );
     checkNotNull( systemSettingManager );
     checkNotNull( i18nManager );
 
+    this.currentUserService = currentUserService;
+    this.userSettingService = userSettingService;
+    this.aclService = aclService;
+    this.restTemplate = restTemplate;
+    this.cacheProvider = cacheProvider;
     this.passwordManager = passwordManager;
     this.emailMessageSender = emailMessageSender;
     this.userService = userService;
     this.systemSettingManager = systemSettingManager;
     this.i18nManager = i18nManager;
   }
-//  public DefaultSecurityService(
-//      CurrentUserService currentUserService,
-//      UserSettingService userSettingService,
-//      AclService aclService,
-//      RestTemplate restTemplate,
-//      CacheProvider cacheProvider,
-//      @Lazy PasswordManager passwordManager,
-//      MessageSender emailMessageSender,
-//      UserService userService,
-//      SystemSettingManager systemSettingManager,
-//      I18nManager i18nManager )
-//  {
-//    checkNotNull( currentUserService );
-//    checkNotNull( userSettingService );
-//    checkNotNull( aclService );
-//    checkNotNull( restTemplate );
-//    checkNotNull( cacheProvider );
-//    checkNotNull( passwordManager );
-//    checkNotNull( emailMessageSender );
-//    checkNotNull( userService );
-//    checkNotNull( systemSettingManager );
-//    checkNotNull( i18nManager );
-//
-//    this.currentUserService = currentUserService;
-//    this.userSettingService = userSettingService;
-//    this.aclService = aclService;
-//    this.restTemplate = restTemplate;
-//    this.cacheProvider = cacheProvider;
-//    this.passwordManager = passwordManager;
-//    this.emailMessageSender = emailMessageSender;
-//    this.userService = userService;
-//    this.systemSettingManager = systemSettingManager;
-//    this.i18nManager = i18nManager;
-//  }
 //  public void setPasswordManager(PasswordManager passwordManager) {
 //    this.passwordManager = passwordManager;
 //  }

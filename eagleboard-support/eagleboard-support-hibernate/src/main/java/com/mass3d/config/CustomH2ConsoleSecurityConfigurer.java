@@ -16,15 +16,6 @@ class CustomH2ConsoleSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
   @Override
   public void configure(HttpSecurity http) throws Exception {
-//    String path = this.console.getPath();
-//    String antPattern = (path.endsWith("/") ? path + "**" : path + "/**");
-//    HttpSecurity h2Console = http.antMatcher(antPattern);
-//    h2Console.csrf().disable();
-//    h2Console.httpBasic();
-//    h2Console.headers().frameOptions().sameOrigin();
-//    // config as you like
-//    http.authorizeRequests().anyRequest().permitAll();
-    ///////////////
     http.authorizeRequests()
         .antMatchers("/").permitAll()
         .antMatchers("/h2-console/**").permitAll();

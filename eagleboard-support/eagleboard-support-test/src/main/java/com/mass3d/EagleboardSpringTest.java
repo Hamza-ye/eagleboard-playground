@@ -19,9 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith( SpringRunner.class )
 //@ActiveProfiles( profiles = { "test" } )
 @ContextConfiguration( classes = UnitTestConfiguration.class )
-@ActiveProfiles(profiles = {"test-h2"})
+@ActiveProfiles(profiles = {"test"})
 @Transactional
-@EnableTransactionManagement(proxyTargetClass = true) // to fix BeanNotOfRequiredTypeException: Bean named X is expected to be of type X but was actually of type 'com.sun.proxy.$Proxy
 public abstract class EagleboardSpringTest
     extends EagleboardConvenienceTest
 {

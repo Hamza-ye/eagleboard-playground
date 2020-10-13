@@ -32,8 +32,8 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
 
-//@Profile("!test")
-//@Component( "dhisConfigurationProvider" )
+@Profile("!test")
+@Component( "dhisConfigurationProvider" )
 public class DefaultDhisConfigurationProvider
     implements DhisConfigurationProvider {
 

@@ -20,7 +20,9 @@ import com.mass3d.commons.config.jackson.WriteDateStdSerializer;
 import com.mass3d.commons.config.jackson.geometry.JtsXmlModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.Primary;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * Main Jackson Mapper configuration. Any component that requires JSON/XML
@@ -28,6 +30,8 @@ import org.springframework.context.annotation.Primary;
  * 
  */
 @Configuration
+@ImportResource({"classpath*:META-INF/mass3d/beans.xml"})
+@EnableTransactionManagement
 public class JacksonObjectMapperConfig
 {
     /*
