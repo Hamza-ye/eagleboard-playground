@@ -10,31 +10,31 @@ public interface MessageService {
 
   String META_USER_AGENT = "User-agent: ";
 
-  Long sendTicketMessage(String subject, String text, String metaData);
+  long sendTicketMessage(String subject, String text, String metaData);
 
-  Long sendPrivateMessage(Set<User> recipients, String subject, String text, String metaData,
+  long sendPrivateMessage(Set<User> recipients, String subject, String text, String metaData,
       Set<FileResource> attachments);
 
-  Long sendSystemMessage(Set<User> recipients, String subject, String text);
+  long sendSystemMessage(Set<User> recipients, String subject, String text);
 
-  Long sendValidationMessage(Set<User> recipients, String subject, String text,
+  long sendValidationMessage(Set<User> recipients, String subject, String text,
       MessageConversationPriority priority);
 
-  Long sendMessage(MessageConversationParams params);
+  long sendMessage(MessageConversationParams params);
 
-  Long sendSystemErrorNotification(String subject, Throwable t);
+  long sendSystemErrorNotification(String subject, Throwable t);
 
   void sendReply(MessageConversation conversation, String text, String metaData, boolean internal,
       Set<FileResource> attachments);
 
-  Long saveMessageConversation(MessageConversation conversation);
+  long saveMessageConversation(MessageConversation conversation);
 
   void updateMessageConversation(MessageConversation conversation);
 
   // Todo Eagle commented out sendCompletenessMessage(CompleteDataSetRegistration registration);
 //    int sendCompletenessMessage(CompleteDataSetRegistration registration);
 
-  MessageConversation getMessageConversation(Long id);
+  MessageConversation getMessageConversation(long id);
 
   MessageConversation getMessageConversation(String uid);
 

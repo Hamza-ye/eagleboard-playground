@@ -6,9 +6,6 @@
   >
 
 <hibernate-mapping>
-  <!--<typedef class="com.mass3d.hibernate.jsonb.type.JsonSetBinaryType" name="jblTranslations">-->
-    <!--<param name="clazz">com.mass3d.translation.Translation</param>-->
-  <!--</typedef>-->
   <class name="com.mass3d.indicator.IndicatorType" table="indicatortype">
 
     <cache usage="read-write" />

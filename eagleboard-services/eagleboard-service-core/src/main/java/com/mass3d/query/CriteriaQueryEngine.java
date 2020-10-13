@@ -31,7 +31,6 @@ public class CriteriaQueryEngine<T extends IdentifiableObject>
 
   private Map<Class<?>, InternalHibernateGenericStore<T>> stores = new HashMap<>();
 
-  @Autowired
   public CriteriaQueryEngine(CurrentUserService currentUserService, QueryPlanner queryPlanner,
       List<InternalHibernateGenericStore<T>> hibernateGenericStores) {
     this.currentUserService = currentUserService;

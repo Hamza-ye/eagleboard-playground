@@ -13,7 +13,7 @@ import com.mass3d.util.ObjectUtils;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FieldSetObjectBundleHook extends AbstractObjectBundleHook
+public class DataSetObjectBundleHook extends AbstractObjectBundleHook
 {
     @Override
     public <T extends IdentifiableObject> List<ErrorReport> validate( T object, ObjectBundle bundle )

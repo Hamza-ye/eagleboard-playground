@@ -16,7 +16,7 @@ public interface IdentifiableObject
 
   String[] I18N_PROPERTIES = {TranslationProperty.NAME.getName()};
 
-  Long getId();
+  long getId();
 
   String getUid();
 

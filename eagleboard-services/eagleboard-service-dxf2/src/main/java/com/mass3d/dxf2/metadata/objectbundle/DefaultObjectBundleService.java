@@ -44,7 +44,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Service("com.mass3d.dxf2.metadata.objectbundle.ObjectBundleService")
 @Transactional
 public class DefaultObjectBundleService implements ObjectBundleService
 {
@@ -93,8 +93,8 @@ public class DefaultObjectBundleService implements ObjectBundleService
     @Autowired
     private SystemService systemService;
 
-    @Autowired
-    private AmqpService amqpService;
+//    @Autowired
+//    private AmqpService amqpService;
 
     @Autowired( required = false )
     private List<ObjectBundleHook> objectBundleHooks = new ArrayList<>();
@@ -242,11 +242,11 @@ public class DefaultObjectBundleService implements ObjectBundleService
             audit.setCode( object.getCode() );
             audit.setType( AuditType.CREATE );
 
-            if ( amqpService.isEnabled() )
-            {
-                audit.setValue( renderService.toJsonAsString( object ) );
-                amqpService.publish( audit );
-            }
+//            if ( amqpService.isEnabled() )
+//            {
+//                audit.setValue( renderService.toJsonAsString( object ) );
+//                amqpService.publish( audit );
+//            }
 
             if ( log.isDebugEnabled() )
             {
@@ -359,11 +359,11 @@ public class DefaultObjectBundleService implements ObjectBundleService
             audit.setCode( object.getCode() );
             audit.setType( AuditType.UPDATE );
 
-            if ( amqpService.isEnabled() )
-            {
-                audit.setValue( renderService.toJsonAsString( patch ) );
-                amqpService.publish( audit );
-            }
+//            if ( amqpService.isEnabled() )
+//            {
+//                audit.setValue( renderService.toJsonAsString( patch ) );
+//                amqpService.publish( audit );
+//            }
 
             if ( log.isDebugEnabled() )
             {
@@ -451,11 +451,11 @@ public class DefaultObjectBundleService implements ObjectBundleService
             audit.setCode( object.getCode() );
             audit.setType( AuditType.DELETE );
 
-            if ( amqpService.isEnabled() )
-            {
-                audit.setValue( renderService.toJsonAsString( object ) );
-                amqpService.publish( audit );
-            }
+//            if ( amqpService.isEnabled() )
+//            {
+//                audit.setValue( renderService.toJsonAsString( object ) );
+//                amqpService.publish( audit );
+//            }
 
             if ( log.isDebugEnabled() )
             {

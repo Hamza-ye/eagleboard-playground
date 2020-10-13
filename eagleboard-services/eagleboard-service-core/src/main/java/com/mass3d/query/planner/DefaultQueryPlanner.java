@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component( "com.mass3d.query.planner.QueryPlanner" )
@@ -22,6 +23,7 @@ public class DefaultQueryPlanner implements QueryPlanner {
 
   private final SchemaService schemaService;
 
+  @Autowired
   public DefaultQueryPlanner(SchemaService schemaService) {
     this.schemaService = schemaService;
   }

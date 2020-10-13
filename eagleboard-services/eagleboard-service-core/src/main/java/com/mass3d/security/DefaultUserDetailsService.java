@@ -1,5 +1,7 @@
 package com.mass3d.security;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.mass3d.user.UserCredentials;
 import com.mass3d.user.UserService;
 import com.mass3d.util.ObjectUtils;
@@ -27,18 +29,16 @@ public class DefaultUserDetailsService
   // Dependencies
   // -------------------------------------------------------------------------
 
-  private UserService userService;
+  private final UserService userService;
 
-  @Autowired
-  public void setUserService( UserService userService )
+  private final SecurityService securityService;
+
+  public DefaultUserDetailsService( UserService userService, SecurityService securityService )
   {
+    checkNotNull( userService );
+    checkNotNull( securityService );
+
     this.userService = userService;
-  }
-
-  private SecurityService securityService;
-
-  public void setSecurityService( SecurityService securityService )
-  {
     this.securityService = securityService;
   }
 
@@ -47,8 +47,8 @@ public class DefaultUserDetailsService
   // -------------------------------------------------------------------------
 
   @Override
-  @Transactional
-  public final UserDetails loadUserByUsername( String username )
+  @Transactional(readOnly = true)
+  public UserDetails loadUserByUsername( String username )
       throws UsernameNotFoundException, DataAccessException
   {
     UserCredentials credentials = userService.getUserCredentialsByUsername( username );

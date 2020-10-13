@@ -29,16 +29,22 @@ public class DefaultLocationManager
   private String environmentVariable;
   private String systemProperty;
 
-  public DefaultLocationManager( String environmentVariable, String systemProperty )
-  {
-    this.environmentVariable = environmentVariable;
-    this.systemProperty = systemProperty;
-  }
+//  public DefaultLocationManager( String environmentVariable, String systemProperty )
+//  {
+//    this.environmentVariable = environmentVariable;
+//    this.systemProperty = systemProperty;
+//  }
 
   public static DefaultLocationManager getDefault()
   {
-    return new DefaultLocationManager( DEFAULT_ENV_VAR, DEFAULT_SYS_PROP );
+    DefaultLocationManager defaultLocationManager = new DefaultLocationManager();
+    defaultLocationManager.setEnvironmentVariable(DEFAULT_ENV_VAR);
+    defaultLocationManager.setSystemProperty(DEFAULT_SYS_PROP);
+    return defaultLocationManager;
+//    return new DefaultLocationManager( DEFAULT_ENV_VAR, DEFAULT_SYS_PROP );
   }
+
+
 
   public void setExternalDir(String externalDir) {
     this.externalDir = externalDir;
@@ -237,9 +243,9 @@ public class DefaultLocationManager
     return environmentVariable;
   }
 
-//  public void setEnvironmentVariable(String environmentVariable) {
-//    this.environmentVariable = environmentVariable;
-//  }
+  public void setEnvironmentVariable(String environmentVariable) {
+    this.environmentVariable = environmentVariable;
+  }
 
   // -------------------------------------------------------------------------
   // Supportive methods

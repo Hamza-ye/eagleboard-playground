@@ -39,6 +39,7 @@ public class HibernateUserStore
 
   private final SchemaService schemaService;
 
+  @Autowired
   public HibernateUserStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
       DeletedObjectService deletedObjectService, CurrentUserService currentUserService,
       AclService aclService,  SchemaService schemaService  ) {

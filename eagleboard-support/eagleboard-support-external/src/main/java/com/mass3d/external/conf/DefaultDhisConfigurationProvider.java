@@ -26,13 +26,14 @@ import org.apache.commons.text.StrSubstitutor;
 import com.mass3d.encryption.EncryptionStatus;
 import com.mass3d.external.location.LocationManager;
 import com.mass3d.external.location.LocationManagerException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
 
 //@Profile("!test")
-@Component( "dhisConfigurationProvider" )
+//@Component( "dhisConfigurationProvider" )
 public class DefaultDhisConfigurationProvider
     implements DhisConfigurationProvider {
 
@@ -50,6 +51,7 @@ public class DefaultDhisConfigurationProvider
 
   private LocationManager locationManager;
 
+//  @Autowired
 //  public DefaultDhisConfigurationProvider( LocationManager locationManager )
 //  {
 //    checkNotNull( locationManager );
@@ -58,7 +60,7 @@ public class DefaultDhisConfigurationProvider
   /**
    * Cache for properties.
    */
-  private Properties properties = new Properties();
+  private Properties properties;
   /**
    * Cache for Google credential.
    */
@@ -68,7 +70,7 @@ public class DefaultDhisConfigurationProvider
     this.locationManager = locationManager;
   }
 
-  @PostConstruct
+//  @PostConstruct
   public void init() {
     // ---------------------------------------------------------------------
     // Load DHIS 2 configuration file into properties bundle
@@ -77,7 +79,7 @@ public class DefaultDhisConfigurationProvider
     this.properties = loadDhisConf();
     this.properties
         .setProperty("connection.dialect", "com.mass3d.hibernate.dialect.DhisPostgresDialect");
-//    .setProperty("connection.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+//    .setProperty("connection.dialect", "com.mass3d.hibernate.dialect.DhisH2Dialect");
 //        .setProperty("connection.dialect", "org.hibernate.spatial.dialect.postgis.PostgisPG95Dialect");
     // ---------------------------------------------------------------------
     // Load Google JSON authentication file into properties bundle DhisH2Dialect
@@ -203,6 +205,12 @@ public class DefaultDhisConfigurationProvider
   public boolean isClusterEnabled() {
     return StringUtils.isNotBlank(getProperty(ConfigurationKey.CLUSTER_MEMBERS)) && StringUtils
         .isNotBlank(getProperty(ConfigurationKey.CLUSTER_HOSTNAME));
+  }
+
+  @Override
+  public String getServerBaseUrl()
+  {
+    return StringUtils.trimToNull( properties.getProperty( ConfigurationKey.SERVER_BASE_URL.getKey() ) );
   }
 
   @Override

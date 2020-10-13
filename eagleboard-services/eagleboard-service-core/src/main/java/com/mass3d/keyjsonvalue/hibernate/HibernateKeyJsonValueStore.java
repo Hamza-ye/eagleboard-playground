@@ -16,7 +16,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository( "com.mass3d.keyjsonvalue.KeyJsonValueStore" )
-@Transactional
+//@Transactional
 public class HibernateKeyJsonValueStore
     extends HibernateIdentifiableObjectStore<KeyJsonValue>
     implements KeyJsonValueStore

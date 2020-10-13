@@ -8,12 +8,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.mass3d.common.DeleteNotAllowedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * TODO: Add support for failed allow tests on "transitive" deletion handlers which are called as
  * part of delete methods.
  *
  */
+@Component( "deletionManager" )
 public class DefaultDeletionManager
     implements DeletionManager {
 

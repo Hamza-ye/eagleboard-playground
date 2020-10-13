@@ -40,14 +40,14 @@ public class DefaultDocumentService
   // -------------------------------------------------------------------------
 
   @Override
-  public Long saveDocument(Document document) {
+  public long saveDocument(Document document) {
     documentStore.save(document);
 
     return document.getId();
   }
 
   @Override
-  public Document getDocument(Long id) {
+  public Document getDocument(long id) {
     return documentStore.get(id);
   }
 

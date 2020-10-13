@@ -1,5 +1,7 @@
 package com.mass3d.message;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import java.util.HashMap;
@@ -53,19 +55,18 @@ public class EmailMessageSender
     // -------------------------------------------------------------------------
 
     private SystemSettingManager systemSettingManager;
-
-    public void setSystemSettingManager( SystemSettingManager systemSettingManager )
-    {
-        this.systemSettingManager = systemSettingManager;
-    }
-
     private UserSettingService userSettingService;
 
-    public void setUserSettingService( UserSettingService userSettingService )
+
+    public EmailMessageSender( SystemSettingManager systemSettingManager, UserSettingService userSettingService )
     {
+        checkNotNull( systemSettingManager );
+        checkNotNull( userSettingService );
+//        checkNotNull( configurationProvider );
+
+        this.systemSettingManager = systemSettingManager;
         this.userSettingService = userSettingService;
     }
-
     // -------------------------------------------------------------------------
     // MessageSender implementation
     // -------------------------------------------------------------------------

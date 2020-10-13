@@ -1,5 +1,6 @@
 package com.mass3d.interpretation.impl;
 
+import com.mass3d.common.CodeGenerator;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -89,7 +90,7 @@ public class DefaultInterpretationService
   // -------------------------------------------------------------------------
 
   @Override
-  public Long saveInterpretation(Interpretation interpretation) {
+  public long saveInterpretation(Interpretation interpretation) {
     User user = currentUserService.getCurrentUser();
 
     Set<User> users = new HashSet<>();
@@ -104,7 +105,7 @@ public class DefaultInterpretationService
       }
 
       users = MentionUtils.getMentionedUsers(interpretation.getText(), userService);
-      interpretation.setMentionsFromUsers(users);
+//      interpretation.setMentionsFromUsers(users);
       updateSharingForMentions(interpretation, users);
     }
 
@@ -117,7 +118,7 @@ public class DefaultInterpretationService
   }
 
   @Override
-  public Interpretation getInterpretation(Long id) {
+  public Interpretation getInterpretation(long id) {
     return interpretationStore.get(id);
   }
 
@@ -129,7 +130,7 @@ public class DefaultInterpretationService
   @Override
   public void updateComment(Interpretation interpretation, InterpretationComment comment) {
     Set<User> users = MentionUtils.getMentionedUsers(comment.getText(), userService);
-    comment.setMentionsFromUsers(users);
+//    comment.setMentionsFromUsers(users);
     updateSharingForMentions(interpretation, users);
     interpretationStore.update(interpretation);
     notifySubscribers(interpretation, comment, NotificationType.COMMENT_UPDATE);
@@ -147,7 +148,7 @@ public class DefaultInterpretationService
     updateInterpretation(interpretation);
     notifySubscribers(interpretation, null, NotificationType.INTERPRETATION_UPDATE);
     Set<User> users = MentionUtils.getMentionedUsers(interpretation.getText(), userService);
-    interpretation.setMentionsFromUsers(users);
+//    interpretation.setMentionsFromUsers(users);
     updateSharingForMentions(interpretation, users);
 //        sendMentionNotifications( interpretation, null, users );
   }
@@ -172,7 +173,7 @@ public class DefaultInterpretationService
     return interpretationStore.getAllOrderedLastUpdated(first, max);
   }
 
-  private int sendNotificationMessage(Set<User> users, Interpretation interpretation,
+  private long sendNotificationMessage(Set<User> users, Interpretation interpretation,
       InterpretationComment comment, NotificationType notificationType) {
     I18n i18n = i18nManager.getI18n();
     String currentUsername = currentUserService.getCurrentUser().getUsername();
@@ -311,33 +312,33 @@ public class DefaultInterpretationService
     }
   }
 
-//    @Override
-//    public InterpretationComment addInterpretationComment( String uid, String text )
-//    {
-//        Interpretation interpretation = getInterpretation( uid );
-//        User user = currentUserService.getCurrentUser();
-//
-//        InterpretationComment comment = new InterpretationComment( text );
-//        comment.setLastUpdated( new Date() );
-//        comment.setUid( CodeGenerator.generateUid() );
-//
-//        Set<User> users = MentionUtils.getMentionedUsers( text, userService );
+    @Override
+    public InterpretationComment addInterpretationComment( String uid, String text )
+    {
+        Interpretation interpretation = getInterpretation( uid );
+        User user = currentUserService.getCurrentUser();
+
+        InterpretationComment comment = new InterpretationComment( text );
+        comment.setLastUpdated( new Date() );
+        comment.setUid( CodeGenerator.generateUid() );
+
+        Set<User> users = MentionUtils.getMentionedUsers( text, userService );
 //        comment.setMentionsFromUsers( users );
-//        updateSharingForMentions( interpretation, users );
-//
-//        if ( user != null )
-//        {
-//            comment.setUser( user );
-//        }
-//
-//        interpretation.addComment( comment );
-//        interpretationStore.update( interpretation );
-//
-//        notifySubscribers( interpretation, comment, NotificationType.COMMENT_CREATE );
+        updateSharingForMentions( interpretation, users );
+
+        if ( user != null )
+        {
+            comment.setUser( user );
+        }
+
+        interpretation.addComment( comment );
+        interpretationStore.update( interpretation );
+
+        notifySubscribers( interpretation, comment, NotificationType.COMMENT_CREATE );
 //        sendMentionNotifications( interpretation, comment, users );
-//
-//        return comment;
-//    }
+
+        return comment;
+    }
 
   @Override
   public void updateCurrentUserLastChecked() {
@@ -364,7 +365,7 @@ public class DefaultInterpretationService
   }
 
   @Transactional(isolation = Isolation.REPEATABLE_READ)
-  public boolean likeInterpretation(Long id) {
+  public boolean likeInterpretation(long id) {
     Interpretation interpretation = getInterpretation(id);
 
     if (interpretation == null) {
@@ -384,7 +385,7 @@ public class DefaultInterpretationService
   }
 
   @Transactional(isolation = Isolation.REPEATABLE_READ)
-  public boolean unlikeInterpretation(Long id) {
+  public boolean unlikeInterpretation(long id) {
     Interpretation interpretation = getInterpretation(id);
 
     if (interpretation == null) {

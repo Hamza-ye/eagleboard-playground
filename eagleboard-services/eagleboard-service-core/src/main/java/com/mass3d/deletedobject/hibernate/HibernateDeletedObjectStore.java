@@ -9,23 +9,19 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.transaction.Transactional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
-@Repository( "com.mass3d.deletedobject.DeletedObjectStore" )
-@Transactional
+@Repository("com.mass3d.deletedobject.DeletedObjectStore")
+//@Transactional
 public class HibernateDeletedObjectStore
     implements DeletedObjectStore {
 
   private SessionFactory sessionFactory;
 
-  public HibernateDeletedObjectStore( SessionFactory sessionFactory )
-  {
+  public HibernateDeletedObjectStore(SessionFactory sessionFactory) {
     this.sessionFactory = sessionFactory;
   }
 

@@ -4,9 +4,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.mass3d.logging.LogLevel;
 import com.mass3d.logging.LoggingManager;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+@Component
 public class WebRequestInterceptor extends HandlerInterceptorAdapter
 {
     private final LoggingManager.Logger log = LoggingManager.createLogger( WebRequestInterceptor.class );

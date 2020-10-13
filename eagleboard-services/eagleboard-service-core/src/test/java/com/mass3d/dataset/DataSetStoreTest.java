@@ -44,9 +44,9 @@ public class DataSetStoreTest
         DataSet dataSetB = createDataSet( 'B');
 
         dataSetStore.save( dataSetA );
-        Long idA = dataSetA.getId();
+        long idA = dataSetA.getId();
         dataSetStore.save( dataSetB );
-        Long idB = dataSetB.getId();
+        long idB = dataSetB.getId();
 
         dataSetA = dataSetStore.get( idA );
         dataSetB = dataSetStore.get( idB );
@@ -64,7 +64,7 @@ public class DataSetStoreTest
         DataSet dataSet = createDataSet( 'A');
 
         dataSetStore.save(dataSet);
-        Long id = dataSet.getId();
+        long id = dataSet.getId();
 
         dataSet = dataSetStore.get( id );
 
@@ -86,9 +86,9 @@ public class DataSetStoreTest
         DataSet dataSetB = createDataSet( 'B');
 
         dataSetStore.save(dataSetA);
-        Long idA = dataSetA.getId();
+        long idA = dataSetA.getId();
         dataSetStore.save(dataSetB);
-        Long idB = dataSetB.getId();
+        long idB = dataSetB.getId();
 
         assertNotNull( dataSetStore.get( idA ) );
         assertNotNull( dataSetStore.get( idB ) );
@@ -106,9 +106,9 @@ public class DataSetStoreTest
         DataSet dataSetB = createDataSet( 'B');
 
         dataSetStore.save(dataSetA);
-        Long idA = dataSetA.getId();
+        long idA = dataSetA.getId();
         dataSetStore.save(dataSetB);
-        Long idB = dataSetB.getId();
+        long idB = dataSetB.getId();
 
         assertEquals( dataSetStore.getByName( "DataSetA" ).getId(), idA );
         assertEquals( dataSetStore.getByName( "DataSetB" ).getId(), idB );

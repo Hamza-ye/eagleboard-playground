@@ -28,9 +28,9 @@
 
     <set name="dataSets" table="todotaskdatasets">
       <cache usage="read-write" />
-      <key column="todotaskid" foreign-key="fk_todotaskfieldsets_todotaskid" />
-      <many-to-many class="com.mass3d.dataset.DataSet" column="fieldsetid"
-        foreign-key="fk_todotask_fieldsetid" />
+      <key column="todotaskid" foreign-key="fk_todotaskdatasets_todotaskid" />
+      <many-to-many class="com.mass3d.dataset.DataSet" column="datasetid"
+        foreign-key="fk_todotask_datasetid" />
     </set>
 
 

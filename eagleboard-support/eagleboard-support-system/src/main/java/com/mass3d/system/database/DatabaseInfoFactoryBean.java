@@ -9,11 +9,12 @@ import org.springframework.stereotype.Component;
 public class DatabaseInfoFactoryBean
     implements FactoryBean<DatabaseInfo>
 {
-    private DatabaseInfoProvider databaseInfoProvider;
+    private final DatabaseInfoProvider databaseInfoProvider;
 
     public DatabaseInfoFactoryBean( DatabaseInfoProvider databaseInfoProvider )
     {
         checkNotNull( databaseInfoProvider );
+
         this.databaseInfoProvider = databaseInfoProvider;
     }
 

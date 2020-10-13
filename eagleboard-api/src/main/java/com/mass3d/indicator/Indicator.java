@@ -7,7 +7,6 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.mass3d.common.TotalAggregationType;
-import com.mass3d.dataset.DataSet;
 import java.util.HashSet;
 import java.util.Set;
 import com.mass3d.common.BaseDataDimensionalItemObject;
@@ -15,42 +14,13 @@ import com.mass3d.common.BaseIdentifiableObject;
 import com.mass3d.common.DimensionItemType;
 import com.mass3d.common.DxfNamespaces;
 import com.mass3d.common.MetadataObject;
+import com.mass3d.dataset.DataSet;
 import com.mass3d.schema.PropertyType;
 import com.mass3d.schema.annotation.Property;
-import javax.persistence.AssociationOverride;
-import javax.persistence.AttributeOverride;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-//@Entity
-//@Table(name = "indicator")
-//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-//@AttributeOverride(name = "id", column = @Column(name = "indicatorid"))
-//@AssociationOverride(
-//    name="userGroupAccesses",
-//    joinTable=@JoinTable(
-//        name="indicatorusergroupaccesses",
-//        joinColumns=@JoinColumn(name="indicatorid"),
-//        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
-//    )
-//)
-//@AssociationOverride(
-//    name="userAccesses",
-//    joinTable=@JoinTable(
-//        name="indicatoruseraccesses",
-//        joinColumns=@JoinColumn(name="indicatorid"),
-//        inverseJoinColumns=@JoinColumn(name="useraccessid")
-//    )
-//)
 @JacksonXmlRootElement(localName = "indicator", namespace = DxfNamespaces.DXF_2_0)
+//@Entity
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Indicator
     extends BaseDataDimensionalItemObject implements MetadataObject {
 
@@ -63,8 +33,8 @@ public class Indicator
    */
   private Integer decimals;
 
-  @ManyToOne
-  @JoinColumn(name = "indicatortypeid")
+  //  @ManyToOne
+//  @JoinColumn(name = "indicatortypeid")
   private IndicatorType indicatorType;
 
   private String numerator;
@@ -81,21 +51,23 @@ public class Indicator
 
   private String url;
 
-  @ManyToMany(cascade = CascadeType.ALL)
-  @JoinTable(name = "indicatorgroupmembers",
-      joinColumns = @JoinColumn(name = "indicatorid", referencedColumnName = "id"),
-      inverseJoinColumns = @JoinColumn(name = "indicatorgroupid", referencedColumnName = "id")
-  )
-  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+  //  @ManyToMany(cascade = CascadeType.ALL)
+//  @JoinTable(name = "indicatorgroupmembers",
+//      joinColumns = @JoinColumn(name = "indicatorid", referencedColumnName = "id"),
+//      inverseJoinColumns = @JoinColumn(name = "indicatorgroupid", referencedColumnName = "id")
+//  )
+//  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
   private Set<IndicatorGroup> groups = new HashSet<>();
 
-  @ManyToMany(cascade = CascadeType.ALL)
-  @JoinTable(name = "datasetindicators",
-      joinColumns = @JoinColumn(name = "indicatorid", referencedColumnName = "id"),
-      inverseJoinColumns = @JoinColumn(name = "datasetid", referencedColumnName = "id")
-  )
-  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+  //  @ManyToMany(cascade = CascadeType.ALL)
+//  @JoinTable(name = "fieldsetindicators",
+//      joinColumns = @JoinColumn(name = "indicatorid", referencedColumnName = "id"),
+//      inverseJoinColumns = @JoinColumn(name = "fieldsetid", referencedColumnName = "id")
+//  )
+//  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
   private Set<DataSet> dataSets = new HashSet<>();
+
+//    private ObjectStyle style;
 
   public Indicator() {
   }
@@ -126,12 +98,12 @@ public class Indicator
     }
   }
 
-  public void addFieldSet(DataSet dataSet) {
+  public void addDataSet(DataSet dataSet) {
     this.dataSets.add(dataSet);
     dataSet.getIndicators().add(this);
   }
 
-  public void removeFieldSet(DataSet dataSet) {
+  public void removeDataSet(DataSet dataSet) {
     this.dataSets.remove(dataSet);
     dataSet.getIndicators().remove(this);
   }
@@ -281,7 +253,7 @@ public class Indicator
   @JsonProperty
   @JsonSerialize(contentAs = BaseIdentifiableObject.class)
   @JacksonXmlElementWrapper(localName = "dataSets", namespace = DxfNamespaces.DXF_2_0)
-  @JacksonXmlProperty(localName = "fieldSet", namespace = DxfNamespaces.DXF_2_0)
+  @JacksonXmlProperty(localName = "dataSet", namespace = DxfNamespaces.DXF_2_0)
   public Set<DataSet> getDataSets() {
     return dataSets;
   }

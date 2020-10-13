@@ -1,5 +1,6 @@
 package com.mass3d.expression;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.mass3d.common.DimensionItemType.DATA_ELEMENT;
 import static com.mass3d.common.DimensionItemType.DATA_ELEMENT_OPERAND;
 import static com.mass3d.common.DimensionItemType.PROGRAM_ATTRIBUTE;
@@ -12,6 +13,29 @@ import static com.mass3d.expression.MissingValueStrategy.SKIP_IF_ANY_VALUE_MISSI
 import static com.mass3d.system.util.MathUtils.calculateExpression;
 import static com.mass3d.system.util.MathUtils.isEqual;
 
+import com.mass3d.common.DimensionItemType;
+import com.mass3d.common.DimensionService;
+import com.mass3d.common.DimensionalItemId;
+import com.mass3d.common.DimensionalItemObject;
+import com.mass3d.common.IdentifiableObject;
+import com.mass3d.common.IdentifiableObjectManager;
+import com.mass3d.common.ListMap;
+import com.mass3d.common.exception.InvalidIdentifierReferenceException;
+import com.mass3d.commons.collection.CachingMap;
+import com.mass3d.commons.util.TextUtils;
+import com.mass3d.constant.Constant;
+import com.mass3d.constant.ConstantService;
+import com.mass3d.dataelement.DataElement;
+import com.mass3d.dataelement.DataElementService;
+import com.mass3d.hibernate.HibernateGenericStore;
+import com.mass3d.indicator.Indicator;
+import com.mass3d.indicator.IndicatorValue;
+import com.mass3d.period.Period;
+import com.mass3d.system.jep.CustomFunctions;
+import com.mass3d.system.jep.NoValueException;
+import com.mass3d.system.util.DateUtils;
+import com.mass3d.system.util.ExpressionUtils;
+import com.mass3d.system.util.MathUtils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -26,36 +50,13 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import com.mass3d.common.DimensionItemType;
-import com.mass3d.common.DimensionService;
-import com.mass3d.common.DimensionalItemId;
-import com.mass3d.common.DimensionalItemObject;
-import com.mass3d.common.GenericStore;
-import com.mass3d.common.IdentifiableObject;
-import com.mass3d.common.IdentifiableObjectManager;
-import com.mass3d.common.ListMap;
-import com.mass3d.common.exception.InvalidIdentifierReferenceException;
-import com.mass3d.commons.collection.CachingMap;
-import com.mass3d.commons.util.TextUtils;
-import com.mass3d.constant.Constant;
-import com.mass3d.constant.ConstantService;
-import com.mass3d.dataelement.DataElement;
-import com.mass3d.dataelement.DataElementService;
-import com.mass3d.indicator.Indicator;
-import com.mass3d.indicator.IndicatorValue;
-import com.mass3d.period.Period;
-import com.mass3d.system.jep.CustomFunctions;
-import com.mass3d.system.jep.NoValueException;
-import com.mass3d.system.util.DateUtils;
-import com.mass3d.system.util.ExpressionUtils;
-import com.mass3d.system.util.MathUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The expression is a string describing a formula containing data element ids and category option
  * combo ids. The formula can potentially contain references to data element totals.
- *
  */
 @Service("com.mass3d.expression.ExpressionService")
 public class DefaultExpressionService
@@ -67,10 +68,28 @@ public class DefaultExpressionService
   // Dependencies
   // -------------------------------------------------------------------------
 
-  private GenericStore<Expression> expressionStore;
+  private HibernateGenericStore<Expression> expressionStore;
   private DataElementService dataElementService;
   private ConstantService constantService;
   private DimensionService dimensionService;
+  private IdentifiableObjectManager idObjectManager;
+
+  public DefaultExpressionService(
+      @Qualifier("com.mass3d.expression.ExpressionStore") HibernateGenericStore<Expression> expressionStore,
+      DataElementService dataElementService, ConstantService constantService,
+      IdentifiableObjectManager identifiableObjectManager, DimensionService dimensionService) {
+    checkNotNull(expressionStore);
+    checkNotNull(dataElementService);
+    checkNotNull(constantService);
+    checkNotNull(identifiableObjectManager);
+    checkNotNull(dimensionService);
+
+    this.expressionStore = expressionStore;
+    this.dataElementService = dataElementService;
+    this.constantService = constantService;
+    this.dimensionService = dimensionService;
+    this.idObjectManager = identifiableObjectManager;
+  }
 
   //    private DataElementService dataElementService;
 //
@@ -78,11 +97,10 @@ public class DefaultExpressionService
 //    {
 //        this.dataElementService = dataElementService;
 //    }
-  private IdentifiableObjectManager idObjectManager;
 
-  public void setExpressionStore(GenericStore<Expression> expressionStore) {
-    this.expressionStore = expressionStore;
-  }
+//  public void setExpressionStore(GenericStore<Expression> expressionStore) {
+//    this.expressionStore = expressionStore;
+//  }
 
 //    private CategoryService categoryService;
 //
@@ -98,21 +116,21 @@ public class DefaultExpressionService
 //        this.organisationUnitGroupService = organisationUnitGroupService;
 //    }
 
-  public void setDataElementService(DataElementService dataElementService) {
-    this.dataElementService = dataElementService;
-  }
-
-  public void setConstantService(ConstantService constantService) {
-    this.constantService = constantService;
-  }
-
-  public void setDimensionService(DimensionService dimensionService) {
-    this.dimensionService = dimensionService;
-  }
-
-  public void setIdObjectManager(IdentifiableObjectManager idObjectManager) {
-    this.idObjectManager = idObjectManager;
-  }
+//  public void setDataElementService(DataElementService dataElementService) {
+//    this.dataElementService = dataElementService;
+//  }
+//
+//  public void setConstantService(ConstantService constantService) {
+//    this.constantService = constantService;
+//  }
+//
+//  public void setDimensionService(DimensionService dimensionService) {
+//    this.dimensionService = dimensionService;
+//  }
+//
+//  public void setIdObjectManager(IdentifiableObjectManager idObjectManager) {
+//    this.idObjectManager = idObjectManager;
+//  }
 
   // -------------------------------------------------------------------------
   // Expression CRUD operations

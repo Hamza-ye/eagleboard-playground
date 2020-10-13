@@ -45,13 +45,13 @@ public class DefaultUserService
   // Dependencies
   // -------------------------------------------------------------------------
 
-  private UserStore userStore;
-  private UserGroupService userGroupService;
-  private UserCredentialsStore userCredentialsStore;
-  private UserAuthorityGroupStore userAuthorityGroupStore;
-  private CurrentUserService currentUserService;
-  private SystemSettingManager systemSettingManager;
-  private PasswordManager passwordManager;
+  private final UserStore userStore;
+  private final UserGroupService userGroupService;
+  private final UserCredentialsStore userCredentialsStore;
+  private final UserAuthorityGroupStore userAuthorityGroupStore;
+  private final CurrentUserService currentUserService;
+  private final SystemSettingManager systemSettingManager;
+  private final PasswordManager passwordManager;
 
   public DefaultUserService( UserStore userStore, UserGroupService userGroupService,
       UserCredentialsStore userCredentialsStore, UserAuthorityGroupStore userAuthorityGroupStore,
@@ -76,39 +76,39 @@ public class DefaultUserService
 //    this.sessionRegistry = sessionRegistry;
   }
 
-  @Autowired
-  public void setUserStore(UserStore userStore) {
-    this.userStore = userStore;
-  }
+//  @Autowired
+//  public void setUserStore(UserStore userStore) {
+//    this.userStore = userStore;
+//  }
 
-  @Autowired
-  public void setUserGroupService(UserGroupService userGroupService) {
-    this.userGroupService = userGroupService;
-  }
-
-  @Autowired
-  public void setUserCredentialsStore(UserCredentialsStore userCredentialsStore) {
-    this.userCredentialsStore = userCredentialsStore;
-  }
-
-  @Autowired
-  public void setUserAuthorityGroupStore(UserAuthorityGroupStore userAuthorityGroupStore) {
-    this.userAuthorityGroupStore = userAuthorityGroupStore;
-  }
-
-  @Autowired
-  public void setCurrentUserService(CurrentUserService currentUserService) {
-    this.currentUserService = currentUserService;
-  }
+//  @Autowired
+//  public void setUserGroupService(UserGroupService userGroupService) {
+//    this.userGroupService = userGroupService;
+//  }
+//
+//  @Autowired
+//  public void setUserCredentialsStore(UserCredentialsStore userCredentialsStore) {
+//    this.userCredentialsStore = userCredentialsStore;
+//  }
+//
+//  @Autowired
+//  public void setUserAuthorityGroupStore(UserAuthorityGroupStore userAuthorityGroupStore) {
+//    this.userAuthorityGroupStore = userAuthorityGroupStore;
+//  }
+//
+//  @Autowired
+//  public void setCurrentUserService(CurrentUserService currentUserService) {
+//    this.currentUserService = currentUserService;
+//  }
 
 //  public void setSystemSettingManager(SystemSettingManager systemSettingManager) {
 //    this.systemSettingManager = systemSettingManager;
 //  }
 
-  @Autowired
-  public void setPasswordManager(PasswordManager passwordManager) {
-    this.passwordManager = passwordManager;
-  }
+//  @Autowired
+//  public void setPasswordManager(PasswordManager passwordManager) {
+//    this.passwordManager = passwordManager;
+//  }
 
   // -------------------------------------------------------------------------
   // UserService implementation

@@ -7,9 +7,9 @@ import java.util.Set;
 
 public interface InterpretationService {
 
-  Long saveInterpretation(Interpretation interpretation);
+  long saveInterpretation(Interpretation interpretation);
 
-  Interpretation getInterpretation(Long id);
+  Interpretation getInterpretation(long id);
 
   Interpretation getInterpretation(String uid);
 
@@ -25,7 +25,7 @@ public interface InterpretationService {
 
   List<Interpretation> getInterpretations(int first, int max);
 
-//  InterpretationComment addInterpretationComment(String uid, String text);
+  InterpretationComment addInterpretationComment(String uid, String text);
 
   void updateComment(Interpretation interpretation, InterpretationComment comment);
 
@@ -43,7 +43,7 @@ public interface InterpretationService {
    * @param id the interpretation id.
    * @return true if the current user had not already liked the interpretation.
    */
-  boolean likeInterpretation(Long id);
+  boolean likeInterpretation(long id);
 
   /**
    * Removes a like from the given interpretation for the current user. This method will have a
@@ -53,7 +53,7 @@ public interface InterpretationService {
    * @param id the interpretation id.
    * @return true if the current user had previously liked the interpretation.
    */
-  boolean unlikeInterpretation(Long id);
+  boolean unlikeInterpretation(long id);
 
 //    int countMapInterpretations(Map map);
 //

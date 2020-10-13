@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.mass3d.external.conf.DhisConfigurationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Default implementation of StartupRoutineExecutor. The execute method will execute the added
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * <code>-Ddhis.skip.startup=true</code>
  *
  */
+@Component( "com.mass3d.system.startup.StartupRoutineExecutor" )
 public class DefaultStartupRoutineExecutor
     implements StartupRoutineExecutor {
 

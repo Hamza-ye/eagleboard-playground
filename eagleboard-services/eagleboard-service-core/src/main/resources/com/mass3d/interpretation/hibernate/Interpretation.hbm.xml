@@ -32,8 +32,8 @@
     <!--<many-to-one name="eventChart" class="com.mass3d.eventchart.EventChart" column="eventchartid"-->
       <!--foreign-key="fk_interpretation_eventchartid" />-->
 
-    <many-to-one name="dataSet" class="com.mass3d.dataset.DataSet" column="fieldsetid"
-      foreign-key="fk_interpretation_fieldsetid" />
+    <many-to-one name="dataSet" class="com.mass3d.dataset.DataSet" column="datasetid"
+      foreign-key="fk_interpretation_datasetid" />
 
     <!-- Eagle board -->
     <many-to-one name="project" class="com.mass3d.project.Project" column="projectid"

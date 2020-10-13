@@ -10,11 +10,11 @@ public interface OptionService {
   // OptionSet
   // -------------------------------------------------------------------------
 
-  int saveOptionSet(OptionSet optionSet);
+  long saveOptionSet(OptionSet optionSet);
 
   void updateOptionSet(OptionSet optionSet);
 
-  OptionSet getOptionSet(int id);
+  OptionSet getOptionSet(long id);
 
   OptionSet getOptionSet(String uid);
 
@@ -34,7 +34,7 @@ public interface OptionService {
 
   void updateOption(Option option);
 
-  Option getOption(int id);
+  Option getOption(long id);
 
   Option getOptionByCode(String code);
 
@@ -44,11 +44,11 @@ public interface OptionService {
   // OptionGroup
   // -------------------------------------------------------------------------
 
-  int saveOptionGroup(OptionGroup group);
+  long saveOptionGroup(OptionGroup group);
 
   void updateOptionGroup(OptionGroup group);
 
-  OptionGroup getOptionGroup(int id);
+  OptionGroup getOptionGroup(long id);
 
   OptionGroup getOptionGroup(String uid);
 
@@ -60,11 +60,11 @@ public interface OptionService {
   // OptionGroupSet
   // -------------------------------------------------------------------------
 
-  int saveOptionGroupSet(OptionGroupSet group);
+  long saveOptionGroupSet(OptionGroupSet group);
 
   void updateOptionGroupSet(OptionGroupSet group);
 
-  OptionGroupSet getOptionGroupSet(int id);
+  OptionGroupSet getOptionGroupSet(long id);
 
   OptionGroupSet getOptionGroupSet(String uid);
 

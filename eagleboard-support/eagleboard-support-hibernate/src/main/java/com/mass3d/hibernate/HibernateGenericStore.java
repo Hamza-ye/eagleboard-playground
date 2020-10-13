@@ -2,6 +2,7 @@ package com.mass3d.hibernate;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.mass3d.common.AuditLogUtil;
 import com.mass3d.common.GenericStore;
 import java.util.List;
 import java.util.function.Function;
@@ -14,7 +15,6 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.transaction.Transactional;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
@@ -24,12 +24,9 @@ import org.hibernate.annotations.QueryHints;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-@Transactional
 public class HibernateGenericStore<T>
     implements GenericStore<T>
 {
@@ -359,7 +356,7 @@ public class HibernateGenericStore<T>
   @Override
   public void save( T object )
   {
-//    AuditLogUtil.infoWrapper( log, object, AuditLogUtil.ACTION_CREATE );
+    AuditLogUtil.infoWrapper( log, object, AuditLogUtil.ACTION_CREATE );
 
     getSession().save( object );
   }
@@ -377,7 +374,7 @@ public class HibernateGenericStore<T>
   }
 
   @Override
-  public T get( Long id )
+  public T get( long id )
   {
     T object = getSession().get( getClazz(), id );
 

@@ -1,10 +1,10 @@
 package com.mass3d.config;
 
-import com.mass3d.deletedobject.DeletedObjectService;
-import org.hibernate.SessionFactory;
 import com.mass3d.common.hibernate.HibernateIdentifiableObjectStore;
 import com.mass3d.constant.Constant;
+import com.mass3d.deletedobject.DeletedObjectService;
 import com.mass3d.expression.Expression;
+import com.mass3d.fileresource.FileResource;
 import com.mass3d.hibernate.HibernateGenericStore;
 import com.mass3d.indicator.IndicatorGroup;
 import com.mass3d.indicator.IndicatorGroupSet;
@@ -16,116 +16,118 @@ import com.mass3d.user.CurrentUserService;
 import com.mass3d.user.UserAccess;
 import com.mass3d.user.UserGroup;
 import com.mass3d.user.UserGroupAccess;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-@Configuration( "coreStoreConfig" )
-public class StoreConfig
-{
-    @Autowired
-    private SessionFactory sessionFactory;
+@Configuration("coreStoreConfig")
+@ComponentScan(basePackages = {"com.mass3d"})
+@ImportResource( locations = { "classpath*:/META-INF/mass3d/beans.xml" } )
+public class StoreConfig {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+  @Autowired
+  private SessionFactory sessionFactory;
 
-    @Autowired
-    private DeletedObjectService deletedObjectService;
+  @Autowired
+  private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private ApplicationEventPublisher publisher;
+  @Autowired
+  private DeletedObjectService deletedObjectService;
 
-    @Autowired
-    private CurrentUserService currentUserService;
+  @Autowired
+  private CurrentUserService currentUserService;
 
-    @Autowired
-    private AclService aclService;
+  @Autowired
+  private AclService aclService;
 
-    @Bean( "com.mass3d.indicator.IndicatorTypeStore" )
-    public HibernateIdentifiableObjectStore<IndicatorType> indicatorTypeStore()
-    {
-        return new HibernateIdentifiableObjectStore<>( sessionFactory, jdbcTemplate, deletedObjectService,
-            IndicatorType.class, currentUserService, aclService, true );
-    }
+  @Bean("com.mass3d.indicator.IndicatorTypeStore")
+  public HibernateIdentifiableObjectStore<IndicatorType> indicatorTypeStore() {
+    return new HibernateIdentifiableObjectStore<>(sessionFactory, jdbcTemplate,
+        deletedObjectService,
+        IndicatorType.class, currentUserService, aclService, true);
+  }
 
-    @Bean( "com.mass3d.indicator.IndicatorGroupStore" )
-    public HibernateIdentifiableObjectStore<IndicatorGroup> indicatorGroupStore()
-    {
-        return new HibernateIdentifiableObjectStore<>( sessionFactory,
-            jdbcTemplate, deletedObjectService, IndicatorGroup.class, currentUserService, aclService, true );
-    }
+  @Bean("com.mass3d.indicator.IndicatorGroupStore")
+  public HibernateIdentifiableObjectStore<IndicatorGroup> indicatorGroupStore() {
+    return new HibernateIdentifiableObjectStore<>(sessionFactory,
+        jdbcTemplate, deletedObjectService, IndicatorGroup.class, currentUserService, aclService,
+        true);
+  }
 
-    @Bean( "com.mass3d.indicator.IndicatorGroupSetStore" )
-    public HibernateIdentifiableObjectStore<IndicatorGroupSet> indicatorGroupSetStore()
-    {
-        return new HibernateIdentifiableObjectStore<>( sessionFactory, jdbcTemplate, deletedObjectService,
-            IndicatorGroupSet.class, currentUserService, aclService, true );
-    }
+  @Bean("com.mass3d.indicator.IndicatorGroupSetStore")
+  public HibernateIdentifiableObjectStore<IndicatorGroupSet> indicatorGroupSetStore() {
+    return new HibernateIdentifiableObjectStore<>(sessionFactory, jdbcTemplate,
+        deletedObjectService,
+        IndicatorGroupSet.class, currentUserService, aclService, true);
+  }
 
-//    @Bean( "com.mass3d.predictor.PredictorGroupStore" )
+  //    @Bean( "com.mass3d.predictor.PredictorGroupStore" )
 //    public HibernateIdentifiableObjectStore<PredictorGroup> predictorGroupStore()
 //    {
 //        return new HibernateIdentifiableObjectStore<>( sessionFactory,
 //            jdbcTemplate, publisher, PredictorGroup.class, currentUserService, aclService, true );
 //    }
+  @Bean("com.mass3d.fileresource.FileResourceStore")
+  public HibernateIdentifiableObjectStore<FileResource> fileResourceStore() {
+    return new HibernateIdentifiableObjectStore<>(sessionFactory, jdbcTemplate,
+        deletedObjectService,
+        FileResource.class, currentUserService, aclService, true);
+  }
 
-    @Bean( "com.mass3d.expression.ExpressionStore" )
-    public HibernateGenericStore<Expression> expressionStore()
-    {
-        return new HibernateGenericStore<>( sessionFactory, jdbcTemplate,
-            Expression.class, true );
-    }
+  @Bean("com.mass3d.expression.ExpressionStore")
+  public HibernateGenericStore<Expression> expressionStore() {
+    return new HibernateGenericStore<>(sessionFactory, jdbcTemplate,
+        Expression.class, true);
+  }
 
-    @Bean( "com.mass3d.user.UserGroupStore" )
-    public HibernateIdentifiableObjectStore<UserGroup> userGroupStore()
-    {
-        return new HibernateIdentifiableObjectStore<>( sessionFactory,
-            jdbcTemplate, deletedObjectService, UserGroup.class, currentUserService, aclService, true );
-    }
+  @Bean("com.mass3d.user.UserGroupStore")
+  public HibernateIdentifiableObjectStore<UserGroup> userGroupStore() {
+    return new HibernateIdentifiableObjectStore<>(sessionFactory,
+        jdbcTemplate, deletedObjectService, UserGroup.class, currentUserService, aclService, true);
+  }
 
-    @Bean( "com.mass3d.user.UserGroupAccessStore" )
-    public HibernateGenericStore<UserGroupAccess> userGroupAccessStore()
-    {
-        return new HibernateGenericStore<>( sessionFactory, jdbcTemplate,
-            UserGroupAccess.class, true );
-    }
+  @Bean("com.mass3d.user.UserGroupAccessStore")
+  public HibernateGenericStore<UserGroupAccess> userGroupAccessStore() {
+    return new HibernateGenericStore<>(sessionFactory, jdbcTemplate,
+        UserGroupAccess.class, true);
+  }
 
-    @Bean( "com.mass3d.user.UserAccessStore" )
-    public HibernateGenericStore<UserAccess> userAccessStore()
-    {
-        return new HibernateGenericStore<>( sessionFactory, jdbcTemplate,
-            UserAccess.class, true );
-    }
+  @Bean("com.mass3d.user.UserAccessStore")
+  public HibernateGenericStore<UserAccess> userAccessStore() {
+    return new HibernateGenericStore<>(sessionFactory, jdbcTemplate,
+        UserAccess.class, true);
+  }
 
-    @Bean( "com.mass3d.configuration.ConfigurationStore" )
-    public HibernateGenericStore<com.mass3d.configuration.Configuration> configurationStore()
-    {
-        return new HibernateGenericStore<>(
-            sessionFactory, jdbcTemplate, com.mass3d.configuration.Configuration.class, true );
-    }
+  @Bean("com.mass3d.configuration.ConfigurationStore")
+  public HibernateGenericStore<com.mass3d.configuration.Configuration> configurationStore() {
+    return new HibernateGenericStore<>(
+        sessionFactory, jdbcTemplate, com.mass3d.configuration.Configuration.class, true);
+  }
 
-    @Bean( "com.mass3d.constant.ConstantStore" )
-    public HibernateIdentifiableObjectStore<Constant> constantStore()
-    {
-        return new HibernateIdentifiableObjectStore<>( sessionFactory, jdbcTemplate, deletedObjectService,
-            Constant.class, currentUserService, aclService, true );
-    }
+  @Bean("com.mass3d.constant.ConstantStore")
+  public HibernateIdentifiableObjectStore<Constant> constantStore() {
+    return new HibernateIdentifiableObjectStore<>(sessionFactory, jdbcTemplate,
+        deletedObjectService,
+        Constant.class, currentUserService, aclService, true);
+  }
 
-    @Bean( "com.mass3d.scheduling.JobConfigurationStore" )
-    public HibernateIdentifiableObjectStore<JobConfiguration> jobConfigurationStore()
-    {
-        return new HibernateIdentifiableObjectStore<>(
-            sessionFactory, jdbcTemplate, deletedObjectService, JobConfiguration.class, currentUserService, aclService, true );
-    }
+  @Bean("com.mass3d.scheduling.JobConfigurationStore")
+  public HibernateIdentifiableObjectStore<JobConfiguration> jobConfigurationStore() {
+    return new HibernateIdentifiableObjectStore<>(
+        sessionFactory, jdbcTemplate, deletedObjectService, JobConfiguration.class,
+        currentUserService, aclService, true);
+  }
 
-    @Bean( "com.mass3d.option.OptionSetStore" )
-    public HibernateIdentifiableObjectStore<OptionSet> optionSetStore()
-    {
-        return new HibernateIdentifiableObjectStore<>( sessionFactory, jdbcTemplate, deletedObjectService,
-            OptionSet.class, currentUserService, aclService, true );
-    }
+  @Bean("com.mass3d.option.OptionSetStore")
+  public HibernateIdentifiableObjectStore<OptionSet> optionSetStore() {
+    return new HibernateIdentifiableObjectStore<>(sessionFactory, jdbcTemplate,
+        deletedObjectService,
+        OptionSet.class, currentUserService, aclService, true);
+  }
 
 //    @Bean( "com.mass3d.legend.LegendSetStore" )
 //    public HibernateIdentifiableObjectStore<LegendSet> legendSetStore()

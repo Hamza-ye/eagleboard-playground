@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 import org.springframework.data.repository.NoRepositoryBean;
 
-@NoRepositoryBean
+//@NoRepositoryBean
 public interface IdentifiableObjectStore<T> extends GenericStore<T>{
 
   /**

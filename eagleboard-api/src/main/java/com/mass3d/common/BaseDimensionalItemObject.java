@@ -5,7 +5,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.mass3d.analytics.AggregationType;
 import javax.persistence.MappedSuperclass;
 
-@MappedSuperclass
+//@MappedSuperclass
 public class BaseDimensionalItemObject
     extends BaseNameableObject
     implements DimensionalItemObject

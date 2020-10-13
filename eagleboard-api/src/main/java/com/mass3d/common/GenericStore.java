@@ -37,7 +37,7 @@ public interface GenericStore<T> {
    * @param id the object identifier.
    * @return the object identified by the given identifier.
    */
-  T get(Long id);
+  T get(long id);
 
   /**
    * Gets the count of objects.

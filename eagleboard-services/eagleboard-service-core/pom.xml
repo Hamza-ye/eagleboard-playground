@@ -22,7 +22,6 @@
       <groupId>com.mass3d</groupId>
       <artifactId>eagleboard-service-schema</artifactId>
     </dependency>
-
     <dependency>
       <groupId>com.mass3d</groupId>
       <artifactId>eagleboard-service-setting</artifactId>
@@ -68,6 +67,10 @@
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
+      <artifactId>commons-email</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
       <artifactId>commons-collections4</artifactId>
     </dependency>
     <!--<dependency>-->
@@ -99,6 +102,14 @@
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
     </dependency>
+
+    <!-- JClouds -->
+    <dependency>
+      <groupId>jcloud.eagleboard</groupId>
+      <artifactId>jcloud-shaded</artifactId>
+      <!--<version>1.0-SNAPSHOT</version>-->
+    </dependency>
+
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>

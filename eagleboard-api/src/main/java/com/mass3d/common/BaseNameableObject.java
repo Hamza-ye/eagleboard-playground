@@ -6,7 +6,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.mass3d.schema.annotation.PropertyRange;
 import javax.persistence.MappedSuperclass;
 
-@MappedSuperclass
+//@MappedSuperclass
 @JacksonXmlRootElement(localName = "nameableObject", namespace = DxfNamespaces.DXF_2_0)
 public class BaseNameableObject
 extends BaseIdentifiableObject implements NameableObject{

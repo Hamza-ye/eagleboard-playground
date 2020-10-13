@@ -12,56 +12,26 @@ import com.mass3d.common.DxfNamespaces;
 import com.mass3d.common.MetadataObject;
 import com.mass3d.schema.PropertyType;
 import com.mass3d.schema.annotation.Property;
-import javax.persistence.AssociationOverride;
-import javax.persistence.AttributeOverride;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-@Entity
-@Table(name = "indicatorgroup")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@AttributeOverride(name = "id", column = @Column(name = "indicatorgroupid"))
-@AssociationOverride(
-    name="userGroupAccesses",
-    joinTable=@JoinTable(
-        name="indicatorgroupusergroupaccesses",
-        joinColumns=@JoinColumn(name="indicatorgroupid"),
-        inverseJoinColumns=@JoinColumn(name="usergroupaccessid")
-    )
-)
-@AssociationOverride(
-    name="userAccesses",
-    joinTable=@JoinTable(
-        name="indicatorgroupuseraccesses",
-        joinColumns=@JoinColumn(name="indicatorgroupid"),
-        inverseJoinColumns=@JoinColumn(name="useraccessid")
-    )
-)
 @JacksonXmlRootElement(localName = "indicatorGroup", namespace = DxfNamespaces.DXF_2_0)
+//@Entity
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class IndicatorGroup
     extends BaseIdentifiableObject implements MetadataObject {
 
-  @ManyToMany(cascade = CascadeType.ALL)
-  @JoinTable(name = "indicatorgroupmembers",
-      joinColumns = @JoinColumn(name = "indicatorgroupid", referencedColumnName = "id"),
-      inverseJoinColumns = @JoinColumn(name = "indicatorid", referencedColumnName = "id")
-  )
-  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+  //  @ManyToMany(cascade = CascadeType.ALL)
+//  @JoinTable(name = "indicatorgroupmembers",
+//      joinColumns = @JoinColumn(name = "indicatorgroupid", referencedColumnName = "id"),
+//      inverseJoinColumns = @JoinColumn(name = "indicatorid", referencedColumnName = "id")
+//  )
+//  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
   private Set<Indicator> members = new HashSet<>();
 
-  @ManyToOne
-  @JoinTable(name = "indicatorgroupsetmembers",
-      joinColumns = @JoinColumn(name = "indicatorgroupid", referencedColumnName = "id"),
-      inverseJoinColumns = @JoinColumn(name = "indicatorgroupsetid", referencedColumnName = "id")
-  )
+  //  @ManyToOne
+//  @JoinTable(name = "indicatorgroupsetmembers",
+//      joinColumns = @JoinColumn(name = "indicatorgroupid", referencedColumnName = "id"),
+//      inverseJoinColumns = @JoinColumn(name = "indicatorgroupsetid", referencedColumnName = "id")
+//  )
   private IndicatorGroupSet groupSet;
 
   // -------------------------------------------------------------------------

@@ -17,12 +17,14 @@ import com.mass3d.startup.SchedulerStart;
 import com.mass3d.startup.SettingUpgrader;
 import com.mass3d.user.UserService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Luciano Fiandesio
  */
 @Configuration
+@ComponentScan(basePackages = {"com.mass3d"})
 public class StartupConfig
 {
     @Bean( "com.mass3d.period.PeriodTypePopulator" )

@@ -2,11 +2,25 @@ package com.mass3d;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.common.hash.Hashing;
 import com.mass3d.analytics.AggregationType;
 import com.mass3d.common.IdentifiableObject;
 import com.mass3d.common.ValueType;
+import com.mass3d.constant.Constant;
 import com.mass3d.dataelement.DataElement;
 import com.mass3d.dataset.DataSet;
+import com.mass3d.fileresource.ExternalFileResource;
+import com.mass3d.fileresource.FileResource;
+import com.mass3d.fileresource.FileResourceDomain;
+import com.mass3d.indicator.Indicator;
+import com.mass3d.indicator.IndicatorGroup;
+import com.mass3d.indicator.IndicatorGroupSet;
+import com.mass3d.indicator.IndicatorType;
+import com.mass3d.option.Option;
+import com.mass3d.option.OptionSet;
+import com.mass3d.period.MonthlyPeriodType;
+import com.mass3d.period.Period;
+import com.mass3d.period.PeriodType;
 import com.mass3d.render.RenderService;
 import com.mass3d.todotask.TodoTask;
 import com.mass3d.user.User;
@@ -50,9 +64,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.Assert;
+import org.springframework.util.MimeTypeUtils;
 import org.xml.sax.InputSource;
 
-@ActiveProfiles( profiles = { "test" } )
+@ActiveProfiles(profiles = {"test"})
 public abstract class EagleboardConvenienceTest
 {
     protected static final Log log = LogFactory.getLog( EagleboardConvenienceTest.class );
@@ -312,6 +327,72 @@ public abstract class EagleboardConvenienceTest
     /**
      * @param uniqueCharacter A unique character to identify the object.
      */
+    public static IndicatorType createIndicatorType( char uniqueCharacter )
+    {
+        IndicatorType type = new IndicatorType();
+        type.setAutoFields();
+
+        type.setName( "IndicatorType" + uniqueCharacter );
+        type.setFactor( 100 );
+
+        return type;
+    }
+
+    /**
+     * @param uniqueCharacter A unique character to identify the object.
+     * @param type            The type.
+     */
+    public static Indicator createIndicator( char uniqueCharacter, IndicatorType type )
+    {
+        Indicator indicator = new Indicator();
+        indicator.setAutoFields();
+
+        indicator.setUid( BASE_IN_UID + uniqueCharacter );
+        indicator.setName( "Indicator" + uniqueCharacter );
+        indicator.setShortName( "IndicatorShort" + uniqueCharacter );
+        indicator.setCode( "IndicatorCode" + uniqueCharacter );
+        indicator.setDescription( "IndicatorDescription" + uniqueCharacter );
+        indicator.setAnnualized( false );
+        indicator.setIndicatorType( type );
+        indicator.setNumerator( "Numerator" );
+        indicator.setNumeratorDescription( "NumeratorDescription" );
+        indicator.setDenominator( "Denominator" );
+        indicator.setDenominatorDescription( "DenominatorDescription" );
+
+        return indicator;
+    }
+
+    /**
+     * @param uniqueCharacter A unique character to identify the object.
+     */
+    public static IndicatorGroup createIndicatorGroup( char uniqueCharacter )
+    {
+        IndicatorGroup group = new IndicatorGroup();
+        group.setAutoFields();
+
+        group.setUid( BASE_UID + uniqueCharacter );
+        group.setName( "IndicatorGroup" + uniqueCharacter );
+
+        return group;
+    }
+
+    /**
+     * @param uniqueCharacter A unique character to identify the object.
+     */
+    public static IndicatorGroupSet createIndicatorGroupSet( char uniqueCharacter )
+    {
+        IndicatorGroupSet groupSet = new IndicatorGroupSet();
+        groupSet.setAutoFields();
+
+        groupSet.setUid( BASE_UID + uniqueCharacter );
+        groupSet.setName( "IndicatorGroupSet" + uniqueCharacter );
+
+        return groupSet;
+    }
+
+    /**
+     * @param uniqueCharacter A unique character to identify the object.
+     */
     public static DataSet createDataSet( char uniqueCharacter/*,  PeriodType periodType */ )
     {
         DataSet dataSet = new DataSet();
@@ -339,6 +420,62 @@ public abstract class EagleboardConvenienceTest
         unit.setCode( "TodoTask" + uniqueCharacter );
 
         return unit;
+    }
+
+    /**
+     * @param type      The PeriodType.
+     * @param startDate The start date.
+     */
+    public static Period createPeriod( PeriodType type, Date startDate )
+    {
+        Period period = new Period();
+        period.setAutoFields();
+
+        period.setPeriodType( type );
+        period.setStartDate( startDate );
+
+        return period;
+    }
+
+    /**
+     * @param type      The PeriodType.
+     * @param startDate The start date.
+     * @param endDate   The end date.
+     */
+    public static Period createPeriod( PeriodType type, Date startDate, Date endDate )
+    {
+        Period period = new Period();
+        period.setAutoFields();
+
+        period.setPeriodType( type );
+        period.setStartDate( startDate );
+        period.setEndDate( endDate );
+
+        return period;
+    }
+
+    /**
+     * @param isoPeriod the ISO period string.
+     */
+    public static Period createPeriod( String isoPeriod )
+    {
+        return PeriodType.getPeriodFromIsoString( isoPeriod );
+    }
+
+    /**
+     * @param startDate The start date.
+     * @param endDate   The end date.
+     */
+    public static Period createPeriod( Date startDate, Date endDate )
+    {
+        Period period = new Period();
+        period.setAutoFields();
+
+        period.setPeriodType( new MonthlyPeriodType() );
+        period.setStartDate( startDate );
+        period.setEndDate( endDate );
+
+        return period;
     }
 
     public static User createUser( char uniqueCharacter )
@@ -419,6 +556,92 @@ public abstract class EagleboardConvenienceTest
         }
 
         return role;
+    }
+
+    /**
+     * @param uniqueChar A unique character to identify the object.
+     * @param content The content of the file
+     * @return a fileResource object
+     */
+    public static FileResource createFileResource( char uniqueChar, byte[] content )
+    {
+        String filename = "filename" + uniqueChar;
+        String contentMd5 = Hashing.md5().hashBytes( content ).toString();
+        String contentType = MimeTypeUtils.APPLICATION_OCTET_STREAM_VALUE;
+
+        FileResource fileResource = new FileResource( filename, contentType, content.length, contentMd5, FileResourceDomain.DATA_VALUE );
+        fileResource.setAssigned( false );
+        fileResource.setCreated( new Date() );
+        fileResource.setAutoFields();
+
+        return fileResource;
+    }
+
+    /**
+     * @param uniqueChar A unique character to identify the object.
+     * @param content The content of the file
+     * @return an externalFileResource object
+     */
+    public static ExternalFileResource createExternalFileResource( char uniqueChar, byte[] content )
+    {
+        FileResource fileResource = createFileResource( uniqueChar, content );
+        ExternalFileResource externalFileResource = new ExternalFileResource();
+
+        externalFileResource.setFileResource( fileResource );
+        fileResource.setAssigned( true );
+        externalFileResource.setAccessToken( String.valueOf( uniqueChar ) );
+        return externalFileResource;
+    }
+
+    /**
+     * @param uniqueCharacter A unique character to identify the object.
+     * @param value           The value for constant
+     * @return a constant instance
+     */
+    public static Constant createConstant( char uniqueCharacter, double value )
+    {
+        Constant constant = new Constant();
+        constant.setAutoFields();
+
+        constant.setName( "Constant" + uniqueCharacter );
+        constant.setValue( value );
+
+        return constant;
+    }
+
+    public static OptionSet createOptionSet( char uniqueCharacter )
+    {
+        OptionSet optionSet = new OptionSet();
+        optionSet.setAutoFields();
+
+        optionSet.setName( "OptionSet" + uniqueCharacter );
+        optionSet.setCode( "OptionSetCode" + uniqueCharacter );
+
+        return optionSet;
+    }
+
+    public static OptionSet createOptionSet( char uniqueCharacter, Option... options )
+    {
+        OptionSet optionSet = createOptionSet( uniqueCharacter );
+
+        for ( Option option : options )
+        {
+            optionSet.getOptions().add( option );
+            option.setOptionSet( optionSet );
+        }
+
+        return optionSet;
+    }
+
+    public static Option createOption( char uniqueCharacter )
+    {
+        Option option = new Option();
+        option.setAutoFields();
+
+        option.setName( "Option" + uniqueCharacter );
+        option.setCode( "OptionCode" + uniqueCharacter );
+
+        return option;
     }
 
     // -------------------------------------------------------------------------

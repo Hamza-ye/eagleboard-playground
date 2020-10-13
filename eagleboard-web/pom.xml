@@ -13,6 +13,7 @@
   <packaging>pom</packaging>
   <modules>
     <module>eagleboard-web-api</module>
+    <module>eagleboard-web-commons</module>
   </modules>
 
   <dependencies>

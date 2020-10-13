@@ -10,8 +10,10 @@ import com.mass3d.user.User;
 import com.mass3d.user.UserSettingKey;
 import com.mass3d.user.UserSettingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+@Component
 public class TranslationInterceptor extends HandlerInterceptorAdapter
 {
     private static String PARAM_TRANSLATE = "translate";

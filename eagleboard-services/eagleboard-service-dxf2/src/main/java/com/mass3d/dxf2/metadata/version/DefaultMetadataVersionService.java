@@ -28,12 +28,14 @@ import com.mass3d.node.NodeService;
 import com.mass3d.node.types.RootNode;
 import com.mass3d.render.RenderService;
 import com.mass3d.system.util.DateUtils;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service implementation for the MetadataVersionService.
  *
  */
+@Service( "com.mass3d.metadata.version.MetadataVersionService" )
 @Transactional
 public class
 DefaultMetadataVersionService
@@ -84,7 +86,7 @@ DefaultMetadataVersionService
     }
 
     @Override
-    public void updateVersionName( int id, String name )
+    public void updateVersionName( long id, String name )
     {
         MetadataVersion version = getVersionById( id );
 
@@ -102,7 +104,7 @@ DefaultMetadataVersionService
     }
 
     @Override
-    public MetadataVersion getVersionById( int id )
+    public MetadataVersion getVersionById( long id )
     {
         return versionStore.getVersionByKey( id );
     }

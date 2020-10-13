@@ -6,9 +6,6 @@
   >
 
 <hibernate-mapping>
-  <!--<typedef class="com.mass3d.hibernate.jsonb.type.JsonSetBinaryType" name="jblTranslations">-->
-    <!--<param name="clazz">com.mass3d.translation.Translation</param>-->
-  <!--</typedef>-->
   <class name="com.mass3d.indicator.Indicator" table="indicator">
 
     <cache usage="read-write" />
@@ -53,10 +50,10 @@
       <many-to-many class="com.mass3d.indicator.IndicatorGroup" column="indicatorgroupid" />
     </set>
 
-    <set name="dataSets" table="fieldsetindicators" inverse="true">
+    <set name="dataSets" table="datasetindicators" inverse="true">
       <cache usage="read-write" />
       <key column="indicatorid" />
-      <many-to-many class="com.mass3d.dataset.DataSet" column="fieldsetid" />
+      <many-to-many class="com.mass3d.dataset.DataSet" column="datasetid" />
     </set>
 
     <!--<list name="legendSets" table="indicatorlegendsets">-->

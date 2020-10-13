@@ -15,7 +15,7 @@ public class SpringSecurityPasswordManager
   // -------------------------------------------------------------------------
 
 //  @Autowired
-  private PasswordEncoder passwordEncoder;
+  private final PasswordEncoder passwordEncoder;
 
   public SpringSecurityPasswordManager( PasswordEncoder passwordEncoder )
   {

@@ -14,7 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository( "com.mass3d.i18n.I18nLocaleStore" )
-@Transactional
+//@Transactional
 public class HibernateI18nLocaleStore
     extends HibernateIdentifiableObjectStore<I18nLocale>
     implements I18nLocaleStore {

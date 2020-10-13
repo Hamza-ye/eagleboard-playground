@@ -3,10 +3,12 @@ package com.mass3d.config;
 import com.mass3d.i18n.ui.resourcebundle.DefaultResourceBundleManager;
 import com.mass3d.i18n.ui.resourcebundle.ResourceBundleManager;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 @Configuration( "coreServiceConfig" )
+@ComponentScan(basePackages = {"com.mass3d"})
 public class ServiceConfig
 {
     @Bean( "taskScheduler" )

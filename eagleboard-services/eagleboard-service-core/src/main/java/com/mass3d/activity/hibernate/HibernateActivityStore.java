@@ -8,7 +8,6 @@ import com.mass3d.security.acl.AclService;
 import com.mass3d.user.CurrentUserService;
 import java.util.List;
 import org.hibernate.SessionFactory;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -16,13 +15,15 @@ import org.springframework.stereotype.Repository;
 public class HibernateActivityStore
     extends HibernateIdentifiableObjectStore<Activity>
     implements ActivityStore {
+
   // -------------------------------------------------------------------------
   // activity
   // -------------------------------------------------------------------------
-  public HibernateActivityStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
-      DeletedObjectService deletedObjectService, CurrentUserService currentUserService, AclService aclService )
-  {
-    super( sessionFactory, jdbcTemplate, deletedObjectService, Activity.class, currentUserService, aclService, false );
+  public HibernateActivityStore(SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
+      DeletedObjectService deletedObjectService, CurrentUserService currentUserService,
+      AclService aclService) {
+    super(sessionFactory, jdbcTemplate, deletedObjectService, Activity.class, currentUserService,
+        aclService, false);
   }
 
   @Override

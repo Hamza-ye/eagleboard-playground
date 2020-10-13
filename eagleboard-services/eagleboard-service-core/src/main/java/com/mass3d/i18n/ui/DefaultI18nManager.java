@@ -1,5 +1,7 @@
 package com.mass3d.i18n.ui;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.Locale;
 import java.util.ResourceBundle;
 import com.mass3d.i18n.I18n;
@@ -17,17 +19,18 @@ public class DefaultI18nManager
   // Dependencies
   // -------------------------------------------------------------------------
 
-  private ResourceBundleManager resourceBundleManager;
-  private LocaleManager localeManager;
+  private final ResourceBundleManager resourceBundleManager;
 
-  public void setResourceBundleManager(ResourceBundleManager resourceBundleManager) {
+  private final LocaleManager localeManager;
+
+  public DefaultI18nManager( ResourceBundleManager resourceBundleManager, LocaleManager localeManager )
+  {
+    checkNotNull( resourceBundleManager );
+    checkNotNull( localeManager );
+
     this.resourceBundleManager = resourceBundleManager;
-  }
-
-  public void setLocaleManager(LocaleManager localeManager) {
     this.localeManager = localeManager;
   }
-
   // -------------------------------------------------------------------------
   // I18nManager implementation
   // -------------------------------------------------------------------------

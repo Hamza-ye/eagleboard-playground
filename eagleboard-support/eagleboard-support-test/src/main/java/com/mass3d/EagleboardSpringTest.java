@@ -10,15 +10,18 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 //@RunWith( SpringRunner.class )
 //@SpringBootTest
 //@ContextConfiguration(classes= ApplicationTest.class)
 @RunWith( SpringRunner.class )
-@ActiveProfiles( profiles = { "test" } )
+//@ActiveProfiles( profiles = { "test" } )
 @ContextConfiguration( classes = UnitTestConfiguration.class )
+@ActiveProfiles(profiles = {"test-h2"})
 @Transactional
+@EnableTransactionManagement(proxyTargetClass = true) // to fix BeanNotOfRequiredTypeException: Bean named X is expected to be of type X but was actually of type 'com.sun.proxy.$Proxy
 public abstract class EagleboardSpringTest
     extends EagleboardConvenienceTest
 {

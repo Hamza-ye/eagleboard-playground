@@ -12,8 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
-@Transactional
+@Service( "com.mass3d.activity.ActivityService" )
 public class DefaultActivityService
     implements ActivityService {
   // -------------------------------------------------------------------------
@@ -38,6 +37,7 @@ public class DefaultActivityService
   // -------------------------------------------------------------------------
 
   @Override
+  @Transactional
   public long addActivity(Activity activity) {
     activityStore.save(activity);
 
@@ -45,41 +45,49 @@ public class DefaultActivityService
   }
 
   @Override
+  @Transactional
   public void updateActivity(Activity activity) {
     activityStore.update(activity);
   }
 
   @Override
+  @Transactional
   public void deleteActivity(Activity activity) {
     activityStore.delete(activity);
   }
 
   @Override
+  @Transactional
   public Activity getActivity(Long id) {
     return activityStore.get(id);
   }
 
   @Override
+  @Transactional(readOnly = true)
   public Activity getActivity(String uid) {
     return activityStore.getByUid(uid);
   }
 
   @Override
+  @Transactional(readOnly = true)
   public Activity getActivityNoAcl(String uid) {
     return null;
   }
 
   @Override
+  @Transactional(readOnly = true)
   public Activity getActivityByCode(String code) {
     return activityStore.getByCode(code);
   }
 
   @Override
+  @Transactional(readOnly = true)
   public List<Activity> getAllActivitys() {
     return activityStore.getAll();
   }
 
   @Override
+  @Transactional(readOnly = true)
   public List<Activity> getActivitysByUid(Collection<String> uids) {
     return activityStore.getByUid(uids);
   }

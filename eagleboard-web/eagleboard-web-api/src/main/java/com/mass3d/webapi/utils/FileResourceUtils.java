@@ -21,10 +21,12 @@ import com.mass3d.fileresource.FileResourceService;
 import com.mass3d.user.CurrentUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Component;
 import org.springframework.util.InvalidMimeTypeException;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+@Component
 public class FileResourceUtils
 {
     @Autowired

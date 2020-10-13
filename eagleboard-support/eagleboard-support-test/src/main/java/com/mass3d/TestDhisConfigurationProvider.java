@@ -108,6 +108,12 @@ public class TestDhisConfigurationProvider
         return false;
     }
 
+  @Override
+  public String getServerBaseUrl()
+  {
+    return this.properties.getProperty( ConfigurationKey.SERVER_BASE_URL.getKey(), ConfigurationKey.SERVER_BASE_URL.getDefaultValue() );
+  }
+
     @Override
     public boolean isLdapConfigured()
     {

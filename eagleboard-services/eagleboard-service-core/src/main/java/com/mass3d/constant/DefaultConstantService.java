@@ -1,120 +1,118 @@
 package com.mass3d.constant;
 
+import com.mass3d.common.IdentifiableObjectStore;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.mass3d.common.IdentifiableObjectStore;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("com.mass3d.constant.ConstantService")
-@Transactional
+//@Transactional
 public class DefaultConstantService
-    implements ConstantService
-{
-    // -------------------------------------------------------------------------
-    // Dependencies
-    // -------------------------------------------------------------------------
+    implements ConstantService {
+  // -------------------------------------------------------------------------
+  // Dependencies
+  // -------------------------------------------------------------------------
 
-    private IdentifiableObjectStore<Constant> constantStore;
+  private IdentifiableObjectStore<Constant> constantStore;
 
-    public void setConstantStore( IdentifiableObjectStore<Constant> constantStore )
-    {
-        this.constantStore = constantStore;
-    }
+  @Autowired
+  public void setConstantStore(IdentifiableObjectStore<Constant> constantStore) {
+    this.constantStore = constantStore;
+  }
 
-    // -------------------------------------------------------------------------
-    // Constant
-    // -------------------------------------------------------------------------
+  // -------------------------------------------------------------------------
+  // Constant
+  // -------------------------------------------------------------------------
 
-    @Override
-    public Long saveConstant( Constant constant )
-    {
-        constantStore.save( constant );
-        return constant.getId();
-    }
+  @Override
+  @Transactional
+  public Long saveConstant(Constant constant) {
+    constantStore.save(constant);
+    return constant.getId();
+  }
 
-    @Override
-    public void updateConstant( Constant constant )
-    {
-        constantStore.update( constant );
-    }
+  @Override
+  @Transactional
+  public void updateConstant(Constant constant) {
+    constantStore.update(constant);
+  }
 
-    @Override
-    public void deleteConstant( Constant constant )
-    {
-        constantStore.delete( constant );
-    }
+  @Override
+  @Transactional
+  public void deleteConstant(Constant constant) {
+    constantStore.delete(constant);
+  }
 
-    @Override
-    public Constant getConstant( Long constantId )
-    {
-        return constantStore.get( constantId );
-    }
+  @Override
+  @Transactional(readOnly = true)
+  public Constant getConstant(Long constantId) {
+    return constantStore.get(constantId);
+  }
 
-    @Override
-    public Constant getConstant( String uid )
-    {
-        return constantStore.getByUid( uid );
-    }
-    
-    @Override
-    public List<Constant> getAllConstants()
-    {
-        return constantStore.getAll();
-    }
-    
-    @Override
-    public Map<String, Double> getConstantMap()
-    {
-        Map<String, Double> map = new HashMap<>();
-        
-        for ( Constant constant : getAllConstants() )
-        {
-            map.put( constant.getUid(), constant.getValue() );
-        }
-        
-        return map;
-    }
-    
-    @Override
-    public Map<String, Double> getConstantParameterMap()
-    {
-        Map<String, Double> map = new HashMap<>();
-        
-        for ( Constant constant : getAllConstants() )
-        {
-            map.put( constant.getName(), constant.getValue() );
-        }
-        
-        return map;
+  @Override
+  @Transactional(readOnly = true)
+  public Constant getConstant(String uid) {
+    return constantStore.getByUid(uid);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public List<Constant> getAllConstants() {
+    return constantStore.getAll();
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Map<String, Double> getConstantMap() {
+    Map<String, Double> map = new HashMap<>();
+
+    for (Constant constant : getAllConstants()) {
+      map.put(constant.getUid(), constant.getValue());
     }
 
-    // -------------------------------------------------------------------------
-    // Constant expanding
-    // -------------------------------------------------------------------------
-    
-    @Override
-    public int getConstantCount()
-    {
-        return constantStore.getCount();
+    return map;
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Map<String, Double> getConstantParameterMap() {
+    Map<String, Double> map = new HashMap<>();
+
+    for (Constant constant : getAllConstants()) {
+      map.put(constant.getName(), constant.getValue());
     }
 
-    @Override
-    public int getConstantCountByName( String name )
-    {
-        return constantStore.getCountLikeName( name );
-    }
+    return map;
+  }
 
-    @Override
-    public List<Constant> getConstantsBetween( int first, int max )
-    {
-        return constantStore.getAllOrderedName( first, max );
-    }
+  // -------------------------------------------------------------------------
+  // Constant expanding
+  // -------------------------------------------------------------------------
 
-    @Override
-    public List<Constant> getConstantsBetweenByName( String name, int first, int max )
-    {
-        return constantStore.getAllLikeName( name, first, max );
-    }
+  @Override
+  @Transactional(readOnly = true)
+  public int getConstantCount() {
+    return constantStore.getCount();
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public int getConstantCountByName(String name) {
+    return constantStore.getCountLikeName(name);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public List<Constant> getConstantsBetween(int first, int max) {
+    return constantStore.getAllOrderedName(first, max);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public List<Constant> getConstantsBetweenByName(String name, int first, int max) {
+    return constantStore.getAllLikeName(name, first, max);
+  }
 }

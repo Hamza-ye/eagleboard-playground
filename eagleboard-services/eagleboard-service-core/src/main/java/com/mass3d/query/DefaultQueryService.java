@@ -1,6 +1,8 @@
 package com.mass3d.query;
 
 import com.mass3d.common.IdentifiableObject;
+import com.mass3d.fieldfilter.Defaults;
+import com.mass3d.preheat.Preheat;
 import com.mass3d.query.planner.QueryPlan;
 import com.mass3d.query.planner.QueryPlanner;
 import java.util.List;
@@ -23,7 +25,6 @@ public class DefaultQueryService
 
   private final InMemoryQueryEngine<? extends IdentifiableObject> inMemoryQueryEngine;
 
-  @Autowired
   public DefaultQueryService(QueryParser queryParser, QueryPlanner queryPlanner,
       CriteriaQueryEngine<? extends IdentifiableObject> criteriaQueryEngine,
       InMemoryQueryEngine<? extends IdentifiableObject> inMemoryQueryEngine) {
@@ -82,7 +83,7 @@ public class DefaultQueryService
 
     if (objects != null) {
       objects = inMemoryQueryEngine.query(query.setObjects(objects));
-//      clearDefaults(query.getSchema().getKlass(), objects, query.getDefaults());
+      clearDefaults(query.getSchema().getKlass(), objects, query.getDefaults());
 
       return objects;
     }
@@ -105,17 +106,17 @@ public class DefaultQueryService
       objects = inMemoryQueryEngine.query(npQuery);
     }
 
-//    clearDefaults(query.getSchema().getKlass(), objects, query.getDefaults());
+    clearDefaults(query.getSchema().getKlass(), objects, query.getDefaults());
 
     return objects;
   }
 
-//  private void clearDefaults(Class<?> klass, List<? extends IdentifiableObject> objects,
-//      Defaults defaults) {
-//    if (Defaults.INCLUDE == defaults || !Preheat.isDefaultClass(klass)) {
-//      return;
-//    }
-//
-//    objects.removeIf(object -> "default".equals(object.getName()));
-//  }
+  private void clearDefaults(Class<?> klass, List<? extends IdentifiableObject> objects,
+      Defaults defaults) {
+    if (Defaults.INCLUDE == defaults || !Preheat.isDefaultClass(klass)) {
+      return;
+    }
+
+    objects.removeIf(object -> "default".equals(object.getName()));
+  }
 }

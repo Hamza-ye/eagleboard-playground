@@ -34,45 +34,6 @@ public class ExternalFileResource
    */
   private Date expires;
 
-  // -------------------------------------------------------------------------
-  // Overridden methods
-  // -------------------------------------------------------------------------
-
-  @Override
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "externalfileresourceid")
-  @JsonIgnore
-  public Long getId() {
-    return super.getId();
-  }
-
-  @Override
-  @Column(name = "uid", unique = true, length = 11, nullable = false)
-  public String getUid() {
-    return super.getUid();
-  }
-
-  @Override
-  @Column(name = "code", unique = true, length = 50)
-  public String getCode() {
-    return super.getCode();
-  }
-
-  @Override
-  @ManyToOne
-  @JoinColumn(name = "lastupdatedby")
-  public User getLastUpdatedBy() {
-    return super.getLastUpdatedBy();
-  }
-
-  @Override
-  @ManyToOne
-  @JoinColumn(name = "userid")
-  public User getUser() {
-    return super.getUser();
-  }
-
   public Date getExpires() {
     return expires;
   }

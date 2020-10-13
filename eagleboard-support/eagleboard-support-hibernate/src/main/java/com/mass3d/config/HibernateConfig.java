@@ -1,5 +1,6 @@
 package com.mass3d.config;
 
+import com.mass3d.hibernate.HibernateMappingJarLocationsFactoryBean;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import java.beans.PropertyVetoException;
 import java.util.List;
@@ -27,8 +28,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.support.TransactionTemplate;
 
-@Configuration
-@EnableTransactionManagement
+//@Configuration
+//@EnableTransactionManagement
 public class HibernateConfig
 {
     @Autowired
@@ -48,6 +49,13 @@ public class HibernateConfig
         hibernatePropertiesFactoryBean.setHibernateConfigurationProvider( hibernateConfigurationProvider() );
         return hibernatePropertiesFactoryBean;
     }
+
+//    @Bean
+//    public HibernateMappingJarLocationsFactoryBean hibernateMappingJarLocations() {
+//        HibernateMappingJarLocationsFactoryBean hibernateMappingJarLocationsFactoryBean = new HibernateMappingJarLocationsFactoryBean();
+//        hibernateMappingJarLocationsFactoryBean.setHibernateConfigurationProvider(hibernateConfigurationProvider());
+//        return hibernateMappingJarLocationsFactoryBean;
+//    }
 
     @Bean
 //    @DependsOn("flyway")

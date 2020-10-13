@@ -9,10 +9,11 @@ import com.mass3d.user.UserCredentialsStore;
 import com.mass3d.hibernate.HibernateGenericStore;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@Repository("com.mass3d.user.UserCredentialsStore")
 public class HibernateUserCredentialsStore
     extends HibernateGenericStore<UserCredentials>
     implements UserCredentialsStore {

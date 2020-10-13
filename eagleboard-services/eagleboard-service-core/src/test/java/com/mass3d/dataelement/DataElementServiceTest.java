@@ -29,9 +29,9 @@ public class DataElementServiceTest
         DataElement dataElementB = createDataElement( 'B' );
         DataElement dataElementC = createDataElement( 'C' );
 
-        Long idA = dataElementService.addDataElement(dataElementA);
-        Long idB = dataElementService.addDataElement(dataElementB);
-        Long idC = dataElementService.addDataElement(dataElementC);
+        long idA = dataElementService.addDataElement(dataElementA);
+        long idB = dataElementService.addDataElement(dataElementB);
+        long idC = dataElementService.addDataElement(dataElementC);
 
         assertNotNull( dataElementA.getUid() );
         assertNotNull( dataElementB.getUid() );
@@ -62,7 +62,7 @@ public class DataElementServiceTest
     {
         DataElement dataElementA = createDataElement( 'A' );
 
-        Long idA = dataElementService.addDataElement(dataElementA);
+        long idA = dataElementService.addDataElement(dataElementA);
         assertNotNull( dataElementA.getUid() );
         assertNotNull( dataElementA.getLastUpdated() );
 
@@ -84,10 +84,10 @@ public class DataElementServiceTest
         DataElement dataElementC = createDataElement( 'C' );
         DataElement dataElementD = createDataElement( 'D' );
 
-        Long idA = dataElementService.addDataElement(dataElementA);
-        Long idB = dataElementService.addDataElement(dataElementB);
-        Long idC = dataElementService.addDataElement(dataElementC);
-        Long idD = dataElementService.addDataElement(dataElementD);
+        long idA = dataElementService.addDataElement(dataElementA);
+        long idB = dataElementService.addDataElement(dataElementB);
+        long idC = dataElementService.addDataElement(dataElementC);
+        long idD = dataElementService.addDataElement(dataElementD);
 
         assertNotNull( dataElementService.getDataElement( idA ) );
         assertNotNull( dataElementService.getDataElement( idB ) );
@@ -127,8 +127,8 @@ public class DataElementServiceTest
         dataElementB.setCode( "codeB" );
         dataElementC.setCode( "codeC" );
 
-        Long idA = dataElementService.addDataElement(dataElementA);
-        Long idB = dataElementService.addDataElement(dataElementB);
+        long idA = dataElementService.addDataElement(dataElementA);
+        long idB = dataElementService.addDataElement(dataElementB);
         dataElementService.addDataElement(dataElementC);
 
         dataElementA = dataElementService.getDataElementByCode( "codeA" );
@@ -213,9 +213,9 @@ public class DataElementServiceTest
 //        DataElementGroup dataElementGroupB = new DataElementGroup( "DataElementGroupB" );
 //        DataElementGroup dataElementGroupC = new DataElementGroup( "DataElementGroupC" );
 //
-//        Long idA = dataElementService.addDataElementGroup( dataElementGroupA );
-//        Long idB = dataElementService.addDataElementGroup( dataElementGroupB );
-//        Long idC = dataElementService.addDataElementGroup( dataElementGroupC );
+//        long idA = dataElementService.addDataElementGroup( dataElementGroupA );
+//        long idB = dataElementService.addDataElementGroup( dataElementGroupB );
+//        long idC = dataElementService.addDataElementGroup( dataElementGroupC );
 //
 //        dataElementGroupA = dataElementService.getDataElementGroup( idA );
 //        assertNotNull( dataElementGroupA );
@@ -240,9 +240,9 @@ public class DataElementServiceTest
 //        DataElementGroup dataElementGroupB = new DataElementGroup( "DataElementGroupB" );
 //        DataElementGroup dataElementGroupC = new DataElementGroup( "DataElementGroupC" );
 //
-//        Long idA = dataElementService.addDataElementGroup( dataElementGroupA );
-//        Long idB = dataElementService.addDataElementGroup( dataElementGroupB );
-//        Long idC = dataElementService.addDataElementGroup( dataElementGroupC );
+//        long idA = dataElementService.addDataElementGroup( dataElementGroupA );
+//        long idB = dataElementService.addDataElementGroup( dataElementGroupB );
+//        long idC = dataElementService.addDataElementGroup( dataElementGroupC );
 //
 //        dataElementGroupA = dataElementService.getDataElementGroup( idA );
 //        assertNotNull( dataElementGroupA );
@@ -276,10 +276,10 @@ public class DataElementServiceTest
 //        DataElementGroup dataElementGroupC = new DataElementGroup( "DataElementGroupC" );
 //        DataElementGroup dataElementGroupD = new DataElementGroup( "DataElementGroupD" );
 //
-//        Long idA = dataElementService.addDataElementGroup( dataElementGroupA );
-//        Long idB = dataElementService.addDataElementGroup( dataElementGroupB );
-//        Long idC = dataElementService.addDataElementGroup( dataElementGroupC );
-//        Long idD = dataElementService.addDataElementGroup( dataElementGroupD );
+//        long idA = dataElementService.addDataElementGroup( dataElementGroupA );
+//        long idB = dataElementService.addDataElementGroup( dataElementGroupB );
+//        long idC = dataElementService.addDataElementGroup( dataElementGroupC );
+//        long idD = dataElementService.addDataElementGroup( dataElementGroupD );
 //
 //        assertNotNull( dataElementService.getDataElementGroup( idA ) );
 //        assertNotNull( dataElementService.getDataElementGroup( idB ) );
@@ -316,8 +316,8 @@ public class DataElementServiceTest
 //    {
 //        DataElementGroup dataElementGroupA = new DataElementGroup( "DataElementGroupA" );
 //        DataElementGroup dataElementGroupB = new DataElementGroup( "DataElementGroupB" );
-//        Long idA = dataElementService.addDataElementGroup( dataElementGroupA );
-//        Long idB = dataElementService.addDataElementGroup( dataElementGroupB );
+//        long idA = dataElementService.addDataElementGroup( dataElementGroupA );
+//        long idB = dataElementService.addDataElementGroup( dataElementGroupB );
 //
 //        assertNotNull( dataElementService.getDataElementGroup( idA ) );
 //        assertNotNull( dataElementService.getDataElementGroup( idB ) );
@@ -374,7 +374,7 @@ public class DataElementServiceTest
 //    {
 //        DataElement de = createDataElement( 'A', ValueType.URL, AggregationType.SUM );
 //
-//        Long id = dataElementService.addDataElement( de );
+//        long id = dataElementService.addDataElement( de );
 //
 //        assertNotNull( dataElementService.getDataElement( id ) );
 //

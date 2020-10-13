@@ -31,7 +31,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.apache.commons.lang3.StringUtils;
 
-@MappedSuperclass
+//@MappedSuperclass
 @JacksonXmlRootElement(localName = "identifiableObject", namespace = DxfNamespaces.DXF_2_0)
 public class BaseIdentifiableObject
     extends BaseLinkableObject
@@ -40,22 +40,22 @@ public class BaseIdentifiableObject
   /**
    * The database internal identifier for this Object.
    */
-  @Id
-  @GeneratedValue(
-      strategy = GenerationType.AUTO
-  )
-  protected Long id;
+//  @Id
+//  @GeneratedValue(
+//      strategy = GenerationType.AUTO
+//  )
+  protected long id;
 
   /**
    * The Unique Identifier for this Object.
    */
-  @Column(name = "uid", unique = true, length = 11, nullable = false)
+//  @Column(name = "uid", unique = true, length = 11, nullable = false)
   protected String uid;
 
   /**
    * The unique code for this Object.
    */
-  @Column(name = "code", unique = true, length = 50)
+//  @Column(name = "code", unique = true, length = 50)
   protected String code;
 
   /**
@@ -66,13 +66,13 @@ public class BaseIdentifiableObject
   /**
    * The date this object was created.
    */
-  @Temporal( TemporalType.TIMESTAMP )
+//  @Temporal( TemporalType.TIMESTAMP )
   protected Date created;
 
   /**
    * The date this object was last updated.
    */
-  @Temporal( TemporalType.TIMESTAMP )
+//  @Temporal( TemporalType.TIMESTAMP )
   protected Date lastUpdated;
 
 //  /**
@@ -99,13 +99,13 @@ public class BaseIdentifiableObject
   /**
    * Access for userGroups
    */
-  @ManyToMany
+//  @ManyToMany
   protected Set<UserGroupAccess> userGroupAccesses = new HashSet<>();
 
   /**
    * Access for users
    */
-  @ManyToMany
+//  @ManyToMany
   protected Set<UserAccess> userAccesses = new HashSet<>();
 
   /**
@@ -116,8 +116,8 @@ public class BaseIdentifiableObject
   /**
    * Owner of this object.
    */
-  @ManyToOne
-  @JoinColumn(name = "user")
+//  @ManyToOne
+//  @JoinColumn(name = "user")
   protected User user;
 
   /**
@@ -128,8 +128,8 @@ public class BaseIdentifiableObject
   /**
    * Last user updated this object
    */
-  @ManyToOne
-  @JoinColumn(name = "lastupdatedby")
+//  @ManyToOne
+//  @JoinColumn(name = "lastupdatedby")
   private User lastUpdatedBy;
 
   // -------------------------------------------------------------------------
@@ -139,7 +139,7 @@ public class BaseIdentifiableObject
   public BaseIdentifiableObject() {
   }
 
-  public BaseIdentifiableObject(Long id, String uid, String name) {
+  public BaseIdentifiableObject(long id, String uid, String name) {
     this.id = id;
     this.uid = uid;
     this.name = name;
@@ -183,11 +183,11 @@ public class BaseIdentifiableObject
 
   @Override
   @JsonIgnore
-  public Long getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(long id) {
     this.id = id;
   }
 

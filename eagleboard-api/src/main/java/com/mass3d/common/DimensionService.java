@@ -42,7 +42,15 @@ public interface DimensionService {
    * @param dimensionItem the dimension item identifier.
    * @return a dimensional item object.
    */
-//  DimensionalItemObject getDataDimensionalItemObject(IdScheme idScheme, String dimensionItem);
+  DimensionalItemObject getDataDimensionalItemObject(IdScheme idScheme, String dimensionItem);
+
+  /**
+   * Gets a dimension item object from a dimension item id.
+   *
+   * @param dimensionalItemId the dimension item identifier.
+   * @return a dimensional item object.
+   */
+  DimensionalItemObject getDataDimensionalItemObject( DimensionalItemId dimensionalItemId );
 
   /**
    * Gets a set of dimension item objects from their ids.

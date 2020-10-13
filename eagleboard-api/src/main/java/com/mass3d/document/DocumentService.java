@@ -17,7 +17,7 @@ public interface DocumentService {
    * @param document the Document to save.
    * @return the generated identifier.
    */
-  Long saveDocument(Document document);
+  long saveDocument(Document document);
 
   /**
    * Retrieves the Document with the given identifier.
@@ -25,7 +25,7 @@ public interface DocumentService {
    * @param id the identifier of the Document.
    * @return the Document.
    */
-  Document getDocument(Long id);
+  Document getDocument(long id);
 
   /**
    * Retrieves the Document with the given identifier.

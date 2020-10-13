@@ -13,16 +13,18 @@ import com.mass3d.user.User;
 import com.mass3d.userkeyjsonvalue.UserKeyJsonValue;
 import com.mass3d.userkeyjsonvalue.UserKeyJsonValueStore;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository( "com.mass3d.userkeyjsonvalue.UserKeyJsonValueStore" )
-@Transactional
+//@Transactional
 public class HibernateUserKeyJsonValueStore
     extends HibernateIdentifiableObjectStore<UserKeyJsonValue>
     implements UserKeyJsonValueStore
 {
 
+    @Autowired
     public HibernateUserKeyJsonValueStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
         DeletedObjectService deletedObjectService, CurrentUserService currentUserService,
         AclService aclService ) {

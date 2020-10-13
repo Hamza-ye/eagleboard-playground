@@ -92,7 +92,7 @@ public class DefaultMessageService
 
 
     @Override
-    public Long sendTicketMessage( String subject, String text, String metaData )
+    public long sendTicketMessage( String subject, String text, String metaData )
     {
         User currentUser = currentUserService.getCurrentUser();
 
@@ -109,7 +109,7 @@ public class DefaultMessageService
     }
 
     @Override
-    public Long sendPrivateMessage( Set<User> recipients, String subject, String text, String metaData, Set<FileResource> attachments )
+    public long sendPrivateMessage( Set<User> recipients, String subject, String text, String metaData, Set<FileResource> attachments )
     {
         User currentUser = currentUserService.getCurrentUser();
 
@@ -126,7 +126,7 @@ public class DefaultMessageService
     }
     
     @Override
-    public Long sendSystemMessage( Set<User> recipients, String subject, String text )
+    public long sendSystemMessage( Set<User> recipients, String subject, String text )
     {
         MessageConversationParams params = new MessageConversationParams.Builder()
             .withRecipients( recipients )
@@ -138,7 +138,7 @@ public class DefaultMessageService
     }
 
     @Override
-    public Long sendValidationMessage( Set<User> recipients, String subject, String text, MessageConversationPriority priority )
+    public long sendValidationMessage( Set<User> recipients, String subject, String text, MessageConversationPriority priority )
     {
         MessageConversationParams params = new MessageConversationParams.Builder()
             .withRecipients( recipients )
@@ -152,7 +152,7 @@ public class DefaultMessageService
     }
     
     @Override
-    public Long sendMessage( MessageConversationParams params )
+    public long sendMessage( MessageConversationParams params )
     {
         MessageConversation conversation = params.createMessageConversation();
         Long id = saveMessageConversation( conversation );
@@ -179,7 +179,7 @@ public class DefaultMessageService
     }
 
     @Override
-    public Long sendSystemErrorNotification( String subject, Throwable t )
+    public long sendSystemErrorNotification( String subject, Throwable t )
     {
         String title = (String) systemSettingManager.getSystemSetting( SettingKey.APPLICATION_TITLE );
         String baseUrl = (String) systemSettingManager.getSystemSetting( SettingKey.INSTANCE_BASE_URL );
@@ -287,7 +287,7 @@ public class DefaultMessageService
 //    }
 
     @Override
-    public Long saveMessageConversation( MessageConversation conversation )
+    public long saveMessageConversation( MessageConversation conversation )
     {
         messageConversationStore.save( conversation );
         return conversation.getId();
@@ -300,7 +300,7 @@ public class DefaultMessageService
     }
 
     @Override
-    public MessageConversation getMessageConversation( Long id )
+    public MessageConversation getMessageConversation( long id )
     {
         return messageConversationStore.get( id );
     }

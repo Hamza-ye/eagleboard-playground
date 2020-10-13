@@ -59,7 +59,7 @@ public class AclServiceTest
 
   @Test
   public void testUpdateObjectWithPublicRUserOwner() {
-    User user = createAdminUser("F_DATAFIELD_PUBLIC_ADD");
+    User user = createAdminUser("F_DATAELEMEN_PUBLIC_ADD");
     DataElement dataElement = createDataElement('A');
     dataElement.setUser(user);
     dataElement.setPublicAccess(AccessStringHelper.READ);
@@ -69,7 +69,7 @@ public class AclServiceTest
 
   @Test
   public void testUpdateObjectWithPublicRWSuccessPublic() {
-    User user = createAdminUser("F_DATAFIELD_PUBLIC_ADD");
+    User user = createAdminUser("F_DATAELEMEN_PUBLIC_ADD");
     DataElement dataElement = createDataElement('A');
     dataElement.setPublicAccess(AccessStringHelper.READ_WRITE);
 
@@ -78,7 +78,7 @@ public class AclServiceTest
 
   @Test
   public void testUpdateObjectWithPublicRWSuccessPrivate1() {
-    User user = createAdminUser("F_DATAFIELD_PRIVATE_ADD");
+    User user = createAdminUser("F_DATAELEMEN_PRIVATE_ADD");
     DataElement dataElement = createDataElement('A');
     dataElement.setUser(user);
     dataElement.setPublicAccess(AccessStringHelper.READ_WRITE);
@@ -88,7 +88,7 @@ public class AclServiceTest
 
   @Test
   public void testUpdateObjectWithPublicRWSuccessPrivate2() {
-    User user = createAdminUser("F_DATAFIELD_PRIVATE_ADD");
+    User user = createAdminUser("F_DATAELEMEN_PRIVATE_ADD");
     DataElement dataElement = createDataElement('A');
     dataElement.setPublicAccess(AccessStringHelper.READ_WRITE);
 
@@ -96,8 +96,8 @@ public class AclServiceTest
   }
 
   @Test
-  public void testVerifyDataFieldPrivateRW() {
-    User user = createAdminUser("F_DATAFIELD_PRIVATE_ADD");
+  public void testVerifyDataElementPrivateRW() {
+    User user = createAdminUser("F_DATAELEMEN_PRIVATE_ADD");
 
     DataElement dataElement = createDataElement('A');
     dataElement.setPublicAccess(AccessStringHelper.READ_WRITE);
@@ -106,8 +106,8 @@ public class AclServiceTest
   }
 
   @Test
-  public void testVerifyDataFieldPrivate() {
-    User user = createAdminUser("F_DATAFIELD_PRIVATE_ADD");
+  public void testVerifyDataElementPrivate() {
+    User user = createAdminUser("F_DATAELEMEN_PRIVATE_ADD");
 
     DataElement dataElement = createDataElement('A');
     dataElement.setPublicAccess(AccessStringHelper.DEFAULT);
@@ -116,8 +116,8 @@ public class AclServiceTest
   }
 
   @Test
-  public void testVerifyDataFieldPublicRW() {
-    User user = createAdminUser("F_DATAFIELD_PUBLIC_ADD");
+  public void testVerifyDataElementPublicRW() {
+    User user = createAdminUser("F_DATAELEMEN_PUBLIC_ADD");
 
     DataElement dataElement = createDataElement('A');
     dataElement.setPublicAccess(AccessStringHelper.READ_WRITE);
@@ -126,8 +126,8 @@ public class AclServiceTest
   }
 
   @Test
-  public void testVerifyDataFieldPublic() {
-    User user = createAdminUser("F_DATAFIELD_PUBLIC_ADD");
+  public void testVerifyDataElementPublic() {
+    User user = createAdminUser("F_DATAELEMEN_PUBLIC_ADD");
 
     DataElement dataElement = createDataElement('A');
     dataElement.setPublicAccess(AccessStringHelper.DEFAULT);
@@ -136,9 +136,9 @@ public class AclServiceTest
   }
 
   @Test
-  public void testDataFieldSharingPrivateRW() {
-    User user1 = createUser("user1", "F_DATAFIELD_PRIVATE_ADD");
-    User user2 = createUser("user2", "F_DATAFIELD_PRIVATE_ADD");
+  public void testDataElementSharingPrivateRW() {
+    User user1 = createUser("user1", "F_DATAELEMEN_PRIVATE_ADD");
+    User user2 = createUser("user2", "F_DATAELEMEN_PRIVATE_ADD");
 
     DataElement dataElement = createDataElement('A');
     dataElement.setUser(user1);
@@ -160,9 +160,9 @@ public class AclServiceTest
   }
 
   @Test
-  public void testReadPrivateDataFieldSharedThroughGroup() {
-    User user1 = createUser("user1", "F_DATAFIELD_PRIVATE_ADD");
-    User user2 = createUser("user2", "F_DATAFIELD_PRIVATE_ADD");
+  public void testReadPrivateDataElementSharedThroughGroup() {
+    User user1 = createUser("user1", "F_DATAELEMEN_PRIVATE_ADD");
+    User user2 = createUser("user2", "F_DATAELEMEN_PRIVATE_ADD");
 
     manager.save(user1);
     manager.save(user2);
@@ -202,9 +202,9 @@ public class AclServiceTest
   }
 
   @Test
-  public void testUpdatePrivateDataFieldSharedThroughGroup() {
-    User user1 = createUser("user1", "F_DATAFIELD_PRIVATE_ADD");
-    User user2 = createUser("user2", "F_DATAFIELD_PRIVATE_ADD");
+  public void testUpdatePrivateDataElementSharedThroughGroup() {
+    User user1 = createUser("user1", "F_DATAELEMEN_PRIVATE_ADD");
+    User user2 = createUser("user2", "F_DATAELEMEN_PRIVATE_ADD");
 
     manager.save(user1);
     manager.save(user2);
@@ -243,7 +243,7 @@ public class AclServiceTest
 
   @Test
   public void testBlockMakePublic() {
-    User user1 = createUser("user1", "F_DATAFIELD_PRIVATE_ADD");
+    User user1 = createUser("user1", "F_DATAELEMEN_PRIVATE_ADD");
     manager.save(user1);
 
     DataElement dataElement = createDataElement('A');
@@ -259,7 +259,7 @@ public class AclServiceTest
 
   @Test
   public void testAllowSuperuserMakePublic1() {
-    User user1 = createUser("user1", "F_DATAFIELD_PRIVATE_ADD");
+    User user1 = createUser("user1", "F_DATAELEMEN_PRIVATE_ADD");
     User user2 = createUser("user2", "ALL");
     manager.save(user1);
     manager.save(user2);
@@ -277,7 +277,7 @@ public class AclServiceTest
 
   @Test
   public void testAllowMakePublic() {
-    User user1 = createUser("user1", "F_DATAFIELD_PUBLIC_ADD");
+    User user1 = createUser("user1", "F_DATAELEMEN_PUBLIC_ADD");
     manager.save(user1);
 
     DataElement dataElement = createDataElement('A');
@@ -305,8 +305,8 @@ public class AclServiceTest
 
   @Test
   public void testSuperuserOverride() {
-    User user1 = createUser("user1", "F_DATAFIELD_PRIVATE_ADD");
-    User user2 = createUser("user2", "F_DATAFIELD_PRIVATE_ADD");
+    User user1 = createUser("user1", "F_DATAELEMEN_PRIVATE_ADD");
+    User user2 = createUser("user2", "F_DATAELEMEN_PRIVATE_ADD");
     User user3 = createUser("user3", "ALL");
 
     UserGroup userGroup = createUserGroup('A', Sets.newHashSet(user1, user2));
@@ -356,8 +356,8 @@ public class AclServiceTest
 
   @Test
   public void shouldUseAuthoritiesIfSharingPropsAreNullOrEmptyWithPublicAuth() {
-    User user1 = createUser("user1", "F_DATAFIELD_PUBLIC_ADD");
-    User user2 = createUser("user2", "F_DATAFIELD_PUBLIC_ADD");
+    User user1 = createUser("user1", "F_DATAELEMEN_PUBLIC_ADD");
+    User user2 = createUser("user2", "F_DATAELEMEN_PUBLIC_ADD");
 
     injectSecurityContext(user1);
 
@@ -393,8 +393,8 @@ public class AclServiceTest
 
   @Test
   public void shouldUseAuthoritiesIfSharingPropsAreNullOrEmptyWithPrivateAuth() {
-    User user1 = createUser("user1", "F_DATAFIELD_PRIVATE_ADD");
-    User user2 = createUser("user2", "F_DATAFIELD_PRIVATE_ADD");
+    User user1 = createUser("user1", "F_DATAELEMEN_PRIVATE_ADD");
+    User user2 = createUser("user2", "F_DATAELEMEN_PRIVATE_ADD");
 
     injectSecurityContext(user1);
 
@@ -429,8 +429,8 @@ public class AclServiceTest
 
   @Test
   public void testDefaultShouldBlockReadsFromOtherUsers() {
-    User user1 = createUser("user1", "F_DATAFIELD_PUBLIC_ADD");
-    User user2 = createUser("user2", "F_DATAFIELD_PUBLIC_ADD");
+    User user1 = createUser("user1", "F_DATAELEMEN_PUBLIC_ADD");
+    User user2 = createUser("user2", "F_DATAELEMEN_PUBLIC_ADD");
 
     injectSecurityContext(user1);
 

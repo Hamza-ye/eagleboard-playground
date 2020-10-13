@@ -17,6 +17,11 @@ public class RedisEnabledCondition extends PropertiesAwareConfigurationCondition
     @Override
     public boolean matches( ConditionContext context, AnnotatedTypeMetadata metadata )
     {
+//        if ( !isTestRun( context ) )
+//        {
+//            return getConfiguration().getProperty( ConfigurationKey.REDIS_ENABLED ).equalsIgnoreCase( "true" );
+//        }
+//        return false;
         DhisConfigurationProvider dhisConfigurationProvider = (DhisConfigurationProvider) context.getBeanFactory()
             .getBean( "dhisConfigurationProvider" );
         return dhisConfigurationProvider.getProperty( ConfigurationKey.REDIS_ENABLED ).equalsIgnoreCase( "true" );

@@ -41,11 +41,11 @@ public class DataElementStoreTest
         DataElement dataElementC = createDataElement( 'C' );
 
         dataElementStore.save(dataElementA);
-        Long idA = dataElementA.getId();
+        long idA = dataElementA.getId();
         dataElementStore.save(dataElementB);
-        Long idB = dataElementB.getId();
+        long idB = dataElementB.getId();
         dataElementStore.save(dataElementC);
-        Long idC = dataElementC.getId();
+        long idC = dataElementC.getId();
 
         dataElementA = dataElementStore.get( idA );
         assertNotNull(dataElementA);
@@ -68,7 +68,7 @@ public class DataElementStoreTest
     {
         DataElement dataElementA = createDataElement( 'A' );
         dataElementStore.save( dataElementA );
-        Long idA = dataElementA.getId();
+        long idA = dataElementA.getId();
         dataElementA = dataElementStore.get( idA );
         assertEquals( ValueType.INTEGER, dataElementA.getValueType() );
 
@@ -88,13 +88,13 @@ public class DataElementStoreTest
         DataElement dataElementD = createDataElement( 'D' );
 
         dataElementStore.save( dataElementA );
-        Long idA = dataElementA.getId();
+        long idA = dataElementA.getId();
         dataElementStore.save( dataElementB );
-        Long idB = dataElementB.getId();
+        long idB = dataElementB.getId();
         dataElementStore.save( dataElementC );
-        Long idC = dataElementC.getId();
+        long idC = dataElementC.getId();
         dataElementStore.save( dataElementD );
-        Long idD = dataElementD.getId();
+        long idD = dataElementD.getId();
 
             assertNotNull( dataElementStore.get( idA ) );
         assertNotNull( dataElementStore.get( idB ) );
@@ -137,9 +137,9 @@ public class DataElementStoreTest
         DataElement dataElementA = createDataElement( 'A' );
         DataElement dataElementB = createDataElement( 'B' );
         dataElementStore.save(dataElementA);
-        Long idA = dataElementA.getId();
+        long idA = dataElementA.getId();
         dataElementStore.save(dataElementB);
-        Long idB = dataElementB.getId();
+        long idB = dataElementB.getId();
 
         dataElementA = dataElementStore.getByName( "DataElementA" );
         assertNotNull(dataElementA);
@@ -244,7 +244,7 @@ public class DataElementStoreTest
 //
 //        idObjectManager.save( dgA );
 //
-//        List<DataElement> dataElements = dataElementStore.getDataElementsWithoutFieldSets();
+//        List<DataElement> dataElements = dataElementStore.getDataElementsWithoutDataSets();
 //
 //        assertEquals( 3, dataElements.size() );
 //        assertTrue( dataElements.contains( dataElementB ) );

@@ -2,6 +2,7 @@ package com.mass3d.system.database;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.mass3d.commons.util.SystemUtils;
 import javax.annotation.PostConstruct;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,14 +36,18 @@ public class HibernateDatabaseInfoProvider
 //    @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public HibernateDatabaseInfoProvider( DhisConfigurationProvider config, JdbcTemplate jdbcTemplate)
+    private final Environment environment;
+
+    public HibernateDatabaseInfoProvider( DhisConfigurationProvider config, JdbcTemplate jdbcTemplate,
+        Environment environment )
     {
         checkNotNull( config );
         checkNotNull( jdbcTemplate );
-//        checkNotNull( environment );
+        checkNotNull( environment );
 
         this.config = config;
         this.jdbcTemplate = jdbcTemplate;
+        this.environment = environment;
     }
 
     @PostConstruct
@@ -54,10 +59,20 @@ public class HibernateDatabaseInfoProvider
 
         // Todo disable postGIS exception
         // Check if postgis is installed. if not, fail startup
-//        if ( !spatialSupport && !SystemUtils.isTestRun() )
+//        if ( !spatialSupport && !SystemUtils.isTestRun(environment.getActiveProfiles()) )
 //        {
 //            log.error( POSTGIS_MISSING_ERROR );
 //            throw new IllegalStateException( POSTGIS_MISSING_ERROR );
+//        }
+//        if ( !SystemUtils.isTestRun(environment.getActiveProfiles()) )
+//        {
+//            spatialSupport = isSpatialSupport();
+//
+//            if ( !spatialSupport )
+//            {
+//                log.error( POSTGIS_MISSING_ERROR );
+//                throw new IllegalStateException( POSTGIS_MISSING_ERROR );
+//            }
 //        }
 
         String url = config.getProperty( ConfigurationKey.CONNECTION_URL );
@@ -69,7 +84,7 @@ public class HibernateDatabaseInfoProvider
         info.setUser( user );
         info.setPassword( password );
         info.setUrl( url );
-//        info.setSpatialSupport( spatialSupport );
+        info.setSpatialSupport( spatialSupport );
     }
 
     // -------------------------------------------------------------------------

@@ -2,17 +2,11 @@ package com.mass3d.common;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.mass3d.common.IdScheme;
-import com.mass3d.common.IdentifiableObject;
-import com.mass3d.common.IdentifiableObjectManager;
-import com.mass3d.common.IdentifiableObjectStore;
-import com.mass3d.common.IdentifiableObjectUtils;
-import com.mass3d.common.IdentifiableProperty;
 import com.mass3d.common.exception.InvalidIdentifierReferenceException;
+import com.mass3d.schema.SchemaService;
 import com.mass3d.user.CurrentUserService;
 import com.mass3d.user.User;
 import com.mass3d.user.UserCredentials;
-import com.mass3d.schema.SchemaService;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -32,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 @Component("com.mass3d.common.IdentifiableObjectManager")
-@Transactional
+//@Transactional
 public class DefaultIdentifiableObjectManager
     implements IdentifiableObjectManager {
 
@@ -53,23 +47,30 @@ public class DefaultIdentifiableObjectManager
   @Autowired
   private Set<IdentifiableObjectStore<? extends IdentifiableObject>> identifiableObjectStores;
 
+//  @Autowired
+//  private Set<GenericDimensionalObjectStore<? extends DimensionalObject>> dimensionalObjectStores;
+
   @Autowired
   private SessionFactory sessionFactory;
 
   @Autowired
   private CurrentUserService currentUserService;
+
   private Map<Class<? extends IdentifiableObject>, IdentifiableObjectStore<? extends IdentifiableObject>> identifiableObjectStoreMap;
 
+//  private Map<Class<? extends DimensionalObject>, GenericDimensionalObjectStore<? extends DimensionalObject>> dimensionalObjectStoreMap;
   //--------------------------------------------------------------------------
   // IdentifiableObjectManager implementation
   //--------------------------------------------------------------------------
 
   @Override
+  @Transactional
   public void save(IdentifiableObject object) {
     save(object, true);
   }
 
   @Override
+  @Transactional
   public void save(IdentifiableObject object, boolean clearSharing) {
     IdentifiableObjectStore<IdentifiableObject> store = getIdentifiableObjectStore(
         object.getClass());
@@ -80,11 +81,13 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional
   public void update(IdentifiableObject object) {
     update(object, currentUserService.getCurrentUser());
   }
 
   @Override
+  @Transactional
   public void update(IdentifiableObject object, User user) {
     IdentifiableObjectStore<IdentifiableObject> store = getIdentifiableObjectStore(
         object.getClass());
@@ -95,11 +98,13 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional
   public void update(List<IdentifiableObject> objects) {
     update(objects, currentUserService.getCurrentUser());
   }
 
   @Override
+  @Transactional
   public void update(List<IdentifiableObject> objects, User user) {
     if (objects == null || objects.isEmpty()) {
       return;
@@ -111,11 +116,13 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional
   public void delete(IdentifiableObject object) {
     delete(object, currentUserService.getCurrentUser());
   }
 
   @Override
+  @Transactional
   public void delete(IdentifiableObject object, User user) {
     IdentifiableObjectStore<IdentifiableObject> store = getIdentifiableObjectStore(
         object.getClass());
@@ -126,6 +133,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> T get(String uid) {
     for (IdentifiableObjectStore<? extends IdentifiableObject> store : identifiableObjectStores) {
@@ -140,8 +148,9 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
-  public <T extends IdentifiableObject> T get(Class<T> clazz, Long id) {
+  public <T extends IdentifiableObject> T get(Class<T> clazz, long id) {
     IdentifiableObjectStore<IdentifiableObject> store = getIdentifiableObjectStore(clazz);
 
     if (store == null) {
@@ -152,6 +161,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> T get(Class<T> clazz, String uid) {
     IdentifiableObjectStore<IdentifiableObject> store = getIdentifiableObjectStore(clazz);
@@ -164,11 +174,13 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   public <T extends IdentifiableObject> boolean exists(Class<T> clazz, String uid) {
     return get(clazz, uid) != null;
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> T get(
       Collection<Class<? extends IdentifiableObject>> classes, String uid) {
@@ -184,6 +196,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> T get(
       Collection<Class<? extends IdentifiableObject>> classes,
@@ -200,6 +213,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> List<T> get(Class<T> clazz, Collection<String> uids) {
     IdentifiableObjectStore<IdentifiableObject> store = getIdentifiableObjectStore(clazz);
@@ -212,6 +226,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> T getByCode(Class<T> clazz, String code) {
     IdentifiableObjectStore<IdentifiableObject> store = getIdentifiableObjectStore(clazz);
@@ -224,6 +239,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> T getByName(Class<T> clazz, String name) {
     IdentifiableObjectStore<IdentifiableObject> store = getIdentifiableObjectStore(clazz);
@@ -236,6 +252,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   public <T extends IdentifiableObject> T search(Class<T> clazz, String query) {
     T object = get(clazz, query);
 
@@ -251,6 +268,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   public <T extends IdentifiableObject> List<T> filter(Class<T> clazz, String query) {
     Set<T> uniqueObjects = new HashSet<>();
 
@@ -276,6 +294,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> List<T> getAll(Class<T> clazz) {
     IdentifiableObjectStore<IdentifiableObject> store = getIdentifiableObjectStore(clazz);
@@ -300,6 +319,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> List<T> getDataReadAll(Class<T> clazz) {
     IdentifiableObjectStore<IdentifiableObject> store = getIdentifiableObjectStore(clazz);
@@ -312,6 +332,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> List<T> getAllSorted(Class<T> clazz) {
     IdentifiableObjectStore<IdentifiableObject> store = getIdentifiableObjectStore(clazz);
@@ -324,6 +345,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> List<T> getByUid(Class<T> clazz, Collection<String> uids) {
     IdentifiableObjectStore<IdentifiableObject> store = getIdentifiableObjectStore(clazz);
@@ -336,6 +358,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> List<T> getById(Class<T> clazz, Collection<Long> ids) {
     IdentifiableObjectStore<IdentifiableObject> store = getIdentifiableObjectStore(clazz);
@@ -348,6 +371,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> List<T> getByCode(Class<T> clazz,
       Collection<String> codes) {
@@ -361,6 +385,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> List<T> getByUidOrdered(Class<T> clazz, List<String> uids) {
     IdentifiableObjectStore<T> store = (IdentifiableObjectStore<T>) getIdentifiableObjectStore(
@@ -386,6 +411,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional
   public <T extends IdentifiableObject> int getCount(Class<T> clazz) {
     IdentifiableObjectStore<IdentifiableObject> store = getIdentifiableObjectStore(clazz);
 
@@ -397,6 +423,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   public <T extends IdentifiableObject> int getCountByCreated(Class<T> clazz, Date created) {
     IdentifiableObjectStore<IdentifiableObject> store = getIdentifiableObjectStore(clazz);
 
@@ -408,6 +435,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   public <T extends IdentifiableObject> int getCountByLastUpdated(Class<T> clazz,
       Date lastUpdated) {
     IdentifiableObjectStore<IdentifiableObject> store = getIdentifiableObjectStore(clazz);
@@ -420,11 +448,13 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   public <T extends IdentifiableObject> List<T> getLikeName(Class<T> clazz, String name) {
     return getLikeName(clazz, name, true);
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> List<T> getLikeName(Class<T> clazz, String name,
       boolean caseSensitive) {
@@ -438,6 +468,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> List<T> getBetweenSorted(Class<T> clazz, int first,
       int max) {
@@ -451,6 +482,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> List<T> getBetweenLikeName(Class<T> clazz,
       Set<String> words, int first, int max) {
@@ -464,6 +496,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   public <T extends IdentifiableObject> Date getLastUpdated(Class<T> clazz) {
     IdentifiableObjectStore<IdentifiableObject> store = getIdentifiableObjectStore(clazz);
 
@@ -475,12 +508,14 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   public <T extends IdentifiableObject> Map<String, T> getIdMap(Class<T> clazz,
       IdentifiableProperty property) {
     return getIdMap(clazz, IdScheme.from(property));
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> Map<String, T> getIdMap(Class<T> clazz, IdScheme idScheme) {
     IdentifiableObjectStore<T> store = (IdentifiableObjectStore<T>) getIdentifiableObjectStore(
@@ -498,12 +533,14 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   public <T extends IdentifiableObject> Map<String, T> getIdMapNoAcl(Class<T> clazz,
       IdentifiableProperty property) {
     return getIdMapNoAcl(clazz, IdScheme.from(property));
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> Map<String, T> getIdMapNoAcl(Class<T> clazz,
       IdScheme idScheme) {
@@ -522,6 +559,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> List<T> getObjects(Class<T> clazz,
       IdentifiableProperty property, Collection<String> identifiers) {
@@ -549,6 +587,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> List<T> getObjects(Class<T> clazz,
       Collection<Long> identifiers) {
@@ -563,12 +602,14 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   public <T extends IdentifiableObject> T getObject(Class<T> clazz, IdentifiableProperty property,
       String value) {
     return getObject(clazz, IdScheme.from(property), value);
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> T getObject(Class<T> clazz, IdScheme idScheme,
       String value) {
@@ -586,8 +627,7 @@ public class DefaultIdentifiableObjectManager
         return store.getByCode(value);
       } else if (idScheme.is(IdentifiableProperty.NAME)) {
         return store.getByName(value);
-      }
-      else if (idScheme.is(IdentifiableProperty.ID)) {
+      } else if (idScheme.is(IdentifiableProperty.ID)) {
         if (Integer.valueOf(value) > 0) {
           return store.get(Long.valueOf(value));
         }
@@ -601,6 +641,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   public IdentifiableObject getObject(String uid, String simpleClassName) {
     for (IdentifiableObjectStore<? extends IdentifiableObject> objectStore : identifiableObjectStores) {
       if (simpleClassName.equals(objectStore.getClazz().getSimpleName())) {
@@ -612,7 +653,8 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
-  public IdentifiableObject getObject(Long id, String simpleClassName) {
+  @Transactional(readOnly = true)
+  public IdentifiableObject getObject(long id, String simpleClassName) {
     for (IdentifiableObjectStore<? extends IdentifiableObject> objectStore : identifiableObjectStores) {
       if (simpleClassName.equals(objectStore.getClazz().getSimpleName())) {
         return objectStore.get(id);
@@ -623,22 +665,26 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional
   public void refresh(Object object) {
     sessionFactory.getCurrentSession().refresh(object);
   }
 
   @Override
+  @Transactional
   public void flush() {
     sessionFactory.getCurrentSession().flush();
   }
 
   @Override
+  @Transactional
   public void evict(Object object) {
     sessionFactory.getCurrentSession().evict(object);
   }
 
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> T getNoAcl(Class<T> clazz, String uid) {
     IdentifiableObjectStore<IdentifiableObject> store = getIdentifiableObjectStore(clazz);
@@ -651,6 +697,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional
   public <T extends IdentifiableObject> void updateNoAcl(T object) {
     IdentifiableObjectStore<IdentifiableObject> store = getIdentifiableObjectStore(
         object.getClass());
@@ -661,6 +708,7 @@ public class DefaultIdentifiableObjectManager
   }
 
   @Override
+  @Transactional(readOnly = true)
   @SuppressWarnings("unchecked")
   public <T extends IdentifiableObject> List<T> getAllNoAcl(Class<T> clazz) {
     IdentifiableObjectStore<IdentifiableObject> store = getIdentifiableObjectStore(clazz);
@@ -693,6 +741,36 @@ public class DefaultIdentifiableObjectManager
 //        return defaultObject != null && defaultObject.getUid().equals( object.getUid() );
   }
 
+//  @Override
+//  @Transactional( readOnly = true )
+//  @SuppressWarnings( "unchecked" )
+//  public <T extends DimensionalObject> List<T> getDataDimensions( Class<T> clazz )
+//  {
+//    GenericDimensionalObjectStore<DimensionalObject> store = getDimensionalObjectStore( clazz );
+//
+//    if ( store == null )
+//    {
+//      return new ArrayList<>();
+//    }
+//
+//    return (List<T>) store.getByDataDimension( true );
+//  }
+
+//  @Override
+//  @Transactional( readOnly = true )
+//  @SuppressWarnings( "unchecked" )
+//  public <T extends DimensionalObject> List<T> getDataDimensionsNoAcl( Class<T> clazz )
+//  {
+//    GenericDimensionalObjectStore<DimensionalObject> store = getDimensionalObjectStore( clazz );
+//
+//    if ( store == null )
+//    {
+//      return new ArrayList<>();
+//    }
+//
+//    return (List<T>) store.getByDataDimensionNoAcl( true );
+//  }
+
   @SuppressWarnings("unchecked")
   private <T extends IdentifiableObject> IdentifiableObjectStore<IdentifiableObject> getIdentifiableObjectStore(
       Class<T> clazz) {
@@ -712,6 +790,25 @@ public class DefaultIdentifiableObjectManager
     return (IdentifiableObjectStore<IdentifiableObject>) store;
   }
 
+//  private <T extends DimensionalObject> GenericDimensionalObjectStore<DimensionalObject> getDimensionalObjectStore( Class<T> clazz )
+//  {
+//    initMaps();
+//
+//    GenericDimensionalObjectStore<? extends DimensionalObject> store = dimensionalObjectStoreMap.get( clazz );
+//
+//    if ( store == null )
+//    {
+//      store = dimensionalObjectStoreMap.get( clazz.getSuperclass() );
+//
+//      if ( store == null )
+//      {
+//        log.debug( "No DimensionalObjectStore found for class: " + clazz );
+//      }
+//    }
+//
+//    return (GenericDimensionalObjectStore<DimensionalObject>) store;
+//  }
+
   private void initMaps() {
     if (identifiableObjectStoreMap != null) {
       return; // Already initialized
@@ -722,5 +819,12 @@ public class DefaultIdentifiableObjectManager
     for (IdentifiableObjectStore<? extends IdentifiableObject> store : identifiableObjectStores) {
       identifiableObjectStoreMap.put(store.getClazz(), store);
     }
+
+//    dimensionalObjectStoreMap = new HashMap<>();
+//
+//    for ( GenericDimensionalObjectStore<? extends DimensionalObject> store : dimensionalObjectStores )
+//    {
+//      dimensionalObjectStoreMap.put( store.getClazz(), store );
+//    }
   }
 }

@@ -23,8 +23,8 @@ import com.mass3d.common.adapter.JacksonPeriodDeserializer;
 import com.mass3d.common.adapter.JacksonPeriodSerializer;
 import com.mass3d.period.Period;
 
-@Entity
-@Table(name = "datainputperiod")
+//@Entity
+//@Table(name = "datainputperiod")
 @JacksonXmlRootElement(localName = "dataInputPeriods", namespace = DxfNamespaces.DXF_2_0)
 public class DataInputPeriod implements EmbeddedObject {
 

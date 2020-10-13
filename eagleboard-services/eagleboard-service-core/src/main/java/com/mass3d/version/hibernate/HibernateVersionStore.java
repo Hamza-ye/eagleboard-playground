@@ -8,6 +8,7 @@ import com.mass3d.hibernate.HibernateGenericStore;
 import com.mass3d.version.Version;
 import com.mass3d.version.VersionStore;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +18,7 @@ public class HibernateVersionStore
     implements VersionStore
 {
 
+    @Autowired
     public HibernateVersionStore(SessionFactory sessionFactory,
         JdbcTemplate jdbcTemplate) {
         super(sessionFactory, jdbcTemplate, Version.class, true);

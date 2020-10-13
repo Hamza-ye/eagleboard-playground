@@ -1,10 +1,10 @@
 package com.mass3d.dataset.hibernate;
 
+import com.mass3d.common.hibernate.HibernateIdentifiableObjectStore;
+import com.mass3d.dataset.DataSet;
 import com.mass3d.dataset.DataSetStore;
 import com.mass3d.deletedobject.DeletedObjectService;
-import com.mass3d.dataset.DataSet;
 import com.mass3d.security.acl.AclService;
-import com.mass3d.common.hibernate.HibernateIdentifiableObjectStore;
 import com.mass3d.user.CurrentUserService;
 import java.util.List;
 import org.hibernate.SessionFactory;
@@ -16,10 +16,11 @@ public class HibernateDataSetStore
     extends HibernateIdentifiableObjectStore<DataSet>
     implements DataSetStore {
 
-  public HibernateDataSetStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
-      DeletedObjectService deletedObjectService, CurrentUserService currentUserService, AclService aclService )
-  {
-    super( sessionFactory, jdbcTemplate, deletedObjectService, DataSet.class, currentUserService, aclService, false );
+  public HibernateDataSetStore(SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
+      DeletedObjectService deletedObjectService, CurrentUserService currentUserService,
+      AclService aclService) {
+    super(sessionFactory, jdbcTemplate, deletedObjectService, DataSet.class, currentUserService,
+        aclService, false);
   }
   // -------------------------------------------------------------------------
   // DataSet

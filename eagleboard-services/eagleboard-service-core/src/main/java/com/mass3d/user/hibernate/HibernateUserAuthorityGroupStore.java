@@ -10,6 +10,7 @@ import com.mass3d.user.UserAuthorityGroupStore;
 import com.mass3d.common.hibernate.HibernateIdentifiableObjectStore;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +19,7 @@ public class HibernateUserAuthorityGroupStore
     extends HibernateIdentifiableObjectStore<UserAuthorityGroup>
     implements UserAuthorityGroupStore {
 
+  @Autowired
   public HibernateUserAuthorityGroupStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
       DeletedObjectService deletedObjectService, CurrentUserService currentUserService,
       AclService aclService ) {

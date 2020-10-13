@@ -1,10 +1,14 @@
 package com.mass3d.system.deletion;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import org.aspectj.lang.JoinPoint;
+import org.springframework.stereotype.Component;
 
 /**
  * @version $Id$
  */
+@Component("deletionInterceptor")
 public class DeletionInterceptor {
   // -------------------------------------------------------------------------
   // Dependencies
@@ -12,7 +16,8 @@ public class DeletionInterceptor {
 
   private DeletionManager deletionManager;
 
-  public void setDeletionManager(DeletionManager deletionManager) {
+  public DeletionInterceptor(DeletionManager deletionManager) {
+    checkNotNull( deletionManager );
     this.deletionManager = deletionManager;
   }
 

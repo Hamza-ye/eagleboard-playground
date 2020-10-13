@@ -9,7 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import com.mass3d.system.startup.TransactionContextStartupRoutine;
 import org.springframework.stereotype.Component;
 
-//@Component( "com.mass3d.period.PeriodTypePopulator" )
+@Component( "com.mass3d.period.PeriodTypePopulator" )
 public class PeriodTypePopulator
     extends TransactionContextStartupRoutine {
 
